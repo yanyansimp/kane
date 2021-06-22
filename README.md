@@ -9,7 +9,7 @@ Rheyan Keneth B. Pahuyo - Frontend/Backend Developer
 
 > git clone https://github.com/yanyansimp/kane.git
 
-2. After the project has been successfully cloned, run the npm install at the client-app
+2. After the project has been successfully cloned, run the npm install in the client-app folder
 
 > cd client-app
 
@@ -27,7 +27,7 @@ Rheyan Keneth B. Pahuyo - Frontend/Backend Developer
 
 > dotnet user-secrets set "TokenKey" "super secret key"
 
-5. At the API level create appsettings.json
+5. At the API level create a file "appsettings.json"
 
 Paste this configuration and save
 
