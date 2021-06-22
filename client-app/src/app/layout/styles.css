@@ -1,0 +1,77 @@
+body {
+  background-color: rgb(234, 234, 234) !important;
+}
+
+/* nav bar */
+.ui.inverted.top.fixed.menu {
+  background-image: linear-gradient(
+    135deg,
+    rgb(24, 42, 115) 0%,
+    rgb(33, 138, 174) 69%,
+    rgb(32, 167, 172) 89%
+  ) !important;
+}
+
+.ui.secondary.top.fixed.menu {
+  background-color: white;
+}
+
+/* side bar */
+.ui.inverted.pointing.vertical.left.fixed.menu {
+  margin-top: 4.4em;
+  background-color: white;
+}
+
+.ui.inverted.pointing.vertical.left.fixed.menu > a.item.active {
+  color: black;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui.inverted.pointing.vertical.left.fixed.menu > .item {
+  color: black;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+/*home page styles*/
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(
+    135deg,
+    rgb(24, 42, 115) 0%,
+    rgb(33, 138, 174) 69%,
+    rgb(32, 167, 172) 89%
+  ) !important;
+  height: 100vh;
+}
+
+.masthead .ui.menu .ui.button,
+.ui.menu a.ui.inverted.button {
+  margin-left: 0.5em;
+}
+
+.masthead h1.ui.header {
+  font-size: 4em;
+  font-weight: normal;
+}
+
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+
+/*end home page styles*/
+
+/* this is a test */
+/* .nine.wide.column{
+  margin-left: 10px;
+} */
