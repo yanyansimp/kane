@@ -18,7 +18,7 @@ body {
 
 /* side bar */
 .ui.inverted.vertical.left.fixed.menu {
-  margin-top: 4.4em;
+  margin-top: 4.61em;
   background-color: white;
   padding: 10px;
 }
@@ -30,25 +30,27 @@ body {
   height: 50px;
   margin-bottom: 10px;
   margin-top: 10px;
+  justify-items: flex-start;
+}
+
+.ui.inverted.vertical.left.fixed.menu > .item > span{
+  align-items: center;
+  display: flex;
+  height: 50px;
 }
 
 .ui.inverted.vertical.left.fixed.menu > a.item.active {
-  background-color: purple;
-  border-radius: 10px;
+  background-color: #ffff99;
+  border-radius: 10px !important;
 }
 
 .ui.inverted.vertical.left.fixed.menu > .item.active > span {
-  color: black;
+    color: #ffce2f;
 }
 
 .ui.inverted.vertical.left.fixed.menu > a.item:hover {
-  opacity: 0.4;
-  background-color: yellow;
-  border-radius: 10px;
-}
-
-.ui.inverted.vertical.left.fixed.menu > a:hover > span {
-  opacity: 1;
+  background-color: #ffff99;
+  border-radius: 10px !important;
 }
 
 /*home page styles*/

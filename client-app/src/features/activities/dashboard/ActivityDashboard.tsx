@@ -7,7 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 
 export const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadActivities, loadingInitial } = rootStore.activityStore;
+  const { loadActivities, loadingInitial, activityRegistry } = rootStore.activityStore;
 
   useEffect(() => {
     loadActivities();

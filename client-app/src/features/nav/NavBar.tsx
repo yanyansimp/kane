@@ -32,13 +32,14 @@ export const NavBar: React.FC = () => {
           <Menu.Item position="right">
             <Menu.Item position="right">
               <span>
-                <Icon name="bell" />
+                <Icon name="bell outline" size="large" />
               </span>
               <Icon />
-              <Icon name="envelope" />
+              <Icon name="envelope outline" size="large" />
             </Menu.Item>
             <Image
               avatar
+              size="mini"
               spaced="right"
               src={user.image || '/assets/user.png'}
             />
