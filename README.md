@@ -1,9 +1,11 @@
 This project is created in React.js and Asp.net Core 2.1
 
-Developed by
+Developed by LappyPanda Dev Team
+(Philip B. Radana - Project Manager
+Jitro B. Dangoy - Frontend/Backend Developer
 Harvey S. Montanez - Frontend Developer
 NelJohn B. Genilza - Frontend Developer
-Rheyan Keneth B. Pahuyo - Frontend/Backend Developer
+Rheyan Keneth B. Pahuyo - Frontend/Backend Developer)
 
 1. Clone the project by running terminal. Go to the directory and clone the project by running
 
