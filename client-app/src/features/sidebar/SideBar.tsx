@@ -12,14 +12,13 @@ import {
 
 export const SideBar = () => {
   return (
-    <Menu pointing inverted vertical fixed="left">
+    <Menu inverted vertical fixed="left">
       <Menu.Item as={NavLink} to="/activities">
         <span>
-          <Icon name="dashboard" />
-          Dashboard
+          <Icon name="dashboard" /> Dashboard
         </span>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item as={NavLink} to="/dashboard">
         <span>
           <Icon name="calendar" />
           Calendar

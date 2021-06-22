@@ -17,27 +17,39 @@ body {
 }
 
 /* side bar */
-.ui.inverted.pointing.vertical.left.fixed.menu {
+.ui.inverted.vertical.left.fixed.menu {
   margin-top: 4.4em;
   background-color: white;
+  padding: 10px;
 }
 
-.ui.inverted.pointing.vertical.left.fixed.menu > a.item.active {
-  color: black;
-  height: 50px;
+.ui.inverted.vertical.left.fixed.menu > .item {
   align-items: center;
-  justify-content: center;
-}
-
-.ui.inverted.pointing.vertical.left.fixed.menu > .item {
   color: black;
+  display: flex;
   height: 50px;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
+.ui.inverted.vertical.left.fixed.menu > a.item.active {
+  background-color: purple;
+  border-radius: 10px;
+}
 
+.ui.inverted.vertical.left.fixed.menu > .item.active > span {
+  color: black;
+}
 
+.ui.inverted.vertical.left.fixed.menu > a.item:hover {
+  opacity: 0.4;
+  background-color: yellow;
+  border-radius: 10px;
+}
+
+.ui.inverted.vertical.left.fixed.menu > a:hover > span {
+  opacity: 1;
+}
 
 /*home page styles*/
 
