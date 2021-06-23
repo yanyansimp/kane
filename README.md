@@ -29,7 +29,7 @@ Rheyan Keneth B. Pahuyo - Frontend/Backend Developer)
 
 > dotnet user-secrets set "TokenKey" "super secret key"
 
-5. At the API level create a file "appsettings.json"
+5. In the API folder create a file "appsettings.json"
 
 Paste this configuration and save
 
