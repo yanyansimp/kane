@@ -43,7 +43,8 @@ export const NavBar: React.FC = () => {
               spaced="right"
               src={user.image || '/assets/user.png'}
             />
-            <Dropdown pointing="top right" text={user.displayName} >
+            {/* <Dropdown pointing="top right" text={user.displayName} > */}
+            <Dropdown pointing="top right">
               <Dropdown.Menu>
                 <Dropdown.Item
                   as={Link}

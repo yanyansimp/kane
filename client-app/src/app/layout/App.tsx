@@ -16,6 +16,7 @@ import ModalContainer from '../common/modals/ModalContainer';
 import ProfilePage from '../../features/profiles/ProfilePage';
 import { SideBar } from '../../features/sidebar/SideBar';
 import { Dashboard } from '../../features/dashboard/Dashboard';
+import PropertyForm from '../../features/property/PropertyForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -46,6 +47,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <Container style={{ marginTop: '5em', marginLeft: '13.125em' }}>
               <Switch>
                 <Route exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/property" component={PropertyForm} />
                 <Route exact path="/activities" component={ActivityDashboard} />
                 <Route path="/activities/:id" component={ActivityDetails} />
                 <Route
