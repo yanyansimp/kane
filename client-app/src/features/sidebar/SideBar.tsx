@@ -5,13 +5,13 @@ import { Menu, Icon } from 'semantic-ui-react';
 export const SideBar = () => {
   return (
     <Menu inverted vertical fixed="left">
-      <Menu.Item as={NavLink} to="/activities">
+      <Menu.Item as={NavLink} to="/dashboard">
         <span>
           <Icon name="chart bar outline" size="large" />
           Dashboard
         </span>
       </Menu.Item>
-      <Menu.Item as={NavLink} to="/dashboard">
+      <Menu.Item as={NavLink} to="/calendar">
         <span>
           <Icon name="calendar outline" size="large" />
           Calendar

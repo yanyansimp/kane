@@ -53,6 +53,16 @@ body {
   border-radius: 10px !important;
 }
 
+/* main-container */
+
+.ui.container.main-container {
+  display: flex;
+  margin-left: 16.1em !important;
+  margin-top: 5.7em !important;
+  padding: 5px 20px 20px 20px;
+}
+
+
 /*home page styles*/
 
 .masthead {
