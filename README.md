@@ -9,25 +9,25 @@ Rheyan Keneth B. Pahuyo - Frontend/Backend Developer)
 
 1. Clone the project by running terminal. Go to the directory and clone the project by running
 
-> git clone https://github.com/yanyansimp/kane.git
+`git clone https://github.com/yanyansimp/kane.git`
 
 2. After the project has been successfully cloned, run the npm install in the client-app folder
 
 > cd client-app
 
-> npm install
+`npm install`
 
 3. At the project level run dotnet restore
 
 > cd kane
 
-> dotnet restore
+`dotnet restore`
 
 4. Create a user-secrets on the API level
 
 > cd API
 
-> dotnet user-secrets set "TokenKey" "super secret key"
+`dotnet user-secrets set "TokenKey" "super secret key"`
 
 5. In the API folder create a file "appsettings.json"
 
@@ -49,12 +49,12 @@ Paste this configuration and save
 
 > cd client-app
 
-> npm start
+`npm start`
 
 7. Run dotnet watch run at API
 
 > cd API
 
-> dotnet watch run
+`dotnet watch run`
 
 Happy Coding!
