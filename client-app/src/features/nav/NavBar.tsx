@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Menu, Container, Button, Dropdown, Image, Input, Icon } from 'semantic-ui-react';
+import { Menu, Container, Button, Dropdown, Image, Input, Icon, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { NavLink, Link } from 'react-router-dom';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import Notification from '../notifications/Notification';
 
 export const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
@@ -31,9 +32,7 @@ export const NavBar: React.FC = () => {
         {user && (
           <Menu.Item position="right">
             <Menu.Item position="right">
-              <span>
-                <Icon name="bell outline" size="large" />
-              </span>
+              <Icon name="bell outline" size="large" />
               <Icon />
               <Icon name="envelope outline" size="large" />
             </Menu.Item>
