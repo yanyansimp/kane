@@ -4,6 +4,7 @@ import { history } from '../..';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IProfile } from '../models/profile';
+import { IPropertyType } from '../models/propertyType';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -46,6 +47,10 @@ const requests = {
   del: (url: string) => axios.delete(url).then(sleep(1000)).then(responseBody)
 };
 
+const PropertyTypes = {
+  list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
+};
+
 const Activities = {
   list: (): Promise<IActivity[]> => requests.get('/activities'),
   details: (id: string) => requests.get(`/activities/${id}`),
@@ -70,5 +75,6 @@ const Profiles = {
 export default {
   Activities,
   User,
-  Profiles
+  Profiles,
+  PropertyTypes
 };
