@@ -63,7 +63,6 @@ const FormForProperty = () => (
 const PropertyForm = () => {
     return (
       <Grid>
-        <Grid.Column width={2}></Grid.Column>
         <Grid.Column width={12}>
           <Input placeholder='Search...' />
           <h1>Property Form</h1>
