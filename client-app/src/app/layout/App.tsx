@@ -18,6 +18,7 @@ import { SideBar } from '../../features/sidebar/SideBar';
 import { Dashboard } from '../../features/dashboard/Dashboard';
 import PropertyForm from '../../features/property/PropertyForm';
 import PaymentForm from '../../features/payments/PaymentForm';
+import Calendar from '../../features/calendar/Calendar';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -48,6 +49,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <Container style={{ marginTop: '5em', marginLeft: '13.125em' }}>
               <Switch>
                 <Route exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/property" component={PropertyForm} />
                 <Route exact path="/payments" component={PaymentForm} />
                 <Route exact path="/activities" component={ActivityDashboard} />
