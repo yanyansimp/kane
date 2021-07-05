@@ -46,7 +46,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Fragment>
             <NavBar />
             <SideBar />
-            <Container style={{ marginTop: '5em', marginLeft: '13.125em' }}>
+            <Container className={"main-container"}>
               <Switch>
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />

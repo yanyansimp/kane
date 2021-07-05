@@ -16,7 +16,7 @@ import{
     IconButton
 } from '@material-ui/core'
 import { fieldSubscriptionItems } from 'final-form'
-import { ClassNameMap } from '@material-ui/styles'
+import { ClassNameMap } from '@material-ui/styles';
 const useStyles = makeStyles({
     mainContainer: {
         display: 'grid',
@@ -202,144 +202,141 @@ const AddSales = () => {
     
     
     return (
-        <div className={classes.mainContainer}>
-          
-        <Typography 
-        variant='h5' 
-        style={{ color: '#999', textAlign: 'center' }}
-        >
-        <h3>KANE REALTY</h3>
-        <h6>Butuan City, Agusan del Norte</h6>
-        <h6>TIN: 309-126-627-000</h6>
+      <div className={classes.mainContainer}>
+        <Typography variant="h5" style={{ color: '#999', textAlign: 'center' }}>
+          <h3>KANE REALTY</h3>
+          <h6>Butuan City, Agusan del Norte</h6>
+          <h6>TIN: 309-126-627-000</h6>
         </Typography>
-        <Input placeholder='Search...' className={classes.inpt} />
-        <TransactionType/>
-        <NewClient/>
-        <div>  
-             <form>
-                     <div className={classes.drpdwnField}>
-                        <Dropdown 
-                        placeholder=' Transaction Type'
-                        variant='outlined'
-                        search
-                        fluid
-                        selection
-                        allowAdditions
-                        options={options}
-                        />
-                    </div>   
-                    <div>
-                        {/* <CalendarNow/> */}
-                        {/* <DatePicker/> */}
-                    </div>      
-            <div>
-            <TextField
-                     className={classes.inputField1} 
-                             label='Ref Inv No.'
-                             variant='outlined'
-                     />
+        <Input placeholder="Search..." className={classes.inpt} />
+        <TransactionType />
+        <NewClient />
+        <div>
+          <form>
+            <div className={classes.drpdwnField}>
+              <Dropdown
+                placeholder=" Transaction Type"
+                variant="outlined"
+                search
+                fluid
+                selection
+                allowAdditions
+                options={options}
+              />
             </div>
-                <div>
-                            <p>Received From:</p>
-                        <TextField
-                            className={classes.inputField} 
-                                    label='Last Name'
-                                    variant='outlined'
-                            />
-                            <TextField
-                            className={classes.inputField} 
-                                    label='First Name'
-                                    variant='outlined'
-                            />
-                            <TextField
-                            className={classes.inputField} 
-                                    label='Middle Name '
-                                    variant='outlined'
-                            />
-                 </div>
-                 <div>
-                            
-                        <TextField
-                            className={classes.inputField} 
-                                    label='Account No.'
-                                    variant='outlined'
-                            />
-                            <TextField
-                            className={classes.inputField} 
-                                    label='Mobile No.'
-                                    variant='outlined'
-                            />
-                           
-                 </div>
+            <div>
+              {/* <CalendarNow/> */}
+              {/* <DatePicker/> */}
+            </div>
+            <div>
+              <TextField
+                className={classes.inputField1}
+                label="Ref Inv No."
+                variant="outlined"
+              />
+            </div>
+            <div>
+              <p>Received From:</p>
+              <TextField
+                className={classes.inputField}
+                label="Last Name"
+                variant="outlined"
+              />
+              <TextField
+                className={classes.inputField}
+                label="First Name"
+                variant="outlined"
+              />
+              <TextField
+                className={classes.inputField}
+                label="Middle Name "
+                variant="outlined"
+              />
+            </div>
+            <div>
+              <TextField
+                className={classes.inputField}
+                label="Account No."
+                variant="outlined"
+              />
+              <TextField
+                className={classes.inputField}
+                label="Mobile No."
+                variant="outlined"
+              />
+            </div>
 
-                 <div>
-                            <p>Address:</p>
-                        <TextField
-                            className={classes.inputField} 
-                                    label='City/Municipality'
-                                    variant='outlined'
-                            />
-                            <TextField
-                            className={classes.inputField} 
-                                    label='Brgy'
-                                    variant='outlined'
-                            />
-                            <TextField
-                            className={classes.inputField} 
-                                    label='Purok/Street'
-                                    variant='outlined'
-                            />
-                 </div>
-                
-                 <div>
-                        
-                            {CashorCheck.map(result=>(
-                        <>
-                            <input type="radio" value={result} name="radiovalues" checked={displaycolor===result} onChange={(e)=>setcolor(e.target.value)} />
-                            <b>{result}</b><br/>
-                        </>
-                        ))}
-                           <div >
-                              
-                           <TextField
-                                    className={classes.inputTextAreaField}
-                                            label='In Payment of'
-                                            variant='outlined'
-                                    />
-                            <TextField
-                                   className={classes.inputTextAreaField1}
-                                            label='Payment Amount'
-                                            variant='outlined'
-                                    />
-                           </div>
-                        {renderComponent(displaycolor, classes)}
-                        
-                 </div>   
-                 <div className={classes.inputCasherDrpdwn}>
-                        <Dropdown 
-                        placeholder='Cashers Incharge'
-                        variant='outlined'
-                        search
-                        fluid
-                        selection
-                        allowAdditions
-                        options={options}
-                        />
-                    </div> 
-                
-                         <Button 
-                         className={classes.btn}
-                             variant='contained'
-                             type='submit'
-                             // endIcon={<SendShareIcon/>}
-                         >
-                             SUBMIT
-                         </Button>
-                 
-             </form>
-         </div>
-     </div>
-    )
+            <div>
+              <p>Address:</p>
+              <TextField
+                className={classes.inputField}
+                label="City/Municipality"
+                variant="outlined"
+              />
+              <TextField
+                className={classes.inputField}
+                label="Brgy"
+                variant="outlined"
+              />
+              <TextField
+                className={classes.inputField}
+                label="Purok/Street"
+                variant="outlined"
+              />
+            </div>
+
+            <div>
+              {CashorCheck.map((result) => (
+                <>
+                  {/* onChange={(e) => setcolor(e.target.value)} */}
+                  <input
+                    type="radio"
+                    value={result}
+                    name="radiovalues"
+                    checked={displaycolor === result}
+                  />
+                  <b>{result}</b>
+                  <br />
+                </>
+              ))}
+              <div>
+                <TextField
+                  className={classes.inputTextAreaField}
+                  label="In Payment of"
+                  variant="outlined"
+                />
+                <TextField
+                  className={classes.inputTextAreaField1}
+                  label="Payment Amount"
+                  variant="outlined"
+                />
+              </div>
+              {renderComponent(displaycolor, classes)}
+            </div>
+            <div className={classes.inputCasherDrpdwn}>
+              <Dropdown
+                placeholder="Cashers Incharge"
+                variant="outlined"
+                search
+                fluid
+                selection
+                allowAdditions
+                options={options}
+              />
+            </div>
+
+            <Button
+              className={classes.btn}
+              variant="contained"
+              type="submit"
+              // endIcon={<SendShareIcon/>}
+            >
+              SUBMIT
+            </Button>
+          </form>
+        </div>
+      </div>
+    );
 }
 
 export default AddSales

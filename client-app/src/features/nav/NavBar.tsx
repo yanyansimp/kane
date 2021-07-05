@@ -36,7 +36,7 @@ export const NavBar: React.FC = () => {
               <Icon />
               <Icon name="envelope outline" size="large" />
             </Menu.Item>
-            <Image
+              <Image
               avatar
               size="mini"
               spaced="right"
