@@ -9,34 +9,34 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Persistence;
 
-namespace Application.Activities
+namespace Application.PropertyTypes
 {
     public class List
     {
-        public class Query : IRequest<List<ActivityDto>> 
-        { 
+        public class Query : IRequest<List<PropertyType>>
+        {
             
         }
 
-        public class Handler : IRequestHandler<Query, List<ActivityDto>>
+        public class Handler : IRequestHandler<Query, List<PropertyType>>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context)
             {
-                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<List<ActivityDto>> Handle(Query request,
+            public async Task<List<PropertyType>> Handle(Query request, 
                 CancellationToken cancellationToken)
             {
-
-                var activities = await _context.Activities
+                var propertyType = await _context.PropertyTypes
                     .ToListAsync();
-                
-                return _mapper.Map<List<Activity>, List<ActivityDto>>(activities);
+
+                return propertyType;
             }
         }
+
+
+
     }
 }
