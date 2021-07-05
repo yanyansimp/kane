@@ -4,12 +4,6 @@
   "private": true,
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",
-    "@bit/dmenendez1404.sharedcomponentscheduleappointment.custom-date-picker": "0.0.5",
-    "@bit/fho-wtag.tofa.date-picker": "0.0.2",
-    "@bit/lekanmedia.shared-ui.date-picker": "0.0.4",
-    "@bit/nexxtway.react-rainbow.date-picker": "^1.10.0",
-    "@bit/westcoastdental.epracticecomponents.date-picker": "^4.0.22",
-    "@bit/westcoastdental.epracticecomponents.date-select": "^4.0.23",
     "@material-ui/core": "^4.11.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
