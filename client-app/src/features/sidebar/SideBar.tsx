@@ -35,7 +35,7 @@ export const SideBar = () => {
           Property
         </span>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item as={NavLink} to="/user">
         <span>
           <Icon name="user outline" size="large" />
           User

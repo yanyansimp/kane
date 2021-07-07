@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IProfile } from '../models/profile';
 import { IPropertyType } from '../models/propertyType';
+import { IRole } from '../models/role';
+import { request } from 'http';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -63,6 +65,11 @@ const Activities = {
   unattend: (id: string) => requests.del(`/activities/${id}/attend`)
 };
 
+const Role = {
+  list: (): Promise<IRole[]> => requests.get('/roles'),
+  create: (role: IRole) => requests.post('/roles', role)
+}
+
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
   login: (user: IUserFormValues): Promise<IUser> => requests.post('/user/login', user),
@@ -77,5 +84,6 @@ export default {
   Activities,
   User,
   Profiles,
-  PropertyTypes
+  PropertyTypes,
+  Role
 };

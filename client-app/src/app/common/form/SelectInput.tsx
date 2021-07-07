@@ -9,14 +9,17 @@ interface IProps
 const SelectInput: React.FC<IProps> = ({
   input,
   width,
+  label,
   options,
   placeholder,
   meta: { touched, error }
 }) => {
   return (
     <Form.Field error={touched && !!error} width={width}>
-      <Select 
+      <label>{label}</label>
+      <Select
         value={input.value}
+        label={label}
         onChange={(e, data) => input.onChange(data.value)}
         placeholder={placeholder}
         options={options}

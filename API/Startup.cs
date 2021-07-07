@@ -74,7 +74,14 @@ namespace API
             // Configuration for Identity
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            
+            // Configuration for Identity Roles/User Control
+            identityBuilder.AddRoles<IdentityRole>();
+
+            // Configuration for Entity Framework
             identityBuilder.AddEntityFrameworkStores<DataContext>();
+
+            // Configuration for Signin Manager
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             
             // 
@@ -87,6 +94,8 @@ namespace API
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
+            //
+            
             // Authentication
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210707093911_ChangedAppUser")]
+    partial class ChangedAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,40 +122,6 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("Domain.Property", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("ImageId");
-
-                    b.Property<string>("Location");
-
-                    b.Property<Guid?>("PropertyTypeId");
-
-                    b.Property<int>("PropertyType_id");
-
-                    b.Property<string>("Status");
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<string>("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.HasIndex("PropertyTypeId");
-
-                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>
@@ -340,17 +308,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser")
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
-                });
-
-            modelBuilder.Entity("Domain.Property", b =>
-                {
-                    b.HasOne("Domain.Photo", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
-                    b.HasOne("Domain.PropertyType")
-                        .WithMany("Properties")
-                        .HasForeignKey("PropertyTypeId");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>

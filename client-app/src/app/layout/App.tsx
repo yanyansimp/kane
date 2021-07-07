@@ -19,6 +19,8 @@ import { Dashboard } from '../../features/dashboard/Dashboard';
 import PropertyForm from '../../features/property/PropertyForm';
 import PaymentForm from '../../features/payments/PaymentForm';
 import Calendar from '../../features/calendar/Calendar';
+import UserDashboard from '../../features/user/dashboard/UserDashboard';
+import RegistrationForm from '../../features/user/RegistrationForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -46,11 +48,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Fragment>
             <NavBar />
             <SideBar />
-            <Container className={"main-container"}>
+            <Container className={'main-container'}>
               <Switch>
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/property" component={PropertyForm} />
+                <Route exact path="/user" component={UserDashboard} />
                 <Route exact path="/payments" component={PaymentForm} />
                 <Route exact path="/activities" component={ActivityDashboard} />
                 <Route path="/activities/:id" component={ActivityDetails} />
@@ -58,6 +61,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   key={location.key}
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
+                />
+                <Route
+                  key={location.key}
+                  path={['/registerUser', '/editUser/:id']}
+                  component={RegistrationForm}
                 />
                 <Route path="/profile/:username" component={ProfilePage} />
                 <Route path="/login" component={LoginForm} />
