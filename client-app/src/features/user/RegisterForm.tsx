@@ -38,7 +38,7 @@ const RegisterForm = () => {
         <Form onSubmit={handleSubmit} error>
           <Header
             as="h2"
-            content="Signup to Kiri"
+            content="Signup to Kane"
             color="teal"
             textAlign="center"
           />

@@ -10,14 +10,16 @@ interface IProps
 const DateInput: React.FC<IProps> = ({
   input,
   width,
+  label,
   placeholder,
   date = false,
   time = false,
   meta: { touched, error }
 }) => {
   return (
-    <Form.Field error={touched && !!error}  width={width}>
-      <DateTimePicker 
+    <Form.Field error={touched && !!error} width={width}>
+      <label>{label}</label>
+      <DateTimePicker
         placeholder={placeholder}
         value={input.value || null}
         onChange={input.onChange}

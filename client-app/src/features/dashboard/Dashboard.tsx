@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useEffect } from 'react';
-import { Grid, Label, Card, Header, Icon, Table, Image} from 'semantic-ui-react';
+import React from 'react';
+import { Grid, Card, Header, Icon, Table, Image} from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 
 const cardStyle = {

@@ -17,7 +17,7 @@ namespace Application.PropertyTypes
             public string Name { get; set; }
             public string Description { get; set; }
             public string Location { get; set; }
-            public virtual Photo Image { get; set; }
+           
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -48,10 +48,10 @@ namespace Application.PropertyTypes
                     Description = request.Description,
                     Location = request.Location,
                     Image = new Photo {
-                        Id = "dasdsadas",
+                        Id = request.Id.ToString(),
                         Url = "https://www.camella.com.ph/wp-content/uploads/2020/06/Website_Camella-Homes-Series_Cara-592x444.jpg",
                         IsMain = true
-                    },
+                    }
                 };
 
                 _context.PropertyTypes.Add(propertyType);
@@ -60,7 +60,7 @@ namespace Application.PropertyTypes
 
                 if (success) return Unit.Value;
 
-                 throw new Exception("Problem saving changes");
+                throw new Exception("Problem saving changes");
             }
         }
     }
