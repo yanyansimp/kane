@@ -49,6 +49,7 @@ const requests = {
 
 const PropertyTypes = {
   list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
+  create: (propertyType: IPropertyType) => requests.post('/propertyTypes', propertyType)
 };
 
 const Activities = {

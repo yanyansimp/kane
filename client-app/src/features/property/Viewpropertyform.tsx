@@ -7,7 +7,7 @@ import EditForm from './EditpropertyForm'
 
 const Viewpropertyform = () => {
   const rootStore = useContext(RootStoreContext);
-  const {propertTypesByName, loadPropertyTypes} = rootStore.propertyTypeStore;
+  const {propertyTypesByName, loadPropertyTypes} = rootStore.propertyTypeStore;
   
   useEffect(() => {
     loadPropertyTypes()
@@ -26,7 +26,7 @@ const Viewpropertyform = () => {
         </Table.Header>
 
         <Table.Body>
-          {propertTypesByName.map((propertyType) => (
+          {propertyTypesByName.map((propertyType) => (
             <Table.Row key={propertyType.id}>
               <Table.Cell>
                 <Image size="tiny" src={propertyType.image.url} />

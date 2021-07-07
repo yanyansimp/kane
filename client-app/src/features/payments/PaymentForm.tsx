@@ -24,7 +24,6 @@ const PaymentForm = () => {
         return (
             <Grid>
               <Grid.Column width={12}>
-                <Input placeholder='Search...' />
                 <h1>Add Sales</h1>
                 <Tab menu={{ fluid: true, Horizontal:true, tabular: 'right' }} panes={panes} />
               </Grid.Column>
