@@ -1,20 +1,24 @@
-export interface IPropertyType {
+export interface IProperty {
     id: string;
     name: string;
     description: string;
     location: string;
     image?: Image;
+    status: string;
+   
 }
 
-export interface IPropertyTypeFormValues extends Partial<IPropertyType> {
+export interface IPropertyFormValues extends Partial<IProperty> {
 
 }
 
-export class PropertyTypeFormValues implements IPropertyTypeFormValues {
+export class PropertyFormValues implements IPropertyFormValues {
     id?: string = undefined;
     name: string = '';
     description: string = '';
     location: string = '';
+    status: string = '';
+   
 }
 
 export interface Image {

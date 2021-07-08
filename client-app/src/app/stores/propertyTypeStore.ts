@@ -1,5 +1,6 @@
 import { action, computed, observable, runInAction } from "mobx";
 import agent from "../api/agent";
+import { IPropertyType } from "../models/propertyType";
 import { RootStore } from "./rootStore";
 
 
@@ -9,9 +10,12 @@ export default class PropertyTypeStore {
         this.rootStore = rootStore;
     }
 
-    @observable propertyTypeRegistry = new Map();
+    // @observable propertyTypeRegistry = new Map();
+    @observable propertyType: IPropertyType | null = null;
 
-    @computed get propertTypesByName() {
+    @observable propertyTypeRegistry: any = [];
+
+    @computed get propertyTypesByName() {
         return Array.from(this.propertyTypeRegistry.values()).sort();
     }
 
@@ -19,13 +23,25 @@ export default class PropertyTypeStore {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
             runInAction('loading property types', () => {
-                propertyTypes.forEach(propertyType => {
-                    this.propertyTypeRegistry.set(propertyType.id, propertyType);
+                propertyTypes.forEach((propertyType) => {
+                    this.propertyTypeRegistry.push({
+                        key: propertyType.name,
+                        text: propertyType.name,
+                        value: propertyType.name
+                    });
                     console.log(propertyType);
                 })
             })
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    @action createPropertyType = async (propertyType: IPropertyType) => {
+        try {
+            await agent.PropertyTypes.create(propertyType);
+        } catch (error) {
+
         }
     }
 }

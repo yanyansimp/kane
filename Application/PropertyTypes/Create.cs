@@ -48,10 +48,11 @@ namespace Application.PropertyTypes
                     Description = request.Description,
                     Location = request.Location,
                     Image = new Photo {
-                        Id = request.Id.ToString(),
+                        Id =  request.Id.ToString(),
                         Url = "https://www.camella.com.ph/wp-content/uploads/2020/06/Website_Camella-Homes-Series_Cara-592x444.jpg",
                         IsMain = true
-                    }
+                    },
+                    CreatedAt = DateTime.Now
                 };
 
                 _context.PropertyTypes.Add(propertyType);

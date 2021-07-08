@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IProfile } from '../models/profile';
 import { IPropertyType } from '../models/propertyType';
+import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
@@ -50,6 +51,12 @@ const requests = {
 
 const PropertyTypes = {
   list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
+  create: (propertyType: IPropertyType) => requests.post('/propertyTypes', propertyType)
+};
+
+const Properties = {
+  list: (): Promise<IProperty[]> => requests.get('/properties'),
+  create: (property: IProperty) => requests.post('/properties', property)
 };
 
 const Activities = {
@@ -83,5 +90,6 @@ export default {
   User,
   Profiles,
   PropertyTypes,
+  Properties,
   Role
 };

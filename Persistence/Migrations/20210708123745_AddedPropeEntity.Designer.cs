@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210705100914_AddedPropertyTypeEntity")]
-    partial class AddedPropertyTypeEntity
+    [Migration("20210708123745_AddedPropeEntity")]
+    partial class AddedPropeEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,7 +47,11 @@ namespace Persistence.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Address");
+
                     b.Property<string>("Bio");
+
+                    b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -59,9 +63,15 @@ namespace Persistence.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("MiddleName");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -76,6 +86,8 @@ namespace Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("Suffix");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -110,6 +122,38 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImageId");
+
+                    b.Property<string>("Location");
+
+                    b.Property<Guid?>("PropertyTypeId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>
@@ -296,6 +340,17 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser")
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.HasOne("Domain.Photo", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("Domain.PropertyType")
+                        .WithMany("Properties")
+                        .HasForeignKey("PropertyTypeId");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>

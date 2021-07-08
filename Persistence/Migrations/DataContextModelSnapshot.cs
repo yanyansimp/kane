@@ -122,6 +122,38 @@ namespace Persistence.Migrations
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImageId");
+
+                    b.Property<string>("Location");
+
+                    b.Property<Guid?>("PropertyTypeId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.ToTable("Properties");
+                });
+
             modelBuilder.Entity("Domain.PropertyType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -306,6 +338,17 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser")
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.HasOne("Domain.Photo", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("Domain.PropertyType")
+                        .WithMany("Properties")
+                        .HasForeignKey("PropertyTypeId");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>

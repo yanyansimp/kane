@@ -3,7 +3,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import { Grid, Image, Input, Button, Tab, Table } from 'semantic-ui-react'
 import AddPropertyForm from './AddpropertyForm'
 import Viewpropertyform from './Viewpropertyform'
-import Stepone from './Stepone'
 
 
 const useStyles = makeStyles({
@@ -30,7 +29,9 @@ const panes = [
 
 const SampleForm = () => (
   
-  <Stepone/>
+  <div>
+    hello world
+  </div>
   
 )
 
@@ -64,7 +65,6 @@ const PropertyForm = () => {
     return (
       <Grid>
         <Grid.Column width={12}>
-          <Input placeholder='Search...' />
           <h1>Property Form</h1>
           <Tab menu={{ fluid: true, Horizontal:true, tabular: 'right' }} panes={panes} />
         </Grid.Column>
