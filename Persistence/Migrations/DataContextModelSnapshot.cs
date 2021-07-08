@@ -139,8 +139,6 @@ namespace Persistence.Migrations
 
                     b.Property<Guid?>("PropertyTypeId");
 
-                    b.Property<int>("PropertyType_id");
-
                     b.Property<string>("Status");
 
                     b.Property<DateTime?>("UpdatedAt");

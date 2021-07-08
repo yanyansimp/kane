@@ -6,16 +6,16 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.PropertyTypes
+namespace Application.Properties
 {
     public class List
     {
-        public class Query : IRequest<List<PropertyType>>
+        public class Query: IRequest<List<Property>>
         {
             
         }
 
-        public class Handler : IRequestHandler<Query, List<PropertyType>>
+        public class Handler : IRequestHandler<Query, List<Property>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -23,16 +23,14 @@ namespace Application.PropertyTypes
                 _context = context;
             }
 
-            public async Task<List<PropertyType>> Handle(Query request, 
+            public async Task<List<Property>> Handle(Query request,
                 CancellationToken cancellationToken)
-            {
-                var propertyType = await _context.PropertyTypes.ToListAsync();
-                
-                return propertyType;
-            }
+                {
+                    var property = await _context.Properties
+                        .ToListAsync();
+
+                    return property;
+                }
         }
-
-
-
     }
 }

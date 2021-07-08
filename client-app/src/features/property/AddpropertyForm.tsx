@@ -20,7 +20,7 @@ import{
 import { keys, values } from 'mobx'
 import SelectInput from '../../app/common/form/SelectInput'
 import { category } from '../../app/common/options/categoryOptions'
-import OptionpropertyType from './OptionpropertyType'
+
 
 
 const useStyles = makeStyles({
@@ -92,7 +92,7 @@ const options = [
     // { key: 'Camella', text: 'Camella', value: 'Camella' },
     // { key: 'Lumina', text: 'Lumina', value: 'Lumina' },
       
-    <OptionpropertyType/>
+    // <OptionpropertyType/>
   ]
 
 // UPLOAD IMAGE
@@ -101,13 +101,20 @@ const options = [
 
 const AddPropertyForm = () => { 
     const rootStore = useContext(RootStoreContext);
-    const {propertyTypesByName, loadPropertyTypes, propertyTypeRegistry} = rootStore.propertyTypeStore;
-    const [setProp, setSelectProp] = useState("");
+    const {loadPropertyTypes, propertyTypeRegistry} = rootStore.propertyTypeStore;
+    const {property, createProperty} = rootStore.propertyStore;
+    let [val1] = useState('');
+    let [val2] = useState('');
+    let [val3] = useState('');
   
    
     const classes = useStyles()
     const [images, setImages] = React.useState([]);
     const maxNumber = 69;
+
+    useEffect(() => {
+        loadPropertyTypes()
+    }, [loadPropertyTypes]);
     
     const onChange = (
       imageList: ImageListType,
@@ -119,8 +126,7 @@ const AddPropertyForm = () => {
     };
 
 
-    // let [sweeterArray] = useState('');
-    const container = {};
+
     return (
         <div className={classes.mainContainer}>
            <Typography 
@@ -140,32 +146,7 @@ const AddPropertyForm = () => {
                         search     
                         fluid
                         selection
-                        options={propertyTypesByName}
-                    
-                        onClick={(e) => {
-                            // console.log((e.target as HTMLInputElement).value);
-                            const selectProp = ((e.target as HTMLInputElement).id);
-                            setSelectProp(selectProp);
-                        
-
-                            const sweeterArray = propertyTypesByName.map(propertyType =>  {
-                                if ("Camella" === propertyType.name ) {
-                                    return propertyType.name
-                                   
-                                } else {
-                                    // return null
-                                    return null
-                                }
-                               
-                                // return propertyType.id
-                                
-                            })
-                            // setSelectProp(sweeterArray);
-                            console.log(sweeterArray)
-                            
-                        }}
-                        // options={sweeterArray}
-                        
+                        options={propertyTypeRegistry}
                     />
                    
                 </div>
@@ -175,19 +156,29 @@ const AddPropertyForm = () => {
                 <div>
                     <TextField
                         className={classes.inputField} 
-                                label='City/Municipality'
+                                label='Name'
                                 variant='outlined'
+                                onChange={(e) => {
+                                    val1 = e.target.value
+                                  
+                                }}
                                
                         />
                         <TextField
                         className={classes.inputField} 
-                                label='Brgy'
+                                label='Description'
                                 variant='outlined'
+                                onChange={(e) =>{
+                                    val2 = e.target.value
+                                }}
                         />
                         <TextField
                         className={classes.inputField} 
-                                label='Purok'
+                                label='Location'
                                 variant='outlined'
+                                onChange={(e) => {
+                                    val3 = e.target.value
+                                }}
                         />
                 </div>
 {/* UPLOAD IMAGE */}
@@ -195,6 +186,7 @@ const AddPropertyForm = () => {
                         <TextField
                                     label='Contract Price'
                                     variant='outlined'
+                                    
                          />
 
                          <ImageUploading
@@ -241,6 +233,18 @@ const AddPropertyForm = () => {
                             className={classes.btn}
                                 variant='contained'
                                 type='submit'
+                                onClick={() => {
+                                    let newVal = {
+                                        id: uuid(),
+                                        name: val1,
+                                        description: val2,
+                                        location: val3,
+                                        status: val1,
+                                        propertyType_Id: uuid(),
+                                        propertyTypeId: uuid()
+                                    };
+                                    createProperty(newVal!);
+                                }}
                             >
                                 SUBMIT
                             </Button>

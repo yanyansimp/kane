@@ -26,7 +26,7 @@ const Viewpropertyform = () => {
         </Table.Header>
 
         <Table.Body>
-          {propertyTypesByName.map((propertyType) => (
+          {/* {propertyTypesByName.map((propertyType) => (
             <Table.Row key={propertyType.id}>
               <Table.Cell>
                 <Image size="tiny" src={propertyType.image.url} />
@@ -38,7 +38,7 @@ const Viewpropertyform = () => {
                 <EditForm />
               </Table.Cell>
             </Table.Row>
-          ))}
+          ))} */}
         </Table.Body>
       </Table>
     );

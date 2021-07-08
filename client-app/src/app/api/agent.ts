@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IProfile } from '../models/profile';
 import { IPropertyType } from '../models/propertyType';
+import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
 import { request } from 'http';
 
@@ -54,6 +55,11 @@ const PropertyTypes = {
   create: (propertyType: IPropertyType) => requests.post('/propertyTypes', propertyType)
 };
 
+const Properties = {
+  list: (): Promise<IProperty[]> => requests.get('/properties'),
+  create: (property: IProperty) => requests.post('/properties', property)
+};
+
 const Activities = {
   list: (): Promise<IActivity[]> => requests.get('/activities'),
   details: (id: string) => requests.get(`/activities/${id}`),
@@ -85,5 +91,6 @@ export default {
   User,
   Profiles,
   PropertyTypes,
+  Properties,
   Role
 };

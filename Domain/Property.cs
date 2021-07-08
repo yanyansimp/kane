@@ -10,7 +10,6 @@ namespace Domain
         public string Location { get; set; }
         public virtual Photo Image { get; set; }
         public string Status { get; set; }
-        public int PropertyType_id { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }

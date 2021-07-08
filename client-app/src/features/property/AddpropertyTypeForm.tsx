@@ -102,12 +102,7 @@ const useStyles = makeStyles({
 })
 
 
-// const options = [
-//   { key: 'Lot', text: 'Lot area', value: 'Lot' },
-//   { key: 'Fillinvest', text: 'Fillinvest', value: 'Fillinvest' },
-//   { key: 'Camella', text: 'Camella', value: 'Camella' },
-//   { key: 'Lumina', text: 'Lumina', value: 'Lumina' },
-// ]
+
 
 
 const AddpropertyTypeForm = () => {
@@ -251,7 +246,6 @@ const AddpropertyTypeForm = () => {
                                     
                                     createPropertyType(newVal!);
                                 }}
-                                // endIcon={<SendShareIcon/>}
                             >
                                 SUBMIT
                             </Button>
