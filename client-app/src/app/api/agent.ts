@@ -6,7 +6,6 @@ import { IUser, IUserFormValues } from '../models/user';
 import { IProfile } from '../models/profile';
 import { IPropertyType } from '../models/propertyType';
 import { IRole } from '../models/role';
-import { request } from 'http';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 

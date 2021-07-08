@@ -33,13 +33,16 @@ namespace Application.User
         public class Handler : IRequestHandler<Query, User>
         {
             private readonly UserManager<AppUser> _userManager;
+            private readonly RoleManager<IdentityRole> _roleManager;
             private readonly SignInManager<AppUser> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
-            public Handler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator)
+            public Handler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, 
+                IJwtGenerator jwtGenerator, RoleManager<IdentityRole> roleManager)
             {
                 _jwtGenerator = jwtGenerator;
                 _signInManager = signInManager;
                 _userManager = userManager;
+                _roleManager = roleManager;
             }
 
             public async Task<User> Handle(Query request,
@@ -49,17 +52,23 @@ namespace Application.User
 
                 if (user == null)
                     throw new RestException(HttpStatusCode.Unauthorized);
+                
+                var role = await _userManager.GetRolesAsync(user);
+
+                // var roleClaims = await _roleManager.GetClaimsAsync(role);
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
 
                 if (result.Succeeded)
                 {
                     return new User
                     {
+                        Email = user.Email,
                         DisplayName = user.DisplayName,
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                     };
                 }
 
