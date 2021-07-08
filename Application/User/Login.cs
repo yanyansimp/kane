@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Application.Roles;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -55,10 +56,9 @@ namespace Application.User
                 
                 var role = await _userManager.GetRolesAsync(user);
 
-                // var roleClaims = await _roleManager.GetClaimsAsync(role);
+                var roleClaims = await _roleManager.GetClaimsAsync(await _roleManager.FindByNameAsync(role.First()));
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
 
                 if (result.Succeeded)
                 {
@@ -69,6 +69,8 @@ namespace Application.User
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,
                         Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                        Role = role.FirstOrDefault(),
+                        RoleClaims = roleClaims.Select(x => x.Value).ToList()
                     };
                 }
 
