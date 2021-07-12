@@ -71,17 +71,21 @@ namespace API
                 .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         
-            // Configuration for Identity
+            // Configuration for Identity - important
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             
-            // Configuration for Identity Roles/User Control
+            builder.AddUserManager<UserManager<AppUser>>();
+
+            // Configuration for Identity Roles/User Control - important
             identityBuilder.AddRoles<IdentityRole>();
 
-            // Configuration for Entity Framework
+            // identityBuilder.AddRoleManager<UserManager<IdentityRole>>();
+
+            // Configuration for Entity Framework - important
             identityBuilder.AddEntityFrameworkStores<DataContext>();
 
-            // Configuration for Signin Manager
+            // Configuration for Signin Manager - important
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             
             // 

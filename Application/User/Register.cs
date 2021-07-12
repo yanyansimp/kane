@@ -19,10 +19,17 @@ namespace Application.User
     {
         public class Command : IRequest<User>
         {
+            public string LastName { get; set; }
+            public string FirstName { get; set; }
+            public string MiddleName { get; set; }
+            public string Suffix { get; set; }
+            public DateTime BirthDate { get; set; }
+            public string Address { get; set; }
             public string DisplayName { get; set; }
             public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            public string Role { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -60,17 +67,26 @@ namespace Application.User
 
                 var user = new AppUser
                 {
+                    LastName = request.LastName,
+                    FirstName = request.FirstName,
+                    MiddleName = request.MiddleName,
+                    Suffix = request.Suffix,
+                    Address = request.Address,
+                    BirthDate = request.BirthDate,
                     DisplayName = request.DisplayName,
                     Email = request.Email,
-                    UserName = request.Username
+                    UserName = request.Username,
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
 
                 if (result.Succeeded)
                 {
+                    _userManager.AddToRoleAsync(user, request.Role).Wait();
+
                     return new User
                     {
+                        Email = user.Email,
                         DisplayName = user.DisplayName,
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,

@@ -36,6 +36,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
   return (
     <Grid>
       <Grid.Column width={9}>
+        <h2>Add new user</h2>
         <Segment clearing>
           <FinalForm
             validate={validate}

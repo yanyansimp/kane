@@ -5,7 +5,7 @@ export interface IUser {
     displayName: string;
     token: string;
     image?: string;
-    role: IRole;  
+    role: IRole;
 }
 
 export interface IUserFormValues {
