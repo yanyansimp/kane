@@ -25,6 +25,10 @@ namespace Domain
         public string OfficeNumber { get; set; }
         public string MonthlyIncome { get; set; }
         public string MonthlyHouseholdIncome { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
         public virtual ICollection<Transaction> Transactions { get; set; }
 
     }
