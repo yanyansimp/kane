@@ -46,7 +46,7 @@ namespace Application.Properties
                 var property = new Property
                 {
                     Id = request.Id,
-                    name = request.name,
+                    Name = request.name,
                     Description = request.Description,
                     Location = request.Location,
                     Image = new Photo{
