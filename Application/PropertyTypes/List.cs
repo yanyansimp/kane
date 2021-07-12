@@ -5,6 +5,7 @@ using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using System;
 
 namespace Application.PropertyTypes
 {
@@ -26,8 +27,11 @@ namespace Application.PropertyTypes
             public async Task<List<PropertyType>> Handle(Query request, 
                 CancellationToken cancellationToken)
             {
-                var propertyType = await _context.PropertyTypes.ToListAsync();
-                
+                var propertyType = await _context.PropertyTypes
+                    .ToListAsync();
+
+                //Console.WriteLine(propertyType);
+
                 return propertyType;
             }
         }

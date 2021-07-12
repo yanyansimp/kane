@@ -86,36 +86,27 @@ const useStyles = makeStyles({
 
 })
 
-const options = [
-    // { key: 'Lot', text: 'Lot area', value: 'Lot' },
-    // { key: 'Fillinvest', text: 'Fillinvest', value: 'Fillinvest' },
-    // { key: 'Camella', text: 'Camella', value: 'Camella' },
-    // { key: 'Lumina', text: 'Lumina', value: 'Lumina' },
-      
-    // <OptionpropertyType/>
-  ]
-
-// UPLOAD IMAGE
 
 
+// ADD PROPERTY
 
 const AddPropertyForm = () => { 
     const rootStore = useContext(RootStoreContext);
-    const {loadPropertyTypes, propertyTypeRegistry} = rootStore.propertyTypeStore;
+    const {loadPropertyTypes, propertyTypeRegistry, } = rootStore.propertyTypeStore;
     const {property, createProperty} = rootStore.propertyStore;
     let [val1] = useState('');
     let [val2] = useState('');
     let [val3] = useState('');
-  
-   
+    // console.log(loadPropertyTypes);
+    // console.log(propertyTypeRegistry);
+    useEffect(() => {
+        loadPropertyTypes()
+    }, [loadPropertyTypes]);
+
     const classes = useStyles()
     const [images, setImages] = React.useState([]);
     const maxNumber = 69;
 
-    useEffect(() => {
-        loadPropertyTypes()
-    }, [loadPropertyTypes]);
-    
     const onChange = (
       imageList: ImageListType,
       addUpdateIndex: number[] | undefined
@@ -147,6 +138,8 @@ const AddPropertyForm = () => {
                         fluid
                         selection
                         options={propertyTypeRegistry}
+                       
+                        
                     />
                    
                 </div>
@@ -235,6 +228,7 @@ const AddPropertyForm = () => {
                                 type='submit'
                                 onClick={() => {
                                     let newVal = {
+                                        
                                         id: uuid(),
                                         name: val1,
                                         description: val2,

@@ -1,20 +1,28 @@
+import { copyFile } from 'fs'
 import { observer } from 'mobx-react-lite'
-import React, { useContext, useEffect } from 'react'
-import { Grid, Image, Input, Button, Tab, Table } from 'semantic-ui-react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Grid, Image, Input, Button, Tab, Table, Dropdown } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
 import EditForm from './EditpropertyForm'
 
 
 const Viewpropertyform = () => {
-  const rootStore = useContext(RootStoreContext);
-  const {propertyTypesByName, loadPropertyTypes} = rootStore.propertyTypeStore;
   
+  const rootStore = useContext(RootStoreContext);
+  const {loadProperties, getProperties} = rootStore.propertyStore;
+  const [properties, setProperties] = useState([])
+  const propFunc = (prop: any) => {
+    setProperties(prop)
+  }
+
   useEffect(() => {
-    loadPropertyTypes()
-  }, [loadPropertyTypes]);
-   
+    loadProperties()
+    getProperties(propFunc)
+  }, [loadProperties, getProperties]);
+  
+
     return (
-      <Table celled>
+      <Table celled >
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>IMAGE</Table.HeaderCell>
@@ -24,24 +32,30 @@ const Viewpropertyform = () => {
             <Table.HeaderCell>EDIT/DELETE</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-
+        
         <Table.Body>
-          {/* {propertyTypesByName.map((propertyType) => (
-            <Table.Row key={propertyType.id}>
+          {properties.map((property : any) => {
+            return (
+            <Table.Row key={property.id}>
               <Table.Cell>
-                <Image size="tiny" src={propertyType.image.url} />
-              </Table.Cell>
-              <Table.Cell>{propertyType.name}</Table.Cell>
-              <Table.Cell>{propertyType.description}</Table.Cell>
-              <Table.Cell>{propertyType.location}</Table.Cell>
-              <Table.Cell>
+                
+                <Image size="tiny" src={property.image.url} />
+                  </Table.Cell>
+                  <Table.Cell>{property.name}</Table.Cell>
+                  <Table.Cell>{property.name}</Table.Cell>
+                  <Table.Cell>{property.name}</Table.Cell>
+                  <Table.Cell>
                 <EditForm />
               </Table.Cell>
             </Table.Row>
-          ))} */}
+          )})}
         </Table.Body>
       </Table>
     );
 }
 
 export default observer(Viewpropertyform);
+function num(num: any) {
+  throw new Error('Function not implemented.')
+}
+

@@ -10,7 +10,7 @@ export default class PropertyStore {
         this.rootStore = rootStore;
     }
 
-    // @observable propertyTypeRegistry = new Map();
+    // @observable propertyRegistry = new Map();
     @observable property: IProperty | null = null;
 
     @observable propertyRegistry: any = [];
@@ -19,9 +19,19 @@ export default class PropertyStore {
         return Array.from(this.propertyRegistry.values()).sort();
     }
 
-    @action loadProperties = async () => {
+    @action getProperties = async (callback: any) => {
         try {
             const properties = await agent.Properties.list();
+            callback(properties)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    @action loadProperties = async () => { 
+        try {
+            const properties = await agent.Properties.list();
+            // console.log(properties)
             runInAction('loading property types', () => {
                 properties.forEach((property) => {
                     this.propertyRegistry.push({
@@ -29,7 +39,6 @@ export default class PropertyStore {
                         text: property.name,
                         value: property.name
                     });
-                    console.log(property);
                 })
             })
         } catch (error) {

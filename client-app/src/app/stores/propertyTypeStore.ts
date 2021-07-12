@@ -14,14 +14,25 @@ export default class PropertyTypeStore {
     @observable propertyType: IPropertyType | null = null;
 
     @observable propertyTypeRegistry: any = [];
-
+ 
     @computed get propertyTypesByName() {
         return Array.from(this.propertyTypeRegistry.values()).sort();
     }
 
-    @action loadPropertyTypes = async () => {
+    @action getpPropertyTypes = async( callback: any ) => {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
+            callback(propertyTypes)
+        } catch (error){
+            console.log(error)
+        }
+    }
+
+    @action loadPropertyTypes = async () => {
+        // console.log(this.propertyTypeRegistry);
+        try {
+            const propertyTypes = await agent.PropertyTypes.list();
+            // console.log(propertyTypes);
             runInAction('loading property types', () => {
                 propertyTypes.forEach((propertyType) => {
                     this.propertyTypeRegistry.push({
@@ -29,7 +40,6 @@ export default class PropertyTypeStore {
                         text: propertyType.name,
                         value: propertyType.name
                     });
-                    console.log(propertyType);
                 })
             })
         } catch (error) {
@@ -44,4 +54,8 @@ export default class PropertyTypeStore {
 
         }
     }
+}
+
+function propertyTypeRegistry(propertyTypeRegistry: any) {
+    throw new Error("Function not implemented.");
 }
