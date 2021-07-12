@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class ChangedAppUserIdEntity : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -94,7 +94,10 @@ namespace Persistence.Migrations
                     HomeNumber = table.Column<string>(nullable: true),
                     OfficeNumber = table.Column<string>(nullable: true),
                     MonthlyIncome = table.Column<string>(nullable: true),
-                    MonthlyHouseholdIncome = table.Column<string>(nullable: true)
+                    MonthlyHouseholdIncome = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    DeletedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -21,6 +21,7 @@ import PaymentForm from '../../features/payments/PaymentForm';
 import Calendar from '../../features/calendar/Calendar';
 import UserDashboard from '../../features/user/dashboard/UserDashboard';
 import RegistrationForm from '../../features/user/RegistrationForm';
+import AddRoleForm from '../../features/role/AddRoleForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -66,6 +67,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   key={location.key}
                   path={['/registerUser', '/editUser/:id']}
                   component={RegistrationForm}
+                />
+                <Route
+                  key={location.key}
+                  path={['/createRole', '/editRole/:id']}
+                  component={AddRoleForm}
                 />
                 <Route path="/profile/:username" component={ProfilePage} />
                 <Route path="/login" component={LoginForm} />

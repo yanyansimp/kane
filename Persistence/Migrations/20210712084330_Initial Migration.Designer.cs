@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210712055745_ChangedAppUserIdEntity")]
-    partial class ChangedAppUserIdEntity
+    [Migration("20210712084330_Initial Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,10 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ContactNumber");
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
                     b.Property<string>("EducationalAttn");
 
                     b.Property<string>("FirstName");
@@ -148,6 +152,8 @@ namespace Persistence.Migrations
                     b.Property<string>("Suffix");
 
                     b.Property<string>("TIN");
+
+                    b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
 

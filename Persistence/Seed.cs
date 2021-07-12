@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +10,8 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context,
-            UserManager<AppUser> userManager)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, 
+            RoleManager<IdentityRole> roleManager)
         {
             if (!userManager.Users.Any())
             {
@@ -43,6 +44,19 @@ namespace Persistence
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
+            }
+
+            if (!userManager.Users.Any())
+            {
+                var role = new IdentityRole {
+                        Id = "586f8343-4c35-4d0a-844e-e593c95a6fab",
+                        Name = "Super Admin",
+                        NormalizedName = "SUPER ADMIN"
+                    };
+
+                await roleManager.CreateAsync(role);
+                
+                await roleManager.AddClaimAsync(role, new Claim("Calendar", "Calendar"));
             }
 
             if (!context.Activities.Any())

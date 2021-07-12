@@ -117,6 +117,10 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ContactNumber");
 
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
                     b.Property<string>("EducationalAttn");
 
                     b.Property<string>("FirstName");
@@ -146,6 +150,8 @@ namespace Persistence.Migrations
                     b.Property<string>("Suffix");
 
                     b.Property<string>("TIN");
+
+                    b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
 
