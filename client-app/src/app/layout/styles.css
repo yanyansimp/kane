@@ -34,9 +34,9 @@ body {
 }
 
 .ui.inverted.vertical.left.fixed.menu > .item > span{
-  align-items: center;
+  align-items: right;
   display: flex;
-  height: 50px;
+  height: 20px;
 }
 
 .ui.inverted.vertical.left.fixed.menu > a.item.active {
@@ -65,7 +65,7 @@ body {
 
 /*home page styles*/
 
-.masthead {
+/* .masthead {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,8 +76,8 @@ body {
     rgb(32, 167, 172) 89%
   ) !important;
   height: 100vh;
-}
-
+} */
+/* 
 .masthead .ui.menu .ui.button,
 .ui.menu a.ui.inverted.button {
   margin-left: 0.5em;
@@ -86,11 +86,32 @@ body {
 .masthead h1.ui.header {
   font-size: 4em;
   font-weight: normal;
-}
+} */
 
 .masthead h2 {
   font-size: 1.7em;
   font-weight: normal;
+}
+
+.Clientmasthead{
+  width: 75em;
+  height: max-content;
+}
+
+.ClientButton{
+  float: right;
+}
+
+.C4{
+  text-align: center;
+}
+
+#name{
+  float: left;
+}
+
+.loginMenu{
+  float: right;
 }
 
 /*end home page styles*/

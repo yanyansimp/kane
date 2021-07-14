@@ -10,6 +10,11 @@ import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import NotFound from './NotFound';
 import {ToastContainer} from 'react-toastify';
 import LoginForm from '../../features/user/LoginForm';
+import ClientForm from '../../features/forms/ClientForm';
+import ClientForm2 from '../../features/forms2/ClientForm2';
+import ClientForm3 from '../../features/forms2/ClientForm3';
+import ClientForm4 from '../../features/forms2/ClientForm4';
+import ClientForm5 from '../../features/forms2/ClientForm5';
 import { RootStoreContext } from '../stores/rootStore';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
@@ -50,6 +55,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/property" component={PropertyForm} />
+                <Route exact path="/forms" component={ClientForm} />
+                <Route exact path="/forms2" component={ClientForm2} />
+                <Route exact path="/forms3" component={ClientForm3} />
+                <Route exact path="/forms4" component={ClientForm4} />
+                <Route exact path="/forms5" component={ClientForm5} />
                 <Route exact path="/activities" component={ActivityDashboard} />
                 <Route path="/activities/:id" component={ActivityDetails} />
                 <Route
