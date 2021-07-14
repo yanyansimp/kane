@@ -45,7 +45,11 @@ namespace Persistence.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Address");
+
                     b.Property<string>("Bio");
+
+                    b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -57,9 +61,15 @@ namespace Persistence.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("MiddleName");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -74,6 +84,8 @@ namespace Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("Suffix");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -92,6 +104,92 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Domain.Client", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("CivilStatus");
+
+                    b.Property<string>("ContactNumber");
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("EducationalAttn");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<string>("HomeNumber");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("MiddleName");
+
+                    b.Property<string>("MonthlyHouseholdIncome");
+
+                    b.Property<string>("MonthlyIncome");
+
+                    b.Property<string>("Nationality");
+
+                    b.Property<string>("NumberOfDependents");
+
+                    b.Property<string>("OfficeNumber");
+
+                    b.Property<string>("Religion");
+
+                    b.Property<string>("School");
+
+                    b.Property<string>("Suffix");
+
+                    b.Property<string>("TIN");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("Domain.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("Amount");
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime>("DateOfPayment");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("ModeOfPayment");
+
+                    b.Property<string>("ORNumber");
+
+                    b.Property<string>("ReceivedById");
+
+                    b.Property<Guid>("TransactionId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceivedById");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("Domain.Photo", b =>
                 {
                     b.Property<string>("Id")
@@ -108,6 +206,104 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImageId");
+
+                    b.Property<string>("Location");
+
+                    b.Property<string>("Name");
+
+                    b.Property<Guid?>("PropertyTypeId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.ToTable("Properties");
+                });
+
+            modelBuilder.Entity("Domain.PropertyType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImageId");
+
+                    b.Property<string>("Location");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("PropertyTypes");
+                });
+
+            modelBuilder.Entity("Domain.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<float>("ContractPrice");
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<float>("MonthlyAmortization");
+
+                    b.Property<Guid>("PropertyId");
+
+                    b.Property<Guid>("PropertyTypeId");
+
+                    b.Property<string>("SalesAgentId");
+
+                    b.Property<string>("SalesManagerId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<float>("Terms");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("PropertyId");
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
@@ -263,11 +459,59 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Payment", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("Payments")
+                        .HasForeignKey("ReceivedById");
+
+                    b.HasOne("Domain.Transaction", "Transaction")
+                        .WithMany("Payments")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Domain.Photo", b =>
                 {
                     b.HasOne("Domain.AppUser")
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.HasOne("Domain.Photo", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("Domain.PropertyType")
+                        .WithMany("Properties")
+                        .HasForeignKey("PropertyTypeId");
+                });
+
+            modelBuilder.Entity("Domain.PropertyType", b =>
+                {
+                    b.HasOne("Domain.Photo", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+                });
+
+            modelBuilder.Entity("Domain.Transaction", b =>
+                {
+                    b.HasOne("Domain.Client", "Client")
+                        .WithMany("Transactions")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.Property", "Property")
+                        .WithMany("Transactions")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.PropertyType", "PropertyType")
+                        .WithMany("Transactions")
+                        .HasForeignKey("PropertyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

@@ -23,7 +23,7 @@ export const SideBar = () => {
           Reservation
         </span>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item  as={NavLink} to="/payments">
         <span>
           <Icon name="credit card outline" size="large" />
           Payment
@@ -35,7 +35,7 @@ export const SideBar = () => {
           Property
         </span>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item as={NavLink} to="/user">
         <span>
           <Icon name="user outline" size="large" />
           User

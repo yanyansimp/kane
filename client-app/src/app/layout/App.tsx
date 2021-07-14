@@ -22,7 +22,11 @@ import ProfilePage from '../../features/profiles/ProfilePage';
 import { SideBar } from '../../features/sidebar/SideBar';
 import { Dashboard } from '../../features/dashboard/Dashboard';
 import PropertyForm from '../../features/property/PropertyForm';
+import PaymentForm from '../../features/payments/PaymentForm';
 import Calendar from '../../features/calendar/Calendar';
+import UserDashboard from '../../features/user/dashboard/UserDashboard';
+import RegistrationForm from '../../features/user/RegistrationForm';
+import AddRoleForm from '../../features/role/AddRoleForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -55,17 +59,32 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/property" component={PropertyForm} />
-                <Route exact path="/forms" component={ClientForm} />
+<<<<<<< HEAD
+                // <Route exact path="/forms" component={ClientForm} />
                 <Route exact path="/forms2" component={ClientForm2} />
                 <Route exact path="/forms3" component={ClientForm3} />
                 <Route exact path="/forms4" component={ClientForm4} />
                 <Route exact path="/forms5" component={ClientForm5} />
+=======
+                <Route exact path="/user" component={UserDashboard} />
+                <Route exact path="/payments" component={PaymentForm} />
+>>>>>>> 8e49cae2a4a9f3e7b74642ab2ac9a92836452ac8
                 <Route exact path="/activities" component={ActivityDashboard} />
                 <Route path="/activities/:id" component={ActivityDetails} />
                 <Route
                   key={location.key}
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
+                />
+                <Route
+                  key={location.key}
+                  path={['/registerUser', '/editUser/:id']}
+                  component={RegistrationForm}
+                />
+                <Route
+                  key={location.key}
+                  path={['/createRole', '/editRole/:id']}
+                  component={AddRoleForm}
                 />
                 <Route path="/profile/:username" component={ProfilePage} />
                 <Route path="/login" component={LoginForm} />

@@ -71,10 +71,21 @@ namespace API
                 .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         
-            // Configuration for Identity
+            // Configuration for Identity - important
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            
+            builder.AddUserManager<UserManager<AppUser>>();
+
+            // Configuration for Identity Roles/User Control - important
+            identityBuilder.AddRoles<IdentityRole>();
+
+            // identityBuilder.AddRoleManager<UserManager<IdentityRole>>();
+
+            // Configuration for Entity Framework - important
             identityBuilder.AddEntityFrameworkStores<DataContext>();
+
+            // Configuration for Signin Manager - important
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             
             // 
@@ -87,6 +98,8 @@ namespace API
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
+            //
+            
             // Authentication
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

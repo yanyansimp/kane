@@ -4,6 +4,9 @@ import { history } from '../..';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IProfile } from '../models/profile';
+import { IPropertyType } from '../models/propertyType';
+import { IProperty } from '../models/Property';
+import { IRole } from '../models/role';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -46,6 +49,16 @@ const requests = {
   del: (url: string) => axios.delete(url).then(sleep(1000)).then(responseBody)
 };
 
+const PropertyTypes = {
+  list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
+  create: (propertyType: IPropertyType) => requests.post('/propertyTypes', propertyType)
+};
+
+const Properties = {
+  list: (): Promise<IProperty[]> => requests.get('/properties'),
+  create: (property: IProperty) => requests.post('/properties', property)
+};
+
 const Activities = {
   list: (): Promise<IActivity[]> => requests.get('/activities'),
   details: (id: string) => requests.get(`/activities/${id}`),
@@ -56,6 +69,11 @@ const Activities = {
   attend: (id: string) => requests.post(`/activities/${id}/attend`, {}),
   unattend: (id: string) => requests.del(`/activities/${id}/attend`)
 };
+
+const Role = {
+  list: (): Promise<IRole[]> => requests.get('/roles'),
+  create: (role: IRole) => requests.post('/roles', role)
+}
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
@@ -70,5 +88,8 @@ const Profiles = {
 export default {
   Activities,
   User,
-  Profiles
+  Profiles,
+  PropertyTypes,
+  Properties,
+  Role
 };

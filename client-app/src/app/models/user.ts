@@ -1,8 +1,11 @@
+import { IRole } from "./role";
+
 export interface IUser {
     username: string;
     displayName: string;
     token: string;
     image?: string;
+    role: IRole;
 }
 
 export interface IUserFormValues {

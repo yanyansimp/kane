@@ -13,7 +13,10 @@ namespace Application.Activities
 {
     public class List
     {
-        public class Query : IRequest<List<ActivityDto>> { }
+        public class Query : IRequest<List<ActivityDto>> 
+        { 
+            
+        }
 
         public class Handler : IRequestHandler<Query, List<ActivityDto>>
         {
