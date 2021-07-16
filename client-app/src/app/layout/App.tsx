@@ -10,7 +10,7 @@ import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import NotFound from './NotFound';
 import {ToastContainer} from 'react-toastify';
 import LoginForm from '../../features/user/LoginForm';
-import ClientForm from '../../features/formss/ClientForm';
+import ClientForm from '../../features/forms22/ClientForm';
 import ClientForm2 from '../../features/forms22/ClientForm2';
 import ClientForm3 from '../../features/forms22/ClientForm3';
 import ClientForm4 from '../../features/forms22/ClientForm4';
