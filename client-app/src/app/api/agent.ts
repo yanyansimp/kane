@@ -77,9 +77,11 @@ const Role = {
 
 const User = {
   current: (): Promise<IUser> => requests.get('/user'),
-  login: (user: IUserFormValues): Promise<IUser> => requests.post('/user/login', user),
-  register: (user: IUserFormValues): Promise<IUser> => requests.post('/user/register', user)
-}
+  login: (user: IUserFormValues): Promise<IUser> =>
+    requests.post('/user/login', user),
+  register: (user: IUserFormValues) => requests.post('/user/register', user)
+  // register: (user: IUserFormValues): Promise<IUser> => requests.post('/user/register', user)
+};
 
 const Profiles = {
   get: (username: string): Promise<IProfile> => requests.get(`/profiles/${username}`)

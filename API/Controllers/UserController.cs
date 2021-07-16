@@ -3,6 +3,7 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Application.User;
 using Microsoft.AspNetCore.Authorization;
+using MediatR;
 
 namespace API.Controllers
 {
@@ -17,7 +18,7 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(Register.Command command)
+        public async Task<ActionResult<Unit>> Register(Register.Command command)
         {
             return await Mediator.Send(command);
         }

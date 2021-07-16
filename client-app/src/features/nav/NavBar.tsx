@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
-import { Menu, Container, Button, Dropdown, Image, Input, Icon, Label } from 'semantic-ui-react';
+import React, { useContext, useEffect } from 'react';
+import { Menu, Container, Dropdown, Image, Icon, Button, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { NavLink, Link } from 'react-router-dom';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import Notification from '../notifications/Notification';
+import { IUser } from '../../app/models/user';
 
-export const NavBar: React.FC = () => {
+const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { user, logout } = rootStore.userStore;
+
 
   return (
     <Menu fixed="top" secondary>
@@ -20,15 +21,16 @@ export const NavBar: React.FC = () => {
           />
         </Menu.Item>
 
-        {/* <Menu.Item name="Activities" as={NavLink} to="/activities" />
+        {/* <Menu.Item name="Activities" as={NavLink} to="/activities" /> */}
         <Menu.Item>
-          <Button
+          {/* <Button
             as={NavLink}
             to="/createActivity"
             positive
             content="Create Activity"
-          />
-        </Menu.Item> */}
+          /> */}
+          {user!.roleClaims.includes('User') && <Label>Hello Admin</Label>}
+        </Menu.Item>
         {user && (
           <Menu.Item position="right">
             <Menu.Item position="right">
@@ -36,7 +38,7 @@ export const NavBar: React.FC = () => {
               <Icon />
               <Icon name="envelope outline" size="large" />
             </Menu.Item>
-              <Image
+            <Image
               avatar
               size="mini"
               spaced="right"

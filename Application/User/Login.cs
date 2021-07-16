@@ -54,9 +54,9 @@ namespace Application.User
                 if (user == null)
                     throw new RestException(HttpStatusCode.Unauthorized);
 
-                // var role = await _userManager.GetRolesAsync(user);
+                var role = await _userManager.GetRolesAsync(user);
 
-                // var roleClaims = await _roleManager.GetClaimsAsync(await _roleManager.FindByNameAsync(role.First()));
+                var roleClaims = await _roleManager.GetClaimsAsync(await _roleManager.FindByNameAsync(role.First()));
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
@@ -69,8 +69,8 @@ namespace Application.User
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,
                         Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                        // Role = role.FirstOrDefault(),
-                        // RoleClaims = roleClaims.Select(x => x.Value).ToList()
+                        Role = role.FirstOrDefault(),
+                        RoleClaims = roleClaims.Select(x => x.Value).ToList()
                     };
                 }
 

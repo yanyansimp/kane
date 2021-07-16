@@ -1,9 +1,17 @@
 import { observer } from 'mobx-react-lite';
+import { v4 as uuid } from 'uuid';
 import React, { useContext, useEffect } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { RouteComponentProps } from 'react-router-dom';
 import { combineValidators, isRequired } from 'revalidate';
-import { Grid, Segment, Form, Button, Image, Checkbox } from 'semantic-ui-react';
+import {
+  Grid,
+  Segment,
+  Form,
+  Button,
+  Image,
+  Checkbox,
+} from 'semantic-ui-react';
 import DateInput from '../../app/common/form/DateInput';
 import TextInput from '../../app/common/form/TextInput';
 import SelectInput from '../../app/common/form/SelectInput';
@@ -19,18 +27,30 @@ interface DetailParams {
 }
 
 const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
-    match,
-    history
+  match,
+  history,
 }) => {
-    const rootStore = useContext(RootStoreContext);
-    const { loading, submitting, loadRoles, roleRegistry } = rootStore.userStore;
+  const rootStore = useContext(RootStoreContext);
+  const { loading, submitting, loadRoles, addRole, role, roleClaims, addClaim } =
+    rootStore.userStore;
 
-    useEffect(() => {
-      loadRoles();
-    }, [loadRoles]);
+  useEffect(() => {
+    loadRoles();
+  }, [loadRoles]);
 
-    const handleFinalFormSubmit = (values: any) => {};
-    
+  const handleFinalFormSubmit = (values: any) => {
+    const { ...role } = values;
+
+    if (!role.id) {
+      let newRole = {
+        ...role,
+        roleClaims: roleClaims
+      };
+      addRole(newRole);
+    }
+   
+  };
+
   return (
     <Grid>
       <Grid.Column width={5}>
@@ -38,33 +58,64 @@ const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
         <Segment clearing>
           <FinalForm
             validate={validate}
+            initialValues={role}
             onSubmit={handleFinalFormSubmit}
             render={({ handleSubmit, invalid, pristine }) => (
               <Form onSubmit={handleSubmit} loading={loading}>
                 <Field
-                  name="role"
+                  name="name"
                   label="Role Name"
                   placeholder="Role Name"
                   component={TextInput}
                 />
-                <Form.Group>
-                  <Checkbox label="Calendar" />
-                </Form.Group>
-                <Form.Group>
-                  <Checkbox label="Reservation" />
-                </Form.Group>
-                <Form.Group>
-                  <Checkbox label="Payment" />
-                </Form.Group>
-                <Form.Group>
-                  <Checkbox label="Property" />
-                </Form.Group>
-                <Form.Group>
-                  <Checkbox label="User" />
-                </Form.Group>
-                <Form.Group>
-                  <Checkbox label="Report" />
-                </Form.Group>
+                <Form.Field>
+                  <Checkbox
+                    name="roleClaim"
+                    label="Calendar"
+                    value={'Calendar'}
+                    onChange={(e, data) => addClaim(data.value)}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox
+                    name="roleClaim"
+                    label="Reservation"
+                    value={'Reservation'}
+                    onChange={(e, data) => addClaim(data.value)}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox
+                    name="roleClaim"
+                    label="Payment"
+                    value={'Payment'}
+                    onChange={(e, data) => addClaim(data.value)}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox
+                    name="roleClaim"
+                    label="Property"
+                    value={'Property'}
+                    onChange={(e, data) => addClaim(data.value)}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox
+                    name="roleClaim"
+                    label="User"
+                    value={'User'}
+                    onChange={(e, data) => addClaim(data.value)}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox
+                    name="roleClaim"
+                    label="Report"
+                    value={'Report'}
+                    onChange={(e, data) => addClaim(data.value)}
+                  />
+                </Form.Field>
                 <Button
                   loading={submitting}
                   disabled={loading || invalid || pristine}
@@ -72,10 +123,14 @@ const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   positive
                   type="submit"
                   content="Submit"
+                  onClick={handleFinalFormSubmit}
                 />
               </Form>
             )}
           />
+          {/* <pre>
+            <h5>{JSON.stringify(role?.roleClaims, null, 2)}</h5>
+          </pre> */}
         </Segment>
       </Grid.Column>
     </Grid>
