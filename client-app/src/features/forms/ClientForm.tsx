@@ -1,14 +1,13 @@
 import React, { useContext, Fragment } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
 
-
 import {
   Container,
   Segment,
   Header,
   Label,
   Input,
-Menu,
+  Menu,
   Button,
   Form,
 } from 'semantic-ui-react';
@@ -38,22 +37,24 @@ const ClientForm = () => {
         render={({handleSubmit, pristine, invalid}) => (
           <Form>
            
-            <Form.Group widths='equal'> 
-            < Form.Input fluid label='Block No.' placeholder='Block No.'></Form.Input>
-                <Form.Input fluid label='Lot No.' placeholder='Lot No.'></Form.Input>
-                <Form.Input fluid label='Lot Area' placeholder='Lot Area'></Form.Input>
-                <Form.Input fluid label='Email Address' placeholder='Email Address'></Form.Input>
+            <Form.Group widths='equal' > 
+            <Form.Input fluid label='Block No.' placeholder='Block No.' ></Form.Input>
+                <Form.Input fluid label='Lot No.' placeholder='Lot No.' ></Form.Input>
+                <Form.Input fluid label='Lot Area' placeholder='Lot Area' ></Form.Input>
+                <Form.Input fluid label='Email Address' placeholder='Email Address' ></Form.Input>
                 {/* <Field fluid label='Date Reservation' placeholder='Date Reservation' /> */}
               
             </Form.Group>
             
             {/* Date Reservation */}
-            <Form.Group widths='equal' style={{ marginTop:'0em'}}> 
-            < Input fluid label='Project Area' placeholder='Project Area' ></Input>
+            <Form.Group widths='equal' style={{ marginRight:'0em'}}> 
+            <Form.Input fluid label='Project Area' placeholder='Project Area' ></Form.Input>
+            {/* < Form.Input fluid label='Email Address' placeholder='Email Address' style={{width:"55em"}}></Form.Input> */}
             <Field 
                     fluid
                     width={8}
                     date={true}
+                    label="Date of Birth"
                     name="date"
                     placeholder="Date"
                     component={DateInput}
@@ -92,7 +93,17 @@ const ClientForm = () => {
         
             <Form.Group widths='equal'>
             
-                <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input>
+                {/* <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input> */}
+                <Field 
+                    fluid
+                    width={15}
+                    date={true}
+                    label="Date of Birth"
+                    name="date"
+                    placeholder="Date"
+                    component={DateInput}
+                    style={{marginTop:"12em", float:"left"}}
+                  />
                 <Form.Input fluid label='Age' placeholder='Age'></Form.Input>
                 <Form.Select fluid label='Gender' options={options} placeholder='Gender'></Form.Select>
                 <Form.Input fluid label='Civil Status' placeholder='Civil Status'></Form.Input>
@@ -112,7 +123,17 @@ const ClientForm = () => {
             </Form.Group>
 
             <Form.Group widths='equal'>
-                <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input>
+                {/* <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input> */}
+                <Field 
+                    fluid
+                    width={15}
+                    date={true}
+                    label="Date of Birth"
+                    name="date"
+                    placeholder="Date"
+                    component={DateInput}
+                    style={{marginTop:"12em", float:"left"}}
+                  />
                 <Form.Input fluid label='Age' placeholder='Age'></Form.Input>
                 <Form.Select fluid label='Gender' options={options} placeholder='Gender'></Form.Select>
                 <Form.Input fluid label='TIN No.' placeholder='TIN No.'></Form.Input>
