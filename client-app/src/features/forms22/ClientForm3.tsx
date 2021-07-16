@@ -219,8 +219,6 @@ const ClientForm3 = () => {
                 <Form.Input fluid placeholder='Co-Borrower Information'></Form.Input>
           </Grid.Column>
         </Grid.Row>
-111
-
         <Grid.Row columns={4}>
           <Grid.Column widths='1em'>
                 Date of Establishment
@@ -230,7 +228,7 @@ const ClientForm3 = () => {
                     fluid
                     width={18}
                     date={true}
-                    label="Date Establishment"
+                    // label="Date Establishment"
                     name="date"
                     placeholder="Date of Establishment"
                     component={DateInput}
@@ -241,7 +239,7 @@ const ClientForm3 = () => {
                     fluid
                     width={18}
                     date={true}
-                    label="Date Establishment"
+                    // label="Date Establishment"
                     name="date"
                     placeholder="Date of Establishment"
                     component={DateInput}
@@ -252,7 +250,7 @@ const ClientForm3 = () => {
                     fluid
                     width={18}
                     date={true}
-                    label="Date Establishment"
+                    // label="Date Establishment"
                     name="date"
                     placeholder="Date of Establishment"
                     component={DateInput}

@@ -125,7 +125,7 @@ const ClientForm4 = () => {
                     fluid
                     width={18}
                     date={true}
-                    label="Date Reservation"
+                  //   label="Date Reservation"
                     name="date"
                     placeholder="Date Employed"
                     component={DateInput}
@@ -136,7 +136,7 @@ const ClientForm4 = () => {
                     fluid
                     width={18}
                     date={true}
-                    label="Date Reservation"
+                  //   label="Date Reservation"
                     name="date"
                     placeholder="Date Employed"
                     component={DateInput}
@@ -147,7 +147,7 @@ const ClientForm4 = () => {
                     fluid
                     width={18}
                     date={true}
-                    label="Date Reservation"
+                  //   label="Date Reservation"
                     name="date"
                     placeholder="Date Employed"
                     component={DateInput}
@@ -197,7 +197,6 @@ const ClientForm4 = () => {
                   <Form.Checkbox fluid label='Professional e.g. Doctor,Lawyer, Engineer, etc.'></Form.Checkbox>
           </Grid.Column>
           </Grid.Row>
-    111
 
     
   </Grid>

@@ -1,4 +1,5 @@
 import React, { useContext, Fragment } from 'react';
+import { Form as FinalForm, Field } from 'react-final-form';
 import {
   Container,
   Segment,
@@ -11,6 +12,7 @@ import { NavLink } from 'react-router-dom';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import LoginForm from '../user/LoginForm';
 import RegisterForm from '../user/RegisterForm';
+import DateInput from '../../app/common/form/DateInput';
 
 const options = [
     {key: 'm', text: 'Male', value: 'male'},
@@ -28,6 +30,9 @@ const ClientForm2 = () => {
       <Segment className="Clientmasthead3">
       {/* <Container text> */}
       <div>
+        <FinalForm 
+        onSubmit={() => {}}
+        render={({handleSubmit, pristine, invalid}) => (
         <Form>
             <Form.Group widths='equal'>
                 <Form.Input fluid label='Last Name' placeholder='Last Name'></Form.Input>
@@ -36,12 +41,24 @@ const ClientForm2 = () => {
             </Form.Group>
         
             <Form.Group widths='equal'>
-                <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input>
+            <Field 
+                    fluid
+                    width={15}
+                    date={true}
+                    label="Date of Birth"
+                    name="date"
+                    placeholder="Date"
+                    component={DateInput}
+                    style={{marginTop:"12em", float:"left"}}
+                  />
+                {/* <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input> */}
                 <Form.Input fluid label='Age' placeholder='Age'></Form.Input>
                 <Form.Select fluid label='Gender' options={options} placeholder='Gender'></Form.Select>
                 <Form.Input fluid label='TIN No.' placeholder='TIN No.'></Form.Input>
             </Form.Group>
         </Form>
+          )}
+      />
       {/* </Container> */}
       </div>
     </Segment>
@@ -49,6 +66,9 @@ const ClientForm2 = () => {
       <Segment className="Clientmasthead3">
       {/* <Container text> */}
       <div>
+      <FinalForm 
+        onSubmit={() => {}}
+        render={({handleSubmit, pristine, invalid}) => (
         <Form>
             <Form.Group widths='equal'>
                 <Form.Input fluid label='Last Name' placeholder='Last Name'></Form.Input>
@@ -57,7 +77,17 @@ const ClientForm2 = () => {
             </Form.Group>
         
             <Form.Group widths='equal'>
-                <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input>
+                {/* <Form.Input fluid label='Birth Date' placeholder='Birth Date'></Form.Input> */}
+                <Field 
+                    fluid
+                    width={15}
+                    date={true}
+                    label="Date of Birth"
+                    name="date"
+                    placeholder="Date"
+                    component={DateInput}
+                    style={{marginTop:"12em", float:"left"}}
+                  />
                 <Form.Input fluid label='Age' placeholder='Age'></Form.Input>
                 <Form.Select fluid label='Gender' options={options} placeholder='Gender'></Form.Select>
                 <Form.Input fluid label='TIN No.' placeholder='TIN No.'></Form.Input>
@@ -82,9 +112,11 @@ const ClientForm2 = () => {
                         fluid
                         as={NavLink}
                         to='/forms3'
-                />111
+                />
           </Form.Group>
         </Form>
+        )}
+      />
         </div>
       {/* </Container> */}
     </Segment>
