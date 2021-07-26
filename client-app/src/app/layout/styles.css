@@ -34,7 +34,7 @@ body {
 }
 
 .ui.inverted.vertical.left.fixed.menu > .item > span{
-  align-items: right;
+  align-items: center;
   display: flex;
   height: 20px;
 }
@@ -45,7 +45,7 @@ body {
 }
 
 .ui.inverted.vertical.left.fixed.menu > .item.active > span {
-    color: #ffce2f;
+  color: #ffce2f;
 }
 
 .ui.inverted.vertical.left.fixed.menu > a.item:hover {
@@ -65,7 +65,7 @@ body {
 
 /*home page styles*/
 
-/* .masthead {
+.masthead {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,8 +76,8 @@ body {
     rgb(32, 167, 172) 89%
   ) !important;
   height: 100vh;
-} */
-/* 
+}
+
 .masthead .ui.menu .ui.button,
 .ui.menu a.ui.inverted.button {
   margin-left: 0.5em;
@@ -86,9 +86,9 @@ body {
 .masthead h1.ui.header {
   font-size: 4em;
   font-weight: normal;
-} */
+}
 
-.masthead h2 {
+/* .masthead h2 {
   font-size: 1.7em;
   font-weight: normal;
 }
@@ -109,7 +109,7 @@ body {
 
 #name{
   float: left;
-}
+} */
 
 /* .loginMenu{
   float: right;
