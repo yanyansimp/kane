@@ -49,6 +49,8 @@ namespace API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(x => x.AddServerHeader = false)
                 .UseStartup<Startup>();
+                
     }
 }

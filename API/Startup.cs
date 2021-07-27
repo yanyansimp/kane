@@ -146,6 +146,7 @@ namespace API
             app.UseAuthentication();
             app.UseCors("CorsPolicy");
             app.UseMvc();
+            
         }
     }
 }
