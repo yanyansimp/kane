@@ -12,6 +12,8 @@ export default class ModalStore {
   @action nextStep = () => {
       if ( this.step < 5) {
         this.step++;
+      } else {
+        return;
       }
       console.log(this.step);
   };

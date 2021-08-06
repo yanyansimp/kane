@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import { Icon, Step, Sticky } from 'semantic-ui-react';
+import { Icon, Step } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
 
@@ -9,7 +9,6 @@ const StepGuide = () => {
   const { step, nextStep, prevStep } = rootStore.reservationStore;
 
   return (
-    <Sticky>
       <Step.Group size="mini" fluid>
         <Step
           active={step === 1 ? true : false}
@@ -67,7 +66,6 @@ const StepGuide = () => {
           </Step.Content>
         </Step>
       </Step.Group>
-    </Sticky>
   );
 };
 
