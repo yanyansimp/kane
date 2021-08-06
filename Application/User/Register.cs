@@ -17,7 +17,7 @@ namespace Application.User
 {
     public class Register
     {
-        public class Command : IRequest<User>
+        public class Command : IRequest
         {
             public string LastName { get; set; }
             public string FirstName { get; set; }
@@ -26,7 +26,7 @@ namespace Application.User
             public DateTime BirthDate { get; set; }
             public string Address { get; set; }
             public string DisplayName { get; set; }
-            public string Username { get; set; }
+            public string UserName { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
             public string Role { get; set; }
@@ -36,14 +36,14 @@ namespace Application.User
         {
             public CommandValidator()
             {
-                RuleFor(x => x.DisplayName).NotEmpty();
-                RuleFor(x => x.Username).NotEmpty();
+                // RuleFor(x => x.DisplayName).NotEmpty();
+                // RuleFor(x => x.Username).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
             }
         }
 
-        public class Handler : IRequestHandler<Command, User>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly IJwtGenerator _jwtGenerator;
             private readonly DataContext _context;
@@ -56,13 +56,13 @@ namespace Application.User
                 _context = context;
             }
 
-            public async Task<User> Handle(Command request,
+            public async Task<Unit> Handle(Command request,
                 CancellationToken cancellationToken)
             {
                 if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                     throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
 
-                if (await _context.Users.Where(x => x.UserName == request.Username).AnyAsync())
+                if (await _context.Users.Where(x => x.UserName == request.UserName).AnyAsync())
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = "Username already exists" });
 
                 var user = new AppUser
@@ -73,9 +73,9 @@ namespace Application.User
                     Suffix = request.Suffix,
                     Address = request.Address,
                     BirthDate = request.BirthDate,
-                    DisplayName = request.DisplayName,
+                    DisplayName = string.Format("{0} {1}", request.LastName, request.FirstName),
                     Email = request.Email,
-                    UserName = request.Username,
+                    UserName = request.Email,
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
@@ -84,16 +84,9 @@ namespace Application.User
                 {
                     _userManager.AddToRoleAsync(user, request.Role).Wait();
 
-                    return new User
-                    {
-                        Email = user.Email,
-                        DisplayName = user.DisplayName,
-                        Token = _jwtGenerator.CreateToken(user),
-                        Username = user.UserName,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                    };
-                }
-
+                    return Unit.Value;
+                } 
+                
                 throw new Exception("Problem saving changes");
             }
         }

@@ -21,7 +21,7 @@ namespace Application.Roles
         {
             public string Name { get; set; }
 
-            public List<string> Claims { get; set; }
+            public List<string> RoleClaims { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -53,12 +53,21 @@ namespace Application.Roles
                 var result = await _roleManager
                     .CreateAsync(new IdentityRole { Name = request.Name });
 
-                var role = await _roleManager.FindByNameAsync(request.Name);
-
-                foreach (var claim in request.Claims)
+                if (request.RoleClaims != null)
                 {
-                    var claimResult = await _roleManager.AddClaimAsync(role, new Claim(claim, claim));
-                } 
+                    var claimResult = new IdentityResult();
+
+                    var role = await _roleManager.FindByNameAsync(request.Name);
+
+                    foreach (var claim in request.RoleClaims)
+                    {
+                        claimResult = await _roleManager.AddClaimAsync(role, new Claim(claim, claim));
+                    }
+
+                    if(claimResult.Succeeded)
+                        return Unit.Value;
+
+                }
 
                 if (result.Succeeded) return Unit.Value;
                 

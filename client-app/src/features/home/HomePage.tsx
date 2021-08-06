@@ -24,7 +24,7 @@ const HomePage = () => {
             alt="logo"
             style={{ marginBottom: 12, width: "30px"}}
           /> */}
-          Kiri
+          Kane Realty
         </Header>
         {isLoggedIn && user ? (
           <Fragment>
@@ -39,7 +39,9 @@ const HomePage = () => {
           </Fragment>
         ) : (
           <Fragment>
-            <Header as="h2" inverted content="Welcome to Kiri" />
+            <Header as="h2" inverted>
+              Welcome to Kane
+            </Header>
             <Button onClick={() => openModal(<LoginForm />)} size="huge" inverted>
               Login
             </Button>

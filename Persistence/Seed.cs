@@ -13,6 +13,21 @@ namespace Persistence
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, 
             RoleManager<IdentityRole> roleManager)
         {
+            if (!roleManager.Roles.Any())
+            {
+                var newRole = new IdentityRole {
+                        Id = "586f8343-4c35-4d0a-844e-e593c95a6fab",
+                        Name = "Admin",
+                        NormalizedName = "ADMIN"
+                    };
+
+                await roleManager.CreateAsync(newRole);
+
+                var role = await roleManager.FindByNameAsync(newRole.Name);
+
+                await roleManager.AddClaimAsync(role, new Claim("Calendar", "Calendar"));
+            }
+
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -43,21 +58,15 @@ namespace Persistence
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
+
+                    var newUser = await userManager.FindByEmailAsync(user.Email);
+
+                    await userManager.AddToRoleAsync(newUser, "Admin");
                 }
+
             }
 
-            if (!userManager.Users.Any())
-            {
-                var role = new IdentityRole {
-                        Id = "586f8343-4c35-4d0a-844e-e593c95a6fab",
-                        Name = "Super Admin",
-                        NormalizedName = "SUPER ADMIN"
-                    };
-
-                await roleManager.CreateAsync(role);
-                
-                await roleManager.AddClaimAsync(role, new Claim("Calendar", "Calendar"));
-            }
+            
 
             if (!context.Activities.Any())
             {

@@ -1,16 +1,55 @@
-import { IRole } from "./role";
+import { IRole, IRoleClaim } from './role';
 
 export interface IUser {
-    username: string;
-    displayName: string;
-    token: string;
-    image?: string;
-    role: IRole;
+  id: string;
+  email: string;
+  password: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  suffix: string;
+  birthDate?: Date;
+  contactNumber: string;
+  address: string;
+  displayName: string;
+  username: string;
+  token: string;
+  image?: string;
+  role: string;
+  roleClaims: string[];
+}
+
+export interface IUserFormValues extends Partial<IUser> {}
+
+export class UserFormValues implements IUserFormValues {
+  id: string = '';
+  email: string = '';
+  password: string = '';
+  lastName: string = '';
+  firstName: string = '';
+  middleName: string = '';
+  suffix: string = '';
+  birthDate?: Date = undefined;
+  contactNumber: string = '';
+  address: string = '';
+  role: string = '';
+
+  constructor(init?: IUserFormValues) {
+    Object.assign(this, init);
+  }
 }
 
 export interface IUserFormValues {
-    email: string;
-    password: string;
-    displayName?: string;
-    username?: string;
+  email: string;
+  password: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  suffix: string;
+  birthDate?: Date;
+  contactNumber: string;
+  address: string;
+  role: string;
+  displayName?: string;
+  username?: string;
 }

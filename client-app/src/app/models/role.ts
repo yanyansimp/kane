@@ -1,14 +1,15 @@
 export interface IRole {
+    id: string;
     name: string;
-    roleClaims?: IRoleClaim[];
+    roleClaims?: string[];
 }
 
 export interface IRoleClaim {
-    claimType: string;
-    claimValue: string;
+   claimName: string;
 }
 
 export interface IRoleFormValues {
+    id: string;
     name: string;
-    roleCalims: IRoleClaim[];
+    roleClaims: IRoleClaim[];
 }

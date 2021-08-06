@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { RouteComponentProps } from 'react-router-dom';
 import { combineValidators, isRequired } from 'revalidate';
@@ -9,6 +9,8 @@ import TextInput from '../../app/common/form/TextInput';
 import SelectInput from '../../app/common/form/SelectInput';
 import { category } from '../../app/common/options/categoryOptions';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import { IRole } from '../../app/models/role';
+import { UserFormValues } from '../../app/models/user';
 
 const validate = combineValidators({
   lastName: isRequired('Last Name'),
@@ -23,14 +25,30 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loading, submitting, loadRoles, roleRegistry } = rootStore.userStore;
+  const { submitting, loadRoles, roleRegistry, role, register } = rootStore.userStore;
+
+  const [user, setUser] = useState(new UserFormValues());
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
+    if (match.params.id) {
+      setLoading(true);
+    }
     loadRoles()
   }, [loadRoles]);
 
   const handleFinalFormSubmit = (values: any) => {
+    const { ...user } = values;
 
+    if(!user.id) {
+      let newUser = {
+        ...user
+      };
+      register(newUser);
+    } else {
+      // Update User
+    }
   };
 
   return (
@@ -57,6 +75,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     name="lastName"
                     label="Last Name"
                     placeholder="Last Name"
+                    value={user.lastName}
                     component={TextInput}
                   />
                   <Field
@@ -64,6 +83,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     name="firstName"
                     label="First Name"
                     placeholder="First Name"
+                    value={user.firstName}
                     component={TextInput}
                   />
                 </Form.Group>
@@ -73,6 +93,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     name="middleName"
                     label="Middle Name"
                     placeholder="Middle Name"
+                    value={user.middleName}
                     component={TextInput}
                   />
                   <Field
@@ -80,6 +101,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     name="suffix"
                     label="Suffix"
                     placeholder="Suffix"
+                    value={user.suffix}
                     component={TextInput}
                   />
                 </Form.Group>
@@ -87,6 +109,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   name="email"
                   label="Email"
                   placeholder="Email"
+                  value={user.email}
                   component={TextInput}
                 />
                 <Field
@@ -94,22 +117,25 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   name="birthDate"
                   label="Birth Date"
                   placeholder="MM/DD/YYYY"
+                  value={user.birthDate}
                   component={DateInput}
                 />
                 <Field
                   name="contactNumber"
                   label="Contact Number"
-                  placeholder="Suffix"
+                  placeholder="Contact Number"
+                  value={user.contactNumber}
                   component={TextInput}
                 />
                 <Field
                   name="address"
                   label="Address"
                   placeholder="Address"
+                  value={user.address}
                   component={TextInput}
                 />
                 <Field
-                  name="title"
+                  name="password"
                   type="password"
                   label="Password"
                   placeholder="Password"
@@ -119,6 +145,7 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   name="role"
                   label="Role"
                   placeholder="Role"
+                  value={user.role}
                   options={roleRegistry}
                   component={SelectInput}
                 />
