@@ -14,10 +14,11 @@ namespace Application.Properties
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public string name { get; set; }
+            public string Name { get; set; }
             public string Description { get; set; }
             public string Location { get; set; }
             public string Status { get; set; }
+            public string PropertyTypeId { get; set; }
             
         }
        
@@ -27,10 +28,11 @@ namespace Application.Properties
     {
         public CommandValidator()
         {
-            RuleFor(x => x.name).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Description).NotEmpty();
             RuleFor(x => x.Location).NotEmpty();
             RuleFor(x => x.Status).NotEmpty();
+            RuleFor(x => x.PropertyTypeId).NotEmpty();
         }
     }
     public class Handler : IRequestHandler<Command>
@@ -46,7 +48,7 @@ namespace Application.Properties
                 var property = new Property
                 {
                     Id = request.Id,
-                    Name = request.name,
+                    Name = request.Name,
                     Description = request.Description,
                     Location = request.Location,
                     Image = new Photo{
@@ -55,6 +57,7 @@ namespace Application.Properties
                         IsMain = true
                     },
                     Status = request.Status,
+                    PropertyTypeId = request.PropertyTypeId
                     
 
                 };

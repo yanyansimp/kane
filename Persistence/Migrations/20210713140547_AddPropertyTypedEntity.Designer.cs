@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210712084330_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20210713140547_AddPropertyTypedEntity")]
+    partial class AddPropertyTypedEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,7 +227,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("PropertyTypeId");
+                    b.Property<string>("PropertyTypeId");
+
+                    b.Property<Guid?>("PropertyTypeId1");
 
                     b.Property<string>("Status");
 
@@ -237,7 +239,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.HasIndex("PropertyTypeId");
+                    b.HasIndex("PropertyTypeId1");
 
                     b.ToTable("Properties");
                 });
@@ -488,7 +490,7 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.PropertyType")
                         .WithMany("Properties")
-                        .HasForeignKey("PropertyTypeId");
+                        .HasForeignKey("PropertyTypeId1");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>

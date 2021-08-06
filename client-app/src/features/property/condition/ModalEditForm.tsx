@@ -1,14 +1,10 @@
-import React, { useContext, useState } from 'react'
-import ReactCircleModal from 'react-circle-modal'
-import { Dropdown } from 'semantic-ui-react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Button, Header, Image, Icon, Modal, Dropdown } from 'semantic-ui-react'
+import { RootStoreContext } from '../../../app/stores/rootStore'
 import {makeStyles} from '@material-ui/core/styles'
-import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Image, Input, Grid, Tab, Table } from 'semantic-ui-react'
-import { RootStoreContext } from '../../app/stores/rootStore';
-import { v4 as uuid } from 'uuid';
+import ImageUploading, { ImageListType} from "react-images-uploading";
 import{
     Typography,
-    Button,
     Checkbox,
     TextField,
     OutlinedInput,
@@ -17,8 +13,6 @@ import{
     InputAdornment,
     IconButton
 } from '@material-ui/core'
-
-
 const useStyles = makeStyles({
     mainContainer: {
         display: 'grid',
@@ -28,13 +22,14 @@ const useStyles = makeStyles({
     },
     formContainer: {
         position: 'relative',
-        with: '28.12',
+        with: '12',
         height: 'auto',
         padding: '2rem'
     },
     inputField: {
+        background: 'white',
         marginRight: '21px',
-        width: '30%', 
+        width: '20%', 
         marginBottom: '1rem'
     },
     inputField1: {
@@ -66,8 +61,8 @@ const useStyles = makeStyles({
     },
 
     btn: {
-        top: '-55px',
-        right: '-120px',
+        top: '-1px',
+        right: '1px',
         width: '40%',
         height: '3rem',
         background: 'orange',
@@ -98,96 +93,99 @@ const useStyles = makeStyles({
             color:'red'
         }
       },
-
 })
+const optionsArray = [
+    { key: 1, text: 'Available', value: 'Available' },
+    { key: 2, text: 'Reserved', value: 'Reserved' },
+    { key: 3, text: 'Occupied', value: 'Occupied' },
+  ]
 
-
-
-
-
-const AddpropertyTypeForm = () => {
-    
+  interface IfirstChildProps {
+    name: any,
+  }
+  const ModalEditModal: React.FC<IfirstChildProps> = ({name}) =>  {
+    const [open, setOpen] = React.useState(false)
+    const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);
-    const {propertyType, createPropertyType} = rootStore.propertyTypeStore;
-    let [val1] = useState('');
-    let [val2] = useState('');
-    let [val3] = useState('');
-    
+    const {EditProperty, loading} = rootStore.propertyStore;
+    const [propName, setpropName] = useState(name.name)
+    const [propDescription, setpropDescription] = useState(name.description)
+    const [propLocation, setpropLocation] = useState(name.location)
+    const [propStatus, setpropStatus] = useState(name.status)
     const classes = useStyles()
     const [images, setImages] = React.useState([]);
     const maxNumber = 69;
-  
     const onChange = (
-      imageList: ImageListType,
-      addUpdateIndex: number[] | undefined
-    ) => {
-      // data for submit
-      console.log(imageList, addUpdateIndex);
-      setImages(imageList as never[]);
-    };
+        imageList: ImageListType,
+        addUpdateIndex: number[] | undefined
+      ) => {
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList as never[]);
+      };
 
+    const handleDropDownSelectStatus = (event:any, data:any) => {
+        name.status = data.value;
+        setpropStatus(name.status)
+       };
+    useEffect(() => {
+        setChildProperty(name)
+        },[name])
+
+    
+  
   return (
-    <Grid>
-        <Grid.Column width={2}></Grid.Column>
-        <Grid.Column width={12}>
-          <ReactCircleModal
-      backgroundColor="#fff"
-      toogleComponent={onClick => (
-        <Button 
-        variant='contained'
-        className={classes.btn}
-        onClick={onClick}>
-          Add Property Type
-        </Button>
-      )}
-      // Optional fields and their default values
-      offsetX={0}
-      offsetY={0}
+    <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button circular icon="pencil"/>}
     >
-      {(onClick) => (
-        <div >
-           <div className={classes.mainContainer}>
-           <Typography 
-           variant='h5' 
-           style={{ color: '#999', textAlign: 'center' }}
-           >
-              <Button 
-              className={classes.clsbtn}
-              onClick={onClick}>
-            CLOSE
-          </Button>
-         Add New Property Type
-           </Typography>
-           <div>
-               
+      <Modal.Header>Make a Title</Modal.Header>
+      <Modal.Content image>
+        <Modal.Description>
+          <Header>Header</Header>
+          <div>
                 <form>
-                
+            
                 <div>
-                    
                     <TextField
                         className={classes.inputField} 
+                                type='text'
+                                value={propName} 
                                 label='Name'
                                 variant='outlined'
-                                onChange={(e) => {
-                                    val1 = e.target.value
+                                onChange={(e) =>{
+                                    setpropName(e.target.value);
                                 }}
                         />
                         <TextField
                         className={classes.inputField} 
+                                value={propDescription}
                                 label='Descriptopn'
                                 variant='outlined'
                                 onChange={(e) =>{
-                                    val2 = e.target.value
+                                    setpropDescription(e.target.value);
                                 }}
                         />
                         <TextField
                         className={classes.inputField} 
+                                value={propLocation}
                                 label='Location'
                                 variant='outlined'
                                 onChange={(e) => {
-                                    val3 = e.target.value
+                                    setpropLocation(e.target.value);
                                 }}
                         />
+                        <Dropdown 
+                          className={classes.inputField} 
+                            placeholder='Status'
+                            variant='outlined'
+                            value={propStatus}
+                            selection
+                            onChange={handleDropDownSelectStatus} 
+                            options={optionsArray}
+                        />
+                        
                 </div>
 {/* UPLOAD IMAGE */}
                 <div>
@@ -229,40 +227,34 @@ const AddpropertyTypeForm = () => {
                             )}
                         </ImageUploading>   
                 </div>       
-                        
-                      
-                    <>
-                            <Button 
-                            className={classes.btn1}
-                                variant='contained'
-                                type='submit'
-                                onClick={() => {
-                                    let newVal = {
-                                        ...propertyType,
-                                        id: uuid(),
-                                        name: val1,
-                                        description: val2,
-                                        location: val3
-                                    };
-                                    
-                                    createPropertyType(newVal!);
-                                }}
-                            >
-                                SUBMIT
-                            </Button>
-                    </>
                 </form>
             </div>
-        </div>
-         
-        </div>
-      )}
-    </ReactCircleModal>
-        </Grid.Column>
-      </Grid>
-
-    
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button color='black' onClick={() => setOpen(false)}>
+        <Icon name='remove' /> Cancel
+        </Button>
+        <Button 
+            type='submit'
+            color='green' 
+            inverted onClick={() => {
+                setOpen(false)
+                let editVal = {
+                    id: name.id,
+                    name: propName,
+                    description: propDescription,
+                    location: propLocation,
+                    status: propStatus,
+                    propertyTypeId: name.propertyTypeId
+                };
+                EditProperty(editVal);
+            }}
+            >
+            <Icon name='checkmark' /> Submit
+            </Button>
+      </Modal.Actions>
+    </Modal>
   )
 }
-
-export default AddpropertyTypeForm
+export default ModalEditModal

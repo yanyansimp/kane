@@ -220,7 +220,7 @@ const ExpensesFrom = () => {
                             />
                             <TextField
                             className={classes.inputField} 
-                                    label='DISCRIPTIONS '
+                                    label='DESCRIPTIONS '
                                     variant='outlined'
                             />
                             <TextField

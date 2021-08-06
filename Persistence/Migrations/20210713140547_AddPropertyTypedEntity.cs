@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class AddPropertyTypedEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -306,7 +306,8 @@ namespace Persistence.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     DeletedAt = table.Column<DateTime>(nullable: true),
-                    PropertyTypeId = table.Column<Guid>(nullable: true)
+                    PropertyTypeId = table.Column<string>(nullable: true),
+                    PropertyTypeId1 = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -318,8 +319,8 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Properties_PropertyTypes_PropertyTypeId",
-                        column: x => x.PropertyTypeId,
+                        name: "FK_Properties_PropertyTypes_PropertyTypeId1",
+                        column: x => x.PropertyTypeId1,
                         principalTable: "PropertyTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -471,9 +472,9 @@ namespace Persistence.Migrations
                 column: "ImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Properties_PropertyTypeId",
+                name: "IX_Properties_PropertyTypeId1",
                 table: "Properties",
-                column: "PropertyTypeId");
+                column: "PropertyTypeId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PropertyTypes_ImageId",

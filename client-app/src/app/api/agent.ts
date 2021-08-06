@@ -56,7 +56,10 @@ const PropertyTypes = {
 
 const Properties = {
   list: (): Promise<IProperty[]> => requests.get('/properties'),
-  create: (property: IProperty) => requests.post('/properties', property)
+  create: (property: IProperty) => requests.post('/properties', property),
+  update: (property: IProperty) => 
+    requests.put(`/properties/${property.id}`,property),
+  delete: (id: string) => requests.del(`/properties/${id}`),
 };
 
 const Activities = {

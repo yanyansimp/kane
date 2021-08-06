@@ -1,15 +1,14 @@
 export interface IProperty {
-    id: string;
+    id: string | null;
     name: string;
     description: string;
     location: string;
     image?: Image;
     status: string;
-   
+    propertyTypeId: string | null;
 }
 
 export interface IPropertyFormValues extends Partial<IProperty> {
-
 }
 
 export class PropertyFormValues implements IPropertyFormValues {
@@ -18,6 +17,7 @@ export class PropertyFormValues implements IPropertyFormValues {
     description: string = '';
     location: string = '';
     status: string = '';
+    propertyTypeId?: string = undefined;
    
 }
 

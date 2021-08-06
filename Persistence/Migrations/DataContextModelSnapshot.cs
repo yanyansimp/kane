@@ -225,7 +225,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("PropertyTypeId");
+                    b.Property<string>("PropertyTypeId");
+
+                    b.Property<Guid?>("PropertyTypeId1");
 
                     b.Property<string>("Status");
 
@@ -235,7 +237,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.HasIndex("PropertyTypeId");
+                    b.HasIndex("PropertyTypeId1");
 
                     b.ToTable("Properties");
                 });
@@ -486,7 +488,7 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.PropertyType")
                         .WithMany("Properties")
-                        .HasForeignKey("PropertyTypeId");
+                        .HasForeignKey("PropertyTypeId1");
                 });
 
             modelBuilder.Entity("Domain.PropertyType", b =>

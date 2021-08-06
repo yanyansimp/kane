@@ -15,7 +15,6 @@ namespace Domain
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
-
-
+        public string PropertyTypeId { get; set; }
     }
 }

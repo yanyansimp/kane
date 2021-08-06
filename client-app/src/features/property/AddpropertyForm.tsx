@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dropdown  } from 'semantic-ui-react'
+import { Dropdown, } from 'semantic-ui-react'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType } from "react-images-uploading"
 import AddpropertyTypeForm from './AddpropertyTypeForm'
@@ -86,19 +86,27 @@ const useStyles = makeStyles({
 
 })
 
+const optionsArray = [
+    { key: 1, text: 'Available', value: 'Available' },
+    { key: 2, text: 'Reserved', value: 'Reserved' },
+    { key: 3, text: 'Occupied', value: 'Occupied' },
+  ]
+
+ 
 
 
 // ADD PROPERTY
 
 const AddPropertyForm = () => { 
     const rootStore = useContext(RootStoreContext);
-    const {loadPropertyTypes, propertyTypeRegistry, } = rootStore.propertyTypeStore;
+    const { loadPropertyTypes, propertyTypeRegistry, } = rootStore.propertyTypeStore;
     const {property, createProperty} = rootStore.propertyStore;
+    let [val0] = useState('');
     let [val1] = useState('');
     let [val2] = useState('');
     let [val3] = useState('');
-    // console.log(loadPropertyTypes);
-    // console.log(propertyTypeRegistry);
+    let [val4] = useState('');
+    
     useEffect(() => {
         loadPropertyTypes()
     }, [loadPropertyTypes]);
@@ -111,13 +119,20 @@ const AddPropertyForm = () => {
       imageList: ImageListType,
       addUpdateIndex: number[] | undefined
     ) => {
-      // data for submit
       console.log(imageList, addUpdateIndex);
       setImages(imageList as never[]);
     };
 
+   const handleDropDownSelectStatus = (event:any, data:any) => {
+    val4 = data.value;
+   };
 
-
+   const handleDropDownSelectPropertyType = (event:any, data:any) => {
+     val0 = data.value;
+   };
+   
+  
+    
     return (
         <div className={classes.mainContainer}>
            <Typography 
@@ -137,9 +152,9 @@ const AddPropertyForm = () => {
                         search     
                         fluid
                         selection
+                        onChange={handleDropDownSelectPropertyType}
                         options={propertyTypeRegistry}
-                       
-                        
+                                              
                     />
                    
                 </div>
@@ -176,12 +191,19 @@ const AddPropertyForm = () => {
                 </div>
 {/* UPLOAD IMAGE */}
                 <div>
-                        <TextField
-                                    label='Contract Price'
-                                    variant='outlined'
-                                    
-                         />
 
+                <div className={classes.drpdwnField}>
+                    
+                     <Dropdown 
+                        placeholder='Status'
+                        variant='outlined'
+                        search     
+                        fluid
+                        selection
+                        onChange={handleDropDownSelectStatus} 
+                        options={optionsArray}
+                    />
+                </div>
                          <ImageUploading
                             value={images}
                             onChange={onChange}
@@ -228,14 +250,12 @@ const AddPropertyForm = () => {
                                 type='submit'
                                 onClick={() => {
                                     let newVal = {
-                                        
                                         id: uuid(),
                                         name: val1,
                                         description: val2,
                                         location: val3,
-                                        status: val1,
-                                        propertyType_Id: uuid(),
-                                        propertyTypeId: uuid()
+                                        status: val4,
+                                        propertyTypeId: val0
                                     };
                                     createProperty(newVal!);
                                 }}
