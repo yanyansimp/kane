@@ -53,7 +53,7 @@ import { useHistory } from 'react-router-dom'
                   <Table.Cell><Image size="tiny" src={name.image.url} /></Table.Cell>
                   <Table.Cell>{name.description}</Table.Cell>
                   <Table.Cell>{name.location}</Table.Cell>
-                  <Table.Cell> {name.id} </Table.Cell>
+                  <Table.Cell> {name.status} </Table.Cell>
                   <Table.Cell><Button onClick={handleClick} >Delete</Button></Table.Cell>
             </Table.Row>
           {/* ) */}

@@ -19,7 +19,7 @@ const RegisterForm = () => {
   const rootStore = useContext(RootStoreContext);
   const { register } = rootStore.userStore;
   return (
-    <FinalForm
+    <FinalForm 
       onSubmit={(values: IUserFormValues) =>
         register(values).catch(error => ({
           [FORM_ERROR]: error

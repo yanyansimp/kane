@@ -17,7 +17,7 @@ export default class PropertyTypeStore {
     // @observable propertyTypeRegistry = new Map();
     @observable propertyType: IPropertyType | null = null;
     @observable property: IProperty | null = null;
-
+    @observable loading = false;
     @observable propertyTypeRegistry: any = [];
     @computed get propertyTypesByName() {
         return Array.from(this.propertyTypeRegistry.values()).sort();
@@ -28,14 +28,14 @@ export default class PropertyTypeStore {
             const propertyTypes = await agent.PropertyTypes.list();
             const properties = await agent.Properties.list();
             runInAction('loading property types', () => {
-                
+                var propertyName
                 var propertyDescription
+                var propertyLocation
                 var arrayCount
                 var AvailableCount
                 var OccupiedCount
                 var ReservedCount
                 var propertyTypeCounts = new Array(0);
-                var arrayLength = 0;
                 var i = 0;
                 
                 propertyTypes.forEach((propertyType) => {
@@ -43,7 +43,7 @@ export default class PropertyTypeStore {
                     var Available:number = 0;
                     var Occupied:number = 0;
                     var Reserved:number = 0;
-                    i +=1
+                    i ++
                     properties.forEach((property) => {
                         if(propertyType.id === property.propertyTypeId){
                             count ++
@@ -56,12 +56,22 @@ export default class PropertyTypeStore {
                             Reserved ++
                         }
                     })
+                    propertyName = propertyType.name
                     propertyDescription = propertyType.description
+                    propertyLocation = propertyType.location
                     arrayCount = count.toString()
                     AvailableCount = Available.toString()
                     OccupiedCount = Occupied.toString()
                     ReservedCount = Reserved.toString()
-                    propertyTypeCounts[i] = new Array(propertyDescription, arrayCount, AvailableCount, ReservedCount, OccupiedCount, propertyType.id);
+                    propertyTypeCounts[i] = new Array(propertyName,     // 0
+                                                propertyDescription,    // 1
+                                                arrayCount,             // 2
+                                                AvailableCount,         // 3
+                                                ReservedCount,          // 4
+                                                OccupiedCount,          // 5
+                                                propertyType.id,        // 6
+                                                propertyLocation        // 7
+                                                );
                 
                 })
                 callback(propertyTypeCounts)
@@ -99,20 +109,21 @@ export default class PropertyTypeStore {
 
     // PROPERTYTYPE DROPDOWN
     @action loadPropertyTypes = async () => {
-        // console.log(this.loadPropertyTypes);
+       
         try {
+            this.propertyTypeRegistry = [];
             const propertyTypes = await agent.PropertyTypes.list();
-            // console.log(propertyTypes);
             runInAction('loading property types', () => {
                 propertyTypes.forEach((propertyType) => {
-                    // console.log(propertyType.id);
                     this.propertyTypeRegistry.push({
-                        key: propertyType.id,
-                        text: propertyType.description,
-                        value: propertyType.id
+                        'key': propertyType.id,
+                        'text': propertyType.description,
+                        'value': propertyType.id
                     });
-                })
-            })
+                });
+            });
+            
+
         } 
         catch (error) {
             console.log(error)
@@ -126,19 +137,35 @@ export default class PropertyTypeStore {
 
         }
     }
-}
-function propertyTypeRegistry(propertyTypeRegistry: any) {
-    throw new Error("Function not implemented.");
-}
-function typeCount(typeCount: any) {
-    throw new Error("Function not implemented.");
+
+    @action EditPropertyType = async (propertyType: IPropertyType) => {
+        this.loading = true;
+        
+        try{
+            // let index = this.propertyTypeRegistry.findIndex(({key: any}) => key === propertyType.id);
+            
+            await agent.PropertyTypes.update(propertyType);
+            // console.log(propertyType.id);
+            //  this.propertyTypeRegistry.findIndex((x:any) => x.key === propertyType.id);
+            // console.log(pT);
+
+            runInAction('editing property type', () => {
+                this.propertyTypeRegistry.set(propertyType.id, propertyType);
+                this.propertyType = propertyType;
+                this.loading = false;
+            })
+        } catch (error){
+            runInAction('editing property error', () => {
+                this.loading = false;
+            })
+            // console.log(error)
+        }
+    }
+
+
+
+
+
 }
 
-function concat(propertyName: string, propertyDescription: number) {
-    throw new Error("Function not implemented.");
-}
-
-function push(description: string, count: number): string[] {
-    throw new Error("Function not implemented.");
-}
 

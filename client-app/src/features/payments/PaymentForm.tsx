@@ -1,20 +1,25 @@
 import React from 'react'
 import { Grid, Image, Input, Button, Tab, Table } from 'semantic-ui-react'
-import AddSales from './AddSales'
-import Expenses from './ExpensesForm'
+import AddSalesTab from './AddSales'
+import ExpensesTab from './ExpensesForm'
+import AddSalesForm from './AddSalesForm'
 
 const panes = [
-    { menuItem: 'SALES INVOICE', render: () => <Tab.Pane> <AddSalesForm/> </Tab.Pane> },
+    { menuItem: 'SALES INVOICE', render: () => <Tab.Pane> <AddSales/> </Tab.Pane> },
     { menuItem: 'EXPENSES', render: () => <Tab.Pane><ExpensesForm/></Tab.Pane> },
-    { menuItem: 'TAB 3', render: () => <Tab.Pane>3</Tab.Pane> },
+    { menuItem: 'NEW PAYMENT', render: () => <Tab.Pane><AddSalesFormNew/></Tab.Pane> },
   ]
 
 
-  const AddSalesForm = () => (
-    <AddSales/>
+  const AddSales = () => (
+    <AddSalesTab/>
   )
   const ExpensesForm = () => (
-    <Expenses/>
+    <ExpensesTab/>
+  )
+  const AddSalesFormNew = () => (
+    <p>hello</p>
+    // <AddSalesForm/>
   )
 
 
