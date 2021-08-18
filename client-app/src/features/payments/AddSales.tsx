@@ -136,29 +136,6 @@ const useStyles = makeStyles({
 
 })
 
-
-
-
-
-// function CalendarNow() {
-//     const [value, onChange] = useState(new Date());
-  
-//     return (
-//       <div>
-//         <Calendar
-//           onChange={onChange}
-//           value={value}
-//         />
-//       </div>
-//     );
-//   }
-
-
-
-//   const DateNow = () => {
-//       <p>hel</p>
-    
-//   }
   
 
 const options = [

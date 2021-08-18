@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dropdown, } from 'semantic-ui-react'
+import { Button, Header, Image, Icon, Modal, Dropdown } from 'semantic-ui-react'
+import { RootStoreContext } from '../../../app/stores/rootStore'
 import {makeStyles} from '@material-ui/core/styles'
-import ImageUploading, { ImageListType } from "react-images-uploading"
-import AddpropertyTypeForm from './AddpropertyTypeForm'
-import { RootStoreContext } from '../../app/stores/rootStore'
-import { v4 as uuid } from 'uuid';
+import ImageUploading, { ImageListType} from "react-images-uploading";
+import { useHistory } from 'react-router-dom'
 import{
     Typography,
-    Button,
-    Grid,
     Checkbox,
     TextField,
     OutlinedInput,
@@ -17,12 +14,6 @@ import{
     InputAdornment,
     IconButton
 } from '@material-ui/core'
-import { keys, values } from 'mobx'
-import SelectInput from '../../app/common/form/SelectInput'
-import { category } from '../../app/common/options/categoryOptions'
-
-
-
 const useStyles = makeStyles({
     mainContainer: {
         display: 'grid',
@@ -32,27 +23,24 @@ const useStyles = makeStyles({
     },
     formContainer: {
         position: 'relative',
-        with: '28.12',
+        with: '12',
         height: 'auto',
         padding: '2rem'
     },
     inputField: {
+        background: 'white',
         marginRight: '21px',
-        width: '100%', 
+        width: '20%', 
         marginBottom: '1rem'
     },
     inputField1: {
-        width: '50%', 
+        width: '40%', 
         marginBottom: '1rem'
     },
-    drpdwnField: {
-        marginRight: '70px',
-        width: '50%', 
-        marginBottom: '1rem'
-    },
+
     uploadbutton:{
-        top: '-50px',
-        left: '400px',
+        top: '30px',
+        right: '-220px',
         width: '40%',
         height: '3.5rem',
         background: 'orange',
@@ -74,134 +62,123 @@ const useStyles = makeStyles({
     },
 
     btn: {
-        width: '20%',
+        top: '-1px',
+        right: '1px',
+        width: '40%',
         height: '3rem',
-        left: '550px',
-        background: 'teal',
+        background: 'orange',
         color: '#fff',
         '&:hover':{
             color:'red'
         }
     },
-    
-
+    btn1: {
+        top: '100px',
+        right: '-520px',
+        width: '40%',
+        height: '3rem',
+        background: 'orange',
+        color: '#fff',
+        '&:hover':{
+            color:'red'
+        }
+    },
+    clsbtn: {
+        top: '1px',
+        right: '-500px',
+        width: '10%',
+        height: '3rem',
+        background: 'orange',
+        color: '#fff',
+        '&:hover':{
+            color:'red'
+        }
+      },
 })
-
 const optionsArray = [
     { key: 1, text: 'Available', value: 'Available' },
     { key: 2, text: 'Reserved', value: 'Reserved' },
     { key: 3, text: 'Occupied', value: 'Occupied' },
   ]
 
- 
-
-
-// ADD PROPERTY
-
-const AddPropertyForm = () => { 
-    const rootStore = useContext(RootStoreContext);
-    const { loadPropertyTypes, propertyTypeRegistry, } = rootStore.propertyTypeStore;
-    const {property, createProperty} = rootStore.propertyStore;
-    let [val0] = useState('');
-    let [val1] = useState('');
-    let [val2] = useState('');
-    let [val3] = useState('');
-    let [val4] = useState('');
-    
-    useEffect(() => {
-        loadPropertyTypes()
-    }, [loadPropertyTypes]);
-
+  interface IfirstChildProps {
+    name: any,
+  }
+  const ModalEditModal: React.FC<IfirstChildProps> = ({name}) =>  {
     const classes = useStyles()
+    const [open, setOpen] = React.useState(false)
+    const [ChildProperty, setChildProperty] =  useState([name])
+    const rootStore = useContext(RootStoreContext);
+    const {EditPropertyType, loading} = rootStore.propertyTypeStore
+    const [propId, setpropId] = useState(name[6])
+    const [propName, setpropName] = useState(name[0])
+    const [propDescription, setpropDescription] = useState(name[1])
+    const [propLocation, setpropLocation] = useState(name[7])
     const [images, setImages] = React.useState([]);
     const maxNumber = 69;
-
     const onChange = (
-      imageList: ImageListType,
-      addUpdateIndex: number[] | undefined
-    ) => {
-      console.log(imageList, addUpdateIndex);
-      setImages(imageList as never[]);
-    };
+        imageList: ImageListType,
+        addUpdateIndex: number[] | undefined
+      ) => {
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList as never[]);
+      };
 
-   const handleDropDownSelectStatus = (event:any, data:any) => {
-    val4 = data.value;
-   };
 
-   const handleDropDownSelectPropertyType = (event:any, data:any) => {
-     val0 = data.value;
-   };
-   
-  
-    
-    return (
-        <div className={classes.mainContainer}>
-           <Typography 
-           variant='h5' 
-           style={{ color: '#999', textAlign: 'center' }}
-           >
-           Sign Up for Adding Properties
-           </Typography>
-           <div>
-
+    useEffect(() => {
+        setChildProperty(name)
+        },[name])
+ let history = useHistory();
+//   console.log(propName)
+  return (
+    <Modal
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button circular icon="pencil"/>}
+    >
+      <Modal.Header>Editing of Property Type</Modal.Header>
+      <Modal.Content image>
+        <Modal.Description>
+          <Header>{propName}</Header>
+          <div>
                 <form>
-                <div className={classes.drpdwnField}>
-                    
-                    <Dropdown 
-                        placeholder='Select Property'
-                        variant='outlined'
-                        fluid
-                        selection
-                        onChange={handleDropDownSelectPropertyType}
-                        options={propertyTypeRegistry}
-                                              
-                    />
-                   
-                </div>
-                <AddpropertyTypeForm/>
+            
                 <div>
                     <TextField
                         className={classes.inputField} 
+                                type='text'
+                                value={propName} 
                                 label='Name'
                                 variant='outlined'
-                                onChange={(e) => {
-                                    val1 = e.target.value
-                                  
+                                onChange={(e) =>{
+                                    setpropName(e.target.value);
                                 }}
-                               
                         />
                         <TextField
                         className={classes.inputField} 
-                                label='Description'
+                                value={propDescription}
+                                label='Descriptopn'
                                 variant='outlined'
                                 onChange={(e) =>{
-                                    val2 = e.target.value
+                                    setpropDescription(e.target.value);
                                 }}
                         />
                         <TextField
                         className={classes.inputField} 
+                                value={propLocation}
                                 label='Location'
                                 variant='outlined'
                                 onChange={(e) => {
-                                    val3 = e.target.value
+                                    setpropLocation(e.target.value);
                                 }}
                         />
+                    
+                        
                 </div>
 {/* UPLOAD IMAGE */}
                 <div>
-
-                <div className={classes.drpdwnField}>
-                    
-                     <Dropdown 
-                        placeholder='Status'
-                        variant='outlined'
-                        search     
-                        fluid
-                        selection
-                        onChange={handleDropDownSelectStatus} 
-                        options={optionsArray}
-                    />
-                </div>
+                        
                          <ImageUploading
                             value={images}
                             onChange={onChange}
@@ -239,33 +216,32 @@ const AddPropertyForm = () => {
                             )}
                         </ImageUploading>   
                 </div>       
-                        
-                      
-                    <>
-                            <Button 
-                            className={classes.btn}
-                                variant='contained'
-                                type='submit'
-                                onClick={() => {
-                                    let newVal = {
-                                        id: uuid(),
-                                        name: val1,
-                                        description: val2,
-                                        location: val3,
-                                        status: val4,
-                                        propertyTypeId: val0
-                                    };
-                                    createProperty(newVal!);
-                                }}
-                            >
-                                SUBMIT
-                            </Button>
-                    </>
                 </form>
             </div>
-        </div>
-    )
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button color='black' onClick={() => setOpen(false)}>
+        <Icon name='remove' /> Cancel
+        </Button>
+        <Button 
+            type='submit'
+            color='green' 
+            inverted onClick={() => {
+                setOpen(false)
+                let editVal = {
+                    id: propId,
+                    name: propName,
+                    description: propDescription,
+                    location: propLocation,
+                };
+                EditPropertyType(editVal);
+            }}
+            >
+            <Icon name='checkmark' /> Submit
+            </Button>
+      </Modal.Actions>
+    </Modal>
+  )
 }
-export default AddPropertyForm
-
-
+export default ModalEditModal

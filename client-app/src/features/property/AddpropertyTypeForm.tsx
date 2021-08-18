@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react'
 import ReactCircleModal from 'react-circle-modal'
-import { Dropdown } from 'semantic-ui-react'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Image, Input, Grid, Tab, Table } from 'semantic-ui-react'
+import { Image, Input, Grid, Tab, Table,  } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { v4 as uuid } from 'uuid';
 import{
@@ -34,7 +33,7 @@ const useStyles = makeStyles({
     },
     inputField: {
         marginRight: '21px',
-        width: '30%', 
+        width: '100%', 
         marginBottom: '1rem'
     },
     inputField1: {
@@ -44,7 +43,7 @@ const useStyles = makeStyles({
 
     uploadbutton:{
         top: '30px',
-        right: '-220px',
+        right: '0px',
         width: '40%',
         height: '3.5rem',
         background: 'orange',
@@ -67,7 +66,7 @@ const useStyles = makeStyles({
 
     btn: {
         top: '-55px',
-        right: '-120px',
+        right: '-320px',
         width: '40%',
         height: '3rem',
         background: 'orange',
@@ -81,7 +80,7 @@ const useStyles = makeStyles({
         right: '-520px',
         width: '40%',
         height: '3rem',
-        background: 'orange',
+        background: 'teal',
         color: '#fff',
         '&:hover':{
             color:'red'
@@ -92,7 +91,7 @@ const useStyles = makeStyles({
         right: '-500px',
         width: '10%',
         height: '3rem',
-        background: 'orange',
+        background: 'red',
         color: '#fff',
         '&:hover':{
             color:'red'
@@ -101,9 +100,15 @@ const useStyles = makeStyles({
 
 })
 
-
-
-
+const container = {
+    // top: '-250px',
+    backgroundColor: 'transparent',
+    border: 'transparent',
+    display: 'grid',
+    // right: '-820px',
+    position: 'relative',
+    zIndex: 5
+  };
 
 const AddpropertyTypeForm = () => {
     
@@ -129,7 +134,7 @@ const AddpropertyTypeForm = () => {
   return (
     <Grid>
         <Grid.Column width={2}></Grid.Column>
-        <Grid.Column width={12}>
+        <Grid.Column width={12} style={container}>
           <ReactCircleModal
       backgroundColor="#fff"
       toogleComponent={onClick => (
@@ -151,22 +156,20 @@ const AddpropertyTypeForm = () => {
            variant='h5' 
            style={{ color: '#999', textAlign: 'center' }}
            >
-              <Button 
-              className={classes.clsbtn}
-              onClick={onClick}>
-            CLOSE
-          </Button>
+                <Button 
+                    className={classes.clsbtn}
+                    onClick={onClick}>
+                        X
+                </Button>
          Add New Property Type
            </Typography>
            <div>
-               
                 <form>
-                
                 <div>
-                    
                     <TextField
                         className={classes.inputField} 
                                 label='Name'
+                                placeholder='Name'
                                 variant='outlined'
                                 onChange={(e) => {
                                     val1 = e.target.value
@@ -214,7 +217,6 @@ const AddpropertyTypeForm = () => {
                                
                                 >
                                UPLOAD IMAGE OF PROPERTY
-                               
                                 </Button>
                                 {imageList.map((image, index) => (
                                 <div className="image-item">

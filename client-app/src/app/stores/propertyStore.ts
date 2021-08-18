@@ -4,6 +4,7 @@ import agent from "../api/agent";
 import { IProperty } from "../models/Property";
 import { RootStore } from "./rootStore";
 import { history } from '../..';
+import { forEachChild } from "typescript";
 
 
 export default class PropertyStore {
@@ -35,7 +36,6 @@ export default class PropertyStore {
     @action loadProperties = async () => { 
         try {
             const properties = await agent.Properties.list();
-            // console.log(properties)
             runInAction('loading property types', () => {
                 properties.forEach((property) => {
                     this.propertyRegistry.push({
@@ -59,7 +59,6 @@ export default class PropertyStore {
     }
     
     @action EditProperty = async (property: IProperty) => {
-        // console.log(property);
         this.loading = true;
         try{
                 // Agent.ts Connection to Bakcend (API)
@@ -70,37 +69,95 @@ export default class PropertyStore {
                     this.propertyRegistry.set(property.id, property);
                     this.property = property;
                     this.loading = false;
+                    // history.push('/dashboard')
                 })
             } catch (error){
                 runInAction('editing property error', () => {
                     this.loading = false;
                 })
-                console.log("nono")
+                console.log("error")
             }
     }
 
 
     @action DeleteProperty = async (
-        // event: SyntheticEvent<HTMLButtonElement>,
         id: string
     ) => {
-        console.log(id)
         this.submitting = true;
-        // this.target = event.currentTarget.name;
         try {
             await agent.Properties.delete(id);
             runInAction('deleting property', () => {
               this.propertyRegistry.delete(id);
               this.submitting = false;
               this.target = '';
-              history.push('/property')
+            //   history.push('/property')
             });
           } catch (error) {
             runInAction('delete property error', () => {
               this.submitting = false;
               this.target = '';
             });
-            console.log("nono");
+            console.log(error);
           }
     };
+    @action returnAvailable = async (callback: any) => {
+        try {
+            
+            const properties = await agent.Properties.list();
+            runInAction('loading property types',() => {
+                var propertyAvailable = new Array(0);
+                var i = 0;
+                properties.forEach((property) => {
+                    i++
+                    if(property.status === 'Available'){
+                        propertyAvailable[i] = property
+                    }
+                })
+                callback(propertyAvailable)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    @action returnReserved = async (callback: any) => {
+        try {
+            const properties = await agent.Properties.list();
+            runInAction('loading property types',() => {
+                var propertyAvailable = new Array(0);
+                var i = 0;
+                properties.forEach((property) => {
+                    i++
+                    if(property.status === 'Reserved'){
+                        propertyAvailable[i] = property
+                    }
+                })
+                callback(propertyAvailable)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    @action returnOccupied = async (callback: any) => {
+        try {
+            const properties = await agent.Properties.list();
+            runInAction('loading property types',() => {
+                var propertyAvailable = new Array(0);
+                var i = 0;
+                properties.forEach((property) => {
+                    i++
+                    if(property.status === 'Occupied'){
+                        propertyAvailable[i] = property
+                    }
+                })
+                callback(propertyAvailable)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
+
 }
+

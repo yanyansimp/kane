@@ -42,6 +42,7 @@
     "react-nice-dates": "^3.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-search-field": "^2.0.1",
     "react-simple-modal-provider": "^1.7.1",
     "react-toastify": "^5.5.0",
     "react-widgets": "^4.4.11",
@@ -74,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.172",
     "@types/react-calendar": "^3.4.0",
     "@types/react-datepicker": "^3.1.8"
   }

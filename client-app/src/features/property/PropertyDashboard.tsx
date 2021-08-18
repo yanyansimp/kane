@@ -3,11 +3,12 @@ import {makeStyles} from '@material-ui/core/styles'
 import { Grid, Card, Header, Icon, Table, Image, Button} from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../app/stores/rootStore'
-// import Available from './statusForm/StatusAvailable'
-// import Occupied from './statusForm/StatusOccupied'
 import Available from './statusForm/ModalAvailableForm'
 import Occupied from './statusForm/ModalOccupiedForm'
 import Reserved from './statusForm/ModalReservedForm'
+import ModalEdit from './condition/ModalEditForm'
+import ModalEditPropertyType from './condition/ModalEditPropertyTypeForm'
+import ModalDelete from './condition/ModalDeleteForm'
 
 
 
@@ -29,9 +30,15 @@ const useStyles = makeStyles({
         top: '-146px',
     },
     nameStyle: {
+        // position: 'relative',
+        // justifyContent: 'center',
+        // right: '-1px',
+        // top: '-200px',
+    },
+    EditPropertyType: {
         position: 'relative',
-        right: '-1px',
-        top: '20px',
+        left: '180px',
+        top: '-240px'
     },
     buttonAvailableStyle: {
         position: 'relative',
@@ -39,15 +46,15 @@ const useStyles = makeStyles({
         top: '2px',
         
     },
-    buttonResevedStyle: {
+    buttonReservedStyle: {
         position: 'relative',
         left: '30px',
-        top: '25px',
+        top: '-5px',
     },
     buttonOccupiedStyle: {
         position: 'relative',
-        left: '30px',
-        top: '15px',
+        left: '32px',
+        top: '-12px',
     },
     
     btn: {
@@ -113,28 +120,25 @@ const PropertyDashboard: React.FC = () => {
                         <Card style={cardStyle} raised link>
                             <Card.Content>
                                 <Card.Header>
-                                    
-                                    <Header size="large">{propertyType[1]}</Header>
+                                    <Header size="large">{propertyType[0]}</Header>
                                 </Card.Header>
 
                                     <Card.Description  style={buttonStyle}>
-                                       <div className={classes.buttonAvailableStyle}><Available  name={propertyType[2]}/></div> 
-                                        {/* <h3 className={classes.StatusStyle}>:&nbsp;&nbsp;{propertyType[2]}</h3> */}
+                                    <div className={classes.buttonAvailableStyle}><Available  name={propertyType}/></div> 
                                     </Card.Description>
 
                                     <Card.Description  style={buttonStyle}>
-                                    <div className={classes.buttonOccupiedStyle}><Reserved name={propertyType[3]}/></div> 
-                                        {/* <h3 className={classes.occupiedStyle}>:&nbsp;&nbsp;{propertyType[3]}</h3> */}
+                                    <div className={classes.buttonReservedStyle}><Reserved name={propertyType}/></div> 
                                     </Card.Description>
 
                                     <Card.Description  style={buttonStyle}>
-                                    <div className={classes.buttonResevedStyle}><Occupied  name={propertyType[4]}/></div>
-                                        {/* <h3 className={classes.reservedStyle}>:&nbsp;&nbsp;{propertyType[4]}</h3> */}
+                                    <div className={classes.buttonOccupiedStyle}><Occupied  name={propertyType}/></div>
                                     </Card.Description>
                                     
                             </Card.Content>
-                            <Card.Content className={classes.nameStyle}>
-                                <Header name="arrow up" size="large" /> {propertyType[0]}
+                            <Card.Content >
+                            <Icon name="arrow up" /> {propertyType[2]}
+                            <div className={classes.EditPropertyType}> <ModalEditPropertyType name={propertyType}/></div>
                             </Card.Content>
                         </Card>
                         </Card.Group>

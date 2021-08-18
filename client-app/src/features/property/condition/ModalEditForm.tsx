@@ -3,6 +3,7 @@ import { Button, Header, Image, Icon, Modal, Dropdown } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType} from "react-images-uploading";
+import { useHistory } from 'react-router-dom'
 import{
     Typography,
     Checkbox,
@@ -130,8 +131,7 @@ const optionsArray = [
     useEffect(() => {
         setChildProperty(name)
         },[name])
-
-    
+ let history = useHistory();
   
   return (
     <Modal
@@ -249,6 +249,7 @@ const optionsArray = [
                     propertyTypeId: name.propertyTypeId
                 };
                 EditProperty(editVal);
+                history.push("/property");
             }}
             >
             <Icon name='checkmark' /> Submit

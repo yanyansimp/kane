@@ -38,7 +38,7 @@ const ClientForm = () => {
           <Form>
            
             <Form.Group widths='equal' > 
-            <Form.Input fluid label='Block No.' placeholder='Block No.' ></Form.Input>
+                <Form.Input fluid label='Block No.' placeholder='Block No.' ></Form.Input>
                 <Form.Input fluid label='Lot No.' placeholder='Lot No.' ></Form.Input>
                 <Form.Input fluid label='Lot Area' placeholder='Lot Area' ></Form.Input>
                 <Form.Input fluid label='Email Address' placeholder='Email Address' ></Form.Input>
@@ -71,9 +71,7 @@ const ClientForm = () => {
         </Form>
         )}
       />
-        
       {/* </Container> */}
-
       </div>
        </Segment> 
       <h1><label>Personal Information</label></h1>
