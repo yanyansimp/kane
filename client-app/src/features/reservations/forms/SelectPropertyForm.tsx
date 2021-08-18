@@ -7,6 +7,7 @@ import TextInput from '../../../app/common/form/TextInput';
 const SelectPropertyForm = () => {
   return (
     <Segment>
+      <h2>Choose Property</h2>
       <Form.Group fluid>
         <Field
           width={8}
@@ -40,16 +41,16 @@ const SelectPropertyForm = () => {
         />
         <Field
           width={4}
-          label="Monthly Amortization"
-          name="monthlyAmortization"
-          placeholder="Monthly Amortization"
+          label="Terms"
+          name="terms"
+          placeholder="Terms"
           component={TextInput}
         />
         <Field
           width={4}
-          label="Monthly Amortization"
-          name="monthlyAmortization"
-          placeholder="Monthly Amortization"
+          label="Network"
+          name="network"
+          placeholder="Network"
           component={TextInput}
         />
       </Form.Group>

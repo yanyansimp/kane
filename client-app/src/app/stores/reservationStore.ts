@@ -7,7 +7,7 @@ export default class ModalStore {
     this.rootStore = rootStore;
   }
 
-  @observable step = 1;
+  @observable step = 4;
 
   @action nextStep = () => {
       if ( this.step < 5) {

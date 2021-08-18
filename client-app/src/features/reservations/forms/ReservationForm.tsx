@@ -8,7 +8,8 @@ import FormsCollection from './FormsCollection';
 import PersonalInfoForm from './PersonalInfoForm';
 import SelectPropertyForm from './SelectPropertyForm';
 import StepGuide from './StepGuide';
-import WorkForm from './WorkForm';
+import WorkForm from './WorkFormPersonal';
+import WorkFormPersonal from './WorkFormPersonal';
 
 const ReservationForm = () => {
   const rootStore = useContext(RootStoreContext);
@@ -23,7 +24,7 @@ const ReservationForm = () => {
       case 3:
         return <CoBorrowerAtty />;
       case 4:
-        return <WorkForm />;
+        return <WorkFormPersonal />;
       default:
         return <PersonalInfoForm />;
     }

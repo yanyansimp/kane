@@ -60,7 +60,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/property" component={PropertyForm} />
-                // <Route exact path="/forms" component={ClientForm} />
+                <Route exact path="/forms" component={ClientForm} />
                 <Route exact path="/forms2" component={ClientForm2} />
                 <Route exact path="/forms3" component={ClientForm3} />
                 <Route exact path="/forms4" component={ClientForm4} />

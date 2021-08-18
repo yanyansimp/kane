@@ -10,6 +10,9 @@ namespace Domain
         public float Amount { get; set; }
         public string ModeOfPayment { get; set; }
         public DateTime DateOfPayment { get; set; }
+        public string CheckNo { get; set; }
+        public string BankName { get; set; }
+        public string Branch { get; set; }
         public Guid TransactionId { get; set; }
         public virtual Transaction Transaction { get; set; }
         public string ReceivedById { get; set; }

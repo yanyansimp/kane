@@ -20,6 +20,7 @@ namespace Persistence
         public DbSet<Client> Clients { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<TransactionType> TransactionTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

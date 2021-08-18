@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210806074341_Initial Migration")]
+    [Migration("20210818042550_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,6 +166,12 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<float>("Amount");
+
+                    b.Property<string>("BankName");
+
+                    b.Property<string>("Branch");
+
+                    b.Property<string>("CheckNo");
 
                     b.Property<DateTime>("CreatedAt");
 
