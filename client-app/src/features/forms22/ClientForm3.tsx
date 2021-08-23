@@ -50,7 +50,7 @@ const ClientForm3 = () => {
       <Grid divided='vertically'>
     <Grid.Row columns={4}>
     <Grid.Column>
-    
+      
     </Grid.Column>
 
     <Grid.Column>

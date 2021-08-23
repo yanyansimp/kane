@@ -13,6 +13,9 @@ namespace Domain
         public string CheckNo { get; set; }
         public string BankName { get; set; }
         public string Branch { get; set; }
+        public string InPaymentOf { get; set; }
+        public Guid TransactionTypeId { get; set; }
+        public virtual TransactionType TransactionType { get; set; }
         public Guid TransactionId { get; set; }
         public virtual Transaction Transaction { get; set; }
         public string ReceivedById { get; set; }
