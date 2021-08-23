@@ -105,6 +105,21 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TransactionTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    DeletedAt = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Values",
                 columns: table => new
                 {
@@ -342,7 +357,8 @@ namespace Persistence.Migrations
                     SalesAgentId = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
-                    DeletedAt = table.Column<DateTime>(nullable: true)
+                    DeletedAt = table.Column<DateTime>(nullable: true),
+                    TransactionTypeId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -365,6 +381,12 @@ namespace Persistence.Migrations
                         principalTable: "PropertyTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_TransactionTypes_TransactionTypeId",
+                        column: x => x.TransactionTypeId,
+                        principalTable: "TransactionTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -379,6 +401,8 @@ namespace Persistence.Migrations
                     CheckNo = table.Column<string>(nullable: true),
                     BankName = table.Column<string>(nullable: true),
                     Branch = table.Column<string>(nullable: true),
+                    InPaymentOf = table.Column<string>(nullable: true),
+                    TransactionTypeId = table.Column<Guid>(nullable: false),
                     TransactionId = table.Column<Guid>(nullable: false),
                     ReceivedById = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
@@ -398,6 +422,12 @@ namespace Persistence.Migrations
                         name: "FK_Payments_Transactions_TransactionId",
                         column: x => x.TransactionId,
                         principalTable: "Transactions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Payments_TransactionTypes_TransactionTypeId",
+                        column: x => x.TransactionTypeId,
+                        principalTable: "TransactionTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -465,6 +495,11 @@ namespace Persistence.Migrations
                 column: "TransactionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_TransactionTypeId",
+                table: "Payments",
+                column: "TransactionTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_AppUserId",
                 table: "Photos",
                 column: "AppUserId");
@@ -498,6 +533,11 @@ namespace Persistence.Migrations
                 name: "IX_Transactions_PropertyTypeId",
                 table: "Transactions",
                 column: "PropertyTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_TransactionTypeId",
+                table: "Transactions",
+                column: "TransactionTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserActivities_ActivityId",
@@ -545,6 +585,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Properties");
+
+            migrationBuilder.DropTable(
+                name: "TransactionTypes");
 
             migrationBuilder.DropTable(
                 name: "PropertyTypes");

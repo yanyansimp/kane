@@ -177,6 +177,8 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime?>("DeletedAt");
 
+                    b.Property<string>("InPaymentOf");
+
                     b.Property<string>("ModeOfPayment");
 
                     b.Property<string>("ORNumber");
@@ -185,6 +187,8 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("TransactionId");
 
+                    b.Property<Guid>("TransactionTypeId");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -192,6 +196,8 @@ namespace Persistence.Migrations
                     b.HasIndex("ReceivedById");
 
                     b.HasIndex("TransactionId");
+
+                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Payments");
                 });
@@ -301,6 +307,8 @@ namespace Persistence.Migrations
 
                     b.Property<float>("Terms");
 
+                    b.Property<Guid?>("TransactionTypeId");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -310,6 +318,8 @@ namespace Persistence.Migrations
                     b.HasIndex("PropertyId");
 
                     b.HasIndex("PropertyTypeId");
+
+                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transactions");
                 });
@@ -495,6 +505,11 @@ namespace Persistence.Migrations
                         .WithMany("Payments")
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.TransactionType", "TransactionType")
+                        .WithMany()
+                        .HasForeignKey("TransactionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
@@ -538,6 +553,10 @@ namespace Persistence.Migrations
                         .WithMany("Transactions")
                         .HasForeignKey("PropertyTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.TransactionType")
+                        .WithMany("Transactions")
+                        .HasForeignKey("TransactionTypeId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

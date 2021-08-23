@@ -98,13 +98,16 @@ export default class UserStore {
   @action register = async (values: IUserFormValues) => {
     this.submitting = true;
     try {
-      const user = await agent.User.register(values);
+      await agent.User.register(values);
       //this.rootStore.commonStore.setToken(user.token);
       //this.rootStore.modalStore.closeModal();
       // history.push('/dashboard');
       history.push('/user');
+      toast.success('User Successfully Added');
     } catch (error) {
-      this.submitting = true;
+      runInAction(() => {
+        this.submitting = false;
+      })
       toast.error(error);
     }
   };

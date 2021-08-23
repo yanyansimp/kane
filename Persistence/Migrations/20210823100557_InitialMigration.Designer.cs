@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210818042550_InitialMigration")]
+    [Migration("20210823100557_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,6 +179,8 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime?>("DeletedAt");
 
+                    b.Property<string>("InPaymentOf");
+
                     b.Property<string>("ModeOfPayment");
 
                     b.Property<string>("ORNumber");
@@ -187,6 +189,8 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("TransactionId");
 
+                    b.Property<Guid>("TransactionTypeId");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -194,6 +198,8 @@ namespace Persistence.Migrations
                     b.HasIndex("ReceivedById");
 
                     b.HasIndex("TransactionId");
+
+                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Payments");
                 });
@@ -303,6 +309,8 @@ namespace Persistence.Migrations
 
                     b.Property<float>("Terms");
 
+                    b.Property<Guid?>("TransactionTypeId");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -313,7 +321,27 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PropertyTypeId");
 
+                    b.HasIndex("TransactionTypeId");
+
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("Domain.TransactionType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionTypes");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
@@ -479,6 +507,11 @@ namespace Persistence.Migrations
                         .WithMany("Payments")
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.TransactionType", "TransactionType")
+                        .WithMany()
+                        .HasForeignKey("TransactionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
@@ -522,6 +555,10 @@ namespace Persistence.Migrations
                         .WithMany("Transactions")
                         .HasForeignKey("PropertyTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.TransactionType")
+                        .WithMany("Transactions")
+                        .HasForeignKey("TransactionTypeId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>
