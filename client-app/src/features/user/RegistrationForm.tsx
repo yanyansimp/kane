@@ -9,7 +9,6 @@ import TextInput from '../../app/common/form/TextInput';
 import SelectInput from '../../app/common/form/SelectInput';
 import { category } from '../../app/common/options/categoryOptions';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { IRole } from '../../app/models/role';
 import { UserFormValues } from '../../app/models/user';
 
 const validate = combineValidators({
@@ -50,7 +49,6 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
       // Update User
     }
   };
-
   return (
     <Grid>
       <Grid.Column width={9}>
@@ -149,7 +147,6 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   options={roleRegistry}
                   component={SelectInput}
                 />
-
                 <Button
                   loading={submitting}
                   disabled={loading || invalid || pristine}

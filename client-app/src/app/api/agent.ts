@@ -7,6 +7,8 @@ import { IProfile } from '../models/profile';
 import { IPropertyType } from '../models/propertyType';
 import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
+import { ITransactionType, ITransactionTypeFormValues } from '../models/transactionType';
+import { IPayment } from '../models/payment';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -49,6 +51,14 @@ const requests = {
   del: (url: string) => axios.delete(url).then(sleep(1000)).then(responseBody)
 };
 
+const TransactionTypes ={
+  list: (): Promise<ITransactionType[]> => requests.get('/transactionTypes'),
+  create: (transactionType: ITransactionType) => requests.post('/transactionTypes', transactionType),
+};
+
+const Payments = {
+  create: (payment: IPayment) => requests.post('/payments', payment),
+}
 const PropertyTypes = {
   list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
   create: (propertyType: IPropertyType) => requests.post('/propertyTypes', propertyType),
@@ -98,5 +108,7 @@ export default {
   Profiles,
   PropertyTypes,
   Properties,
-  Role
+  Role,
+  TransactionTypes,
+  Payments,
 };
