@@ -3,8 +3,6 @@ import agent from "../api/agent";
 import { IPropertyType } from "../models/propertyType";
 import { IProperty } from "../models/Property";
 import { RootStore } from "./rootStore";
-import { useState } from "react";
-import { stringifyKey } from "mobx/lib/internal";
 
 
 

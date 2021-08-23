@@ -5,18 +5,17 @@ using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using System;
 
-namespace Application.PropertyTypes
+namespace Application.TransactionTypes
 {
     public class List
     {
-        public class Query : IRequest<List<PropertyType>>
+        public class Query: IRequest<List<TransactionType>>
         {
             
         }
 
-        public class Handler : IRequestHandler<Query, List<PropertyType>>
+        public class Handler : IRequestHandler<Query, List<TransactionType>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -24,18 +23,14 @@ namespace Application.PropertyTypes
                 _context = context;
             }
 
-            public async Task<List<PropertyType>> Handle(Query request, 
+            public async Task<List<TransactionType>> Handle(Query request,
                 CancellationToken cancellationToken)
-            {
-                var propertyType = await _context.PropertyTypes
-                    .ToListAsync();
+                {
+                    var TransactionType = await _context.TransactionTypes
+                        .ToListAsync();
 
-
-                return propertyType;
-            }
+                    return TransactionType;
+                }
         }
-
-
-
     }
 }

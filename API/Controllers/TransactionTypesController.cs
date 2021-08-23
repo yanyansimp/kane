@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.PropertyTypes;
+using Application.TransactionTypes;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class PropertyTypesController : BaseController
+    [AllowAnonymous]
+    public class TransactionTypesController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<PropertyType>>> List()
+        public async Task<ActionResult<List<TransactionType>>> List()
         {
             return await Mediator.Send(new List.Query());
         }
@@ -24,11 +25,5 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
-        {
-            command.Id = id;
-            return await Mediator.Send(command);
-        }
     }
 }

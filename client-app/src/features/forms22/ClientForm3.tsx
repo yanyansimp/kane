@@ -66,7 +66,6 @@ const ClientForm3 = () => {
      </Grid.Column>
       
        </Grid.Row>
-
     <Grid.Row columns={4}>
       <Grid.Column>
          Employment Status
@@ -74,11 +73,11 @@ const ClientForm3 = () => {
       <Grid.Column>
           <Grid.Row columns={2}>
               <Grid.Column>
-                  <Form.Checkbox fluid label='Locally Employed'></Form.Checkbox>
+                    <Form.Checkbox fluid label='Locally Employed'></Form.Checkbox>
               </Grid.Column>
               <Grid.Column>
-                   <Form.Radio fluid label='Private'></Form.Radio>
-                  <Form.Radio fluid label='Government'></Form.Radio>            
+                    <Form.Radio fluid label='Private'></Form.Radio>
+                    <Form.Radio fluid label='Government'></Form.Radio>            
               </Grid.Column>
           </Grid.Row>
 
@@ -132,9 +131,11 @@ const ClientForm3 = () => {
       </Grid.Column>
 
     </Grid.Row>
+  
   </Grid>
   
   
+      {/* end */}
       </div>
       </Form>
     </Segment>
