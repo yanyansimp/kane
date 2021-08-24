@@ -20,6 +20,7 @@ namespace Domain
         public string SalesManagerId { get; set; }
         public string SalesAgentId { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
