@@ -14,6 +14,7 @@ namespace Domain
         public string BankName { get; set; }
         public string Branch { get; set; }
         public string InPaymentOf { get; set; }
+        public float Total {get; set;}
         public Guid TransactionTypeId { get; set; }
         public virtual TransactionType TransactionType { get; set; }
         public Guid TransactionId { get; set; }

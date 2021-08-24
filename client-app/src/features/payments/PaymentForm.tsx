@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Input, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import SelectInput from '../../app/common/form/SelectInput';
@@ -12,19 +12,33 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 import { PaymentFormValues } from '../../app/models/payment';
 import { v4 as uuid } from 'uuid';
 const validate = combineValidators({
-  TransactionType: isRequired('Transaction'),
-  ReceivedFrom:isRequired('Receiver'),
-  AccountNo:isRequired('Account No'),
-  Address:isRequired('Address'),
-  MobileNo:isRequired('Mobile No'),
-  CheckNo:isRequired('CheckNo No'),
-  Bank:isRequired('Bank'),
-  Branch:isRequired('Branch'),
-  InPaymentOf:isRequired('Payment'),
-  PaymentAmount:isRequired('Amount'),
+  // TransactionType: isRequired('Transaction'),
+  // ReceivedFrom:isRequired('Receiver'),
+  // DateOfPayment:isRequired('Date Of Payment'),
+  // AccountNo:isRequired('Account No'),
+  // Address:isRequired('Address'),
+  // MobileNo:isRequired('Mobile No'),
+  // CheckNo:isRequired('CheckNo No'),
+  // BankName:isRequired('Bank'),
+  // Branch:isRequired('Branch'),
+  // InPaymentOf:isRequired('Payment'),
+  // Amount:isRequired('Amount'),
 
 });
+const searchBar = {
+  left: '455px',
+  width: '40%',
+  height: '3.5rem',
+};
 
+const container = {
+  backgroundColor: 'transparent',
+  border: 'transparent',
+  display: 'grid',
+  width: '25%',
+  position: 'relative',
+  zIndex: 5
+};
 
 const PaymentForm = () => {
   const rootStore = useContext(RootStoreContext);
@@ -32,12 +46,17 @@ const PaymentForm = () => {
   const { createPayment } = rootStore.paymentStore;
   const [payment, settransactionType] = useState(new PaymentFormValues());
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [disable, setDisable] = React.useState(true);
   const handleFinalFormSubmit = (values: any) => {
     const { ...payment } = values;
     let newPayment = {
       id: uuid(), 
-      ...payment
+      ORNumber: 123,
+      ...payment,
+      TransactionTypeId: uuid(), 
+      TransactionId: uuid(), 
+      ReceivedById: uuid(), 
     }
     createPayment(newPayment);
   };
@@ -47,19 +66,29 @@ const PaymentForm = () => {
   useEffect(() => {
     loadTransactionTypes()
 }, [loadTransactionTypes]);
-
   return (
     <Grid>
       <Grid.Column width={12}>
       <h2>Payment</h2>
+      <Input
+          style={searchBar}
+          type="text"
+          value={searchTerm}
+          onChange={(e) =>{
+              setSearchTerm(e.target.value);
+          }}
+          placeholder="search"
+          icon='search'
+        />
       <Segment clearing>
+      
         <FinalForm
           validate={validate}
           onSubmit={handleFinalFormSubmit}
           render={({ handleSubmit, invalid, pristine}) => (
             <Form onSubmit={handleSubmit} loading={loading}>
                 <Form.Group widths="equal">
-                  <Field 
+                  {/* <Field 
                     name="TransactionType"
                     label="Transaction Type"
                     placeholder="Transaction Type"
@@ -67,18 +96,18 @@ const PaymentForm = () => {
                     options={transactionTypeRegistry}
                     component={SelectInput}
                     // onchange={handleDropDownSelectPropertyType}
-                  />
+                  /> */}
                   <div><TransactionType/></div>
                   <Field
                     date={true}
-                    name="Date"
+                    name="DateOfPayment"
                     label="Date"
                     placeholder={today.toLocaleDateString()}
-                    // value={payment.DateOfPayment}
-                    component={DateInput}
+                    value="DateOfPayment"
+                    component={TextInput}
                 />
                 </Form.Group>
-                <Form.Group widths="equal">
+                {/* <Form.Group widths="equal">
                 <Field
                     name="ReceivedFrom"
                     label="Received From."
@@ -94,14 +123,14 @@ const PaymentForm = () => {
                     // value={payment.ReceivedById}
                     component={TextInput}
                   />
-                </Form.Group>
-                <Form.Group>
+                </Form.Group> */}
+                {/* <Form.Group>
                 <Field
                     width={10}
                     name="Address"
                     label="Address."
                     placeholder="Address"
-                    value="Address"
+                    // value="Address"
                     component={TextInput}
                   />
                   <Field
@@ -109,10 +138,10 @@ const PaymentForm = () => {
                     name="MobileNo"
                     label="Mobile No."
                     placeholder="Mobile No"
-                    value="MobileNo"
+                    // value="MobileNo"
                     component={TextInput}
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group>
                 </Form.Group>
                   <Grid divided='vertically'>
@@ -160,9 +189,9 @@ const PaymentForm = () => {
                             <Field 
                                 disabled={disable}
                                 style={{width:'15em'}}
-                                name="Bank"
-                                placeholder="Bank"
-                                value="Bank"
+                                name="BankName"
+                                placeholder="BankName"
+                                value="BankName"
                                 component="input"
                               />
                           </Grid.Column>
@@ -197,7 +226,7 @@ const PaymentForm = () => {
                             <Field 
                                   style={{right:"12"}}
                                   with={60}
-                                  name="PaymentAmount"
+                                  name="Amount"
                                   placeholder="Payment Amount"
                                   value="Amount"
                                   component={TextAreaInput}
@@ -212,15 +241,15 @@ const PaymentForm = () => {
                               name="AmountInWords"
                               label="Amount in Words."
                               placeholder="Amount in Words"
-                              value="AmountInWords"
+                              // value="AmountInWords"
                               component={TextInput}
                             />
                             <Field
                               width={6}
-                              name="Amount"
+                              name="Total"
                               label="Total."
                               placeholder="Total"
-                              value="Total"
+                              value={payment.Total}
                               component={TextInput}
                             />
                   </Form.Group>
@@ -242,6 +271,11 @@ const PaymentForm = () => {
           )}
         />
       </Segment>
+      </Grid.Column>
+      <Grid.Column with={4} style={container}>
+        <Segment>
+        <h1>Hell World</h1>
+        </Segment>
       </Grid.Column>
     </Grid>
   )

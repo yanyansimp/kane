@@ -8,7 +8,7 @@ import { IPropertyType } from '../models/propertyType';
 import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
 import { ITransactionType, ITransactionTypeFormValues } from '../models/transactionType';
-import { IPayment } from '../models/payment';
+import { IPayment, IPaymentFormValues } from '../models/payment';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 

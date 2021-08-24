@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class paymentTotal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -402,6 +402,7 @@ namespace Persistence.Migrations
                     BankName = table.Column<string>(nullable: true),
                     Branch = table.Column<string>(nullable: true),
                     InPaymentOf = table.Column<string>(nullable: true),
+                    Total = table.Column<float>(nullable: false),
                     TransactionTypeId = table.Column<Guid>(nullable: false),
                     TransactionId = table.Column<Guid>(nullable: false),
                     ReceivedById = table.Column<string>(nullable: true),

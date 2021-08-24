@@ -185,6 +185,8 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ReceivedById");
 
+                    b.Property<float>("Total");
+
                     b.Property<Guid>("TransactionId");
 
                     b.Property<Guid>("TransactionTypeId");
