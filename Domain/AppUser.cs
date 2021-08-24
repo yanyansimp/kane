@@ -17,6 +17,9 @@ namespace Domain
         public virtual ICollection<Payment> Payments { get; set;}
         public virtual ICollection<UserActivity> UserActivities { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
         
     }
 }
