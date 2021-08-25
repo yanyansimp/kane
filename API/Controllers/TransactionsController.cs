@@ -11,7 +11,6 @@ namespace API.Controllers
 {
     public class TransactionsController : BaseController
     {
-        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {

@@ -34,21 +34,21 @@ namespace Persistence
                 {
                     new AppUser
                     {
-                        Id = "a",
+                        Id = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                         DisplayName = "Bob",
                         UserName = "bob",
                         Email = "bob@test.com"
                     },
                     new AppUser
                     {
-                        Id = "b",
+                        Id = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                         DisplayName = "Jane",
                         UserName = "jane",
                         Email = "jane@test.com"
                     },
                     new AppUser
                     {
-                        Id = "c",
+                        Id = "b76373d6-8081-4eff-957d-86c4572ac65d",
                         DisplayName = "Tom",
                         UserName = "tom",
                         Email = "tom@test.com"
@@ -84,7 +84,7 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(-2)
                             }
@@ -102,13 +102,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "b",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(-1)
                             },
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(-1)
                             },
@@ -126,13 +126,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "b",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(1)
                             },
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(1)
                             },
@@ -150,13 +150,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "c",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(2)
                             },
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(2)
                             },
@@ -174,13 +174,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "b",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(3)
                             },
                             new UserActivity
                             {
-                                AppUserId = "c",
+                                AppUserId = "b76373d6-8081-4eff-957d-86c4572ac65d",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(3)
                             },
@@ -198,7 +198,7 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(4)
                             }
@@ -216,13 +216,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "c",
+                                AppUserId = "b76373d6-8081-4eff-957d-86c4572ac65d",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(5)
                             },
                             new UserActivity
                             {
-                                AppUserId = "b",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(5)
                             },
@@ -240,13 +240,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(6)
                             },
                             new UserActivity
                             {
-                                AppUserId = "b",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(6)
                             },
@@ -264,13 +264,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(7)
                             },
                             new UserActivity
                             {
-                                AppUserId = "c",
+                                AppUserId = "b76373d6-8081-4eff-957d-86c4572ac65d",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(7)
                             },
@@ -288,13 +288,13 @@ namespace Persistence
                         {
                             new UserActivity
                             {
-                                AppUserId = "b",
+                                AppUserId = "a079714e-5871-47de-9cc8-ebdb7d573d98",
                                 IsHost = true,
                                 DateJoined = DateTime.Now.AddMonths(8)
                             },
                             new UserActivity
                             {
-                                AppUserId = "a",
+                                AppUserId = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
                                 IsHost = false,
                                 DateJoined = DateTime.Now.AddMonths(8)
                             },
