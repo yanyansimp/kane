@@ -29,6 +29,7 @@ namespace Domain
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
+        // Navigation Properties
         public virtual ICollection<Business> Businesses { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
 

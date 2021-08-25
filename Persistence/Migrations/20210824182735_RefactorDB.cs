@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class RefactorDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,7 +64,10 @@ namespace Persistence.Migrations
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
-                    Bio = table.Column<string>(nullable: true)
+                    Bio = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    DeletedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,26 +242,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Photos",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    IsMain = table.Column<bool>(nullable: false),
-                    AppUserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Photos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Photos_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserActivities",
                 columns: table => new
                 {
@@ -282,6 +265,83 @@ namespace Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Businesses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Location = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    Industry = table.Column<string>(nullable: true),
+                    DateEstablished = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    DeletedAt = table.Column<DateTime>(nullable: true),
+                    ClientId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Businesses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Businesses_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ORNumber = table.Column<string>(nullable: true),
+                    Amount = table.Column<float>(nullable: false),
+                    ModeOfPayment = table.Column<string>(nullable: true),
+                    DateOfPayment = table.Column<DateTime>(nullable: false),
+                    CheckNo = table.Column<string>(nullable: true),
+                    BankName = table.Column<string>(nullable: true),
+                    Branch = table.Column<string>(nullable: true),
+                    InPaymentOf = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    DeletedAt = table.Column<DateTime>(nullable: true),
+                    AppUserId = table.Column<string>(nullable: true),
+                    TransactionId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Photos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
+                    IsMain = table.Column<bool>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true),
+                    PropertyTypeId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,13 +376,12 @@ namespace Persistence.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
-                    ImageId = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     DeletedAt = table.Column<DateTime>(nullable: true),
-                    PropertyTypeId = table.Column<string>(nullable: true),
-                    PropertyTypeId1 = table.Column<Guid>(nullable: true)
+                    ImageId = table.Column<string>(nullable: true),
+                    PropertyTypeId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -334,8 +393,8 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Properties_PropertyTypes_PropertyTypeId1",
-                        column: x => x.PropertyTypeId1,
+                        name: "FK_Properties_PropertyTypes_PropertyTypeId",
+                        column: x => x.PropertyTypeId,
                         principalTable: "PropertyTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -350,37 +409,37 @@ namespace Persistence.Migrations
                     MonthlyAmortization = table.Column<float>(nullable: false),
                     Terms = table.Column<float>(nullable: false),
                     Status = table.Column<string>(nullable: true),
-                    PropertyTypeId = table.Column<Guid>(nullable: false),
-                    PropertyId = table.Column<Guid>(nullable: false),
-                    ClientId = table.Column<Guid>(nullable: false),
-                    SalesManagerId = table.Column<string>(nullable: true),
-                    SalesAgentId = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     DeletedAt = table.Column<DateTime>(nullable: true),
+                    PropertyId = table.Column<Guid>(nullable: true),
+                    SalesManagerId = table.Column<Guid>(nullable: false),
+                    SalesAgentId = table.Column<Guid>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true),
+                    ClientId = table.Column<Guid>(nullable: true),
                     TransactionTypeId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Transactions_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transactions_Properties_PropertyId",
                         column: x => x.PropertyId,
                         principalTable: "Properties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transactions_PropertyTypes_PropertyTypeId",
-                        column: x => x.PropertyTypeId,
-                        principalTable: "PropertyTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transactions_TransactionTypes_TransactionTypeId",
                         column: x => x.TransactionTypeId,
@@ -390,46 +449,26 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
+                name: "Documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ORNumber = table.Column<string>(nullable: true),
-                    Amount = table.Column<float>(nullable: false),
-                    ModeOfPayment = table.Column<string>(nullable: true),
-                    DateOfPayment = table.Column<DateTime>(nullable: false),
-                    CheckNo = table.Column<string>(nullable: true),
-                    BankName = table.Column<string>(nullable: true),
-                    Branch = table.Column<string>(nullable: true),
-                    InPaymentOf = table.Column<string>(nullable: true),
-                    TransactionTypeId = table.Column<Guid>(nullable: false),
-                    TransactionId = table.Column<Guid>(nullable: false),
-                    ReceivedById = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
-                    DeletedAt = table.Column<DateTime>(nullable: true)
+                    DeletedAt = table.Column<DateTime>(nullable: true),
+                    TransactionId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_AspNetUsers_ReceivedById",
-                        column: x => x.ReceivedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Payments_Transactions_TransactionId",
+                        name: "FK_Documents_Transactions_TransactionId",
                         column: x => x.TransactionId,
                         principalTable: "Transactions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Payments_TransactionTypes_TransactionTypeId",
-                        column: x => x.TransactionTypeId,
-                        principalTable: "TransactionTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -485,9 +524,19 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_ReceivedById",
+                name: "IX_Businesses_ClientId",
+                table: "Businesses",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Documents_TransactionId",
+                table: "Documents",
+                column: "TransactionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_AppUserId",
                 table: "Payments",
-                column: "ReceivedById");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_TransactionId",
@@ -495,14 +544,14 @@ namespace Persistence.Migrations
                 column: "TransactionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_TransactionTypeId",
-                table: "Payments",
-                column: "TransactionTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Photos_AppUserId",
                 table: "Photos",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Photos_PropertyTypeId",
+                table: "Photos",
+                column: "PropertyTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_ImageId",
@@ -510,14 +559,19 @@ namespace Persistence.Migrations
                 column: "ImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Properties_PropertyTypeId1",
+                name: "IX_Properties_PropertyTypeId",
                 table: "Properties",
-                column: "PropertyTypeId1");
+                column: "PropertyTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PropertyTypes_ImageId",
                 table: "PropertyTypes",
                 column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_AppUserId",
+                table: "Transactions",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_ClientId",
@@ -530,11 +584,6 @@ namespace Persistence.Migrations
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_PropertyTypeId",
-                table: "Transactions",
-                column: "PropertyTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_TransactionTypeId",
                 table: "Transactions",
                 column: "TransactionTypeId");
@@ -543,10 +592,34 @@ namespace Persistence.Migrations
                 name: "IX_UserActivities_ActivityId",
                 table: "UserActivities",
                 column: "ActivityId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Payments_Transactions_TransactionId",
+                table: "Payments",
+                column: "TransactionId",
+                principalTable: "Transactions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Photos_PropertyTypes_PropertyTypeId",
+                table: "Photos",
+                column: "PropertyTypeId",
+                principalTable: "PropertyTypes",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Photos_AspNetUsers_AppUserId",
+                table: "Photos");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Photos_PropertyTypes_PropertyTypeId",
+                table: "Photos");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -561,6 +634,12 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Businesses");
+
+            migrationBuilder.DropTable(
+                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "Payments");
@@ -590,13 +669,13 @@ namespace Persistence.Migrations
                 name: "TransactionTypes");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "PropertyTypes");
 
             migrationBuilder.DropTable(
                 name: "Photos");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

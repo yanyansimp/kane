@@ -13,8 +13,11 @@ namespace Domain
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+
+        // Navigation Properties
         public virtual ICollection<Property> Properties { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
+        // public virtual ICollection<Transaction> Transactions { get; set; } // Old
 
     }
 }

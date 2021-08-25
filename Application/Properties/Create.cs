@@ -57,7 +57,7 @@ namespace Application.Properties
                         IsMain = true
                     },
                     Status = request.Status,
-                    PropertyTypeId = request.PropertyTypeId
+                    // PropertyTypeId = request.PropertyTypeId
                     
 
                 };
