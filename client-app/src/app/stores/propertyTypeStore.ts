@@ -24,7 +24,7 @@ export default class PropertyTypeStore {
     @action getpPropertyTypes = async( callback: any ) => {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
-            const properties = await agent.Properties.list();
+            const properties = await agent.Properties.list(); // To be removed
             runInAction('loading property types', () => {
                 var propertyName
                 var propertyDescription
@@ -35,42 +35,55 @@ export default class PropertyTypeStore {
                 var ReservedCount
                 var propertyTypeCounts = new Array(0);
                 var i = 0;
+
+                console.log(propertyTypes);
                 
                 propertyTypes.forEach((propertyType) => {
-                    var count:number = 0;
-                    var Available:number = 0;
-                    var Occupied:number = 0;
-                    var Reserved:number = 0;
-                    i ++
-                    properties.forEach((property) => {
-                        if(propertyType.id === property.propertyTypeId){
-                            count ++
-                        }
-                        if(property.status === 'Available' && propertyType.id === property.propertyTypeId){
-                            Available ++
-                        } else if( property.status === 'Occupied' && propertyType.id === property.propertyTypeId){
-                            Occupied ++
-                        } else if( property.status === 'Reserved' && propertyType.id === property.propertyTypeId){
-                            Reserved ++
-                        }
-                    })
-                    propertyName = propertyType.name
-                    propertyDescription = propertyType.description
-                    propertyLocation = propertyType.location
-                    arrayCount = count.toString()
-                    AvailableCount = Available.toString()
-                    OccupiedCount = Occupied.toString()
-                    ReservedCount = Reserved.toString()
-                    propertyTypeCounts[i] = new Array(propertyName,     // 0
-                                                propertyDescription,    // 1
-                                                arrayCount,             // 2
-                                                AvailableCount,         // 3
-                                                ReservedCount,          // 4
-                                                OccupiedCount,          // 5
-                                                propertyType.id,        // 6
-                                                propertyLocation        // 7
-                                                );
-                
+                  var count: number = 0;
+                  var Available: number = 0;
+                  var Occupied: number = 0;
+                  var Reserved: number = 0;
+                  i++;
+                  // properties.forEach((property) => {
+                  //     if(propertyType.id === property.propertyTypeId){
+                  //         count ++
+                  //     }
+                  //     if(property.status === 'Available' && propertyType.id === property.propertyTypeId){
+                  //         Available ++
+                  //     } else if( property.status === 'Occupied' && propertyType.id === property.propertyTypeId){
+                  //         Occupied ++
+                  //     } else if( property.status === 'Reserved' && propertyType.id === property.propertyTypeId){
+                  //         Reserved ++
+                  //     }
+                  // })
+                  propertyType.properties?.forEach((property) => {
+                        count++;
+                      if(property.status === 'Available'){
+                          Available ++
+                      } else if( property.status === 'Occupied'){
+                          Occupied ++
+                      } else if( property.status === 'Reserved'){
+                          Reserved ++
+                      }
+                  })
+
+                  propertyName = propertyType.name;
+                  propertyDescription = propertyType.description;
+                  propertyLocation = propertyType.location;
+                  arrayCount = count.toString();
+                  AvailableCount = Available.toString();
+                  OccupiedCount = Occupied.toString();
+                  ReservedCount = Reserved.toString();
+                  propertyTypeCounts[i] = new Array(
+                    propertyName, // 0
+                    propertyDescription, // 1
+                    arrayCount, // 2
+                    AvailableCount, // 3
+                    ReservedCount, // 4
+                    OccupiedCount, // 5
+                    propertyType.id, // 6
+                    propertyLocation // 7
+                  );
                 })
                 callback(propertyTypeCounts)
             })
