@@ -9,7 +9,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210824182735_RefactorDB")]
+    [Migration("20210825054543_RefactorDB")]
     partial class RefactorDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
