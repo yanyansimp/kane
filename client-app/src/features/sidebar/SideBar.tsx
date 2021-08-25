@@ -17,7 +17,7 @@ export const SideBar = () => {
           Calendar
         </span>
       </Menu.Item>
-      <Menu.Item as={NavLink} to="/forms">
+      <Menu.Item as={NavLink} to="/reservation">
         <span>
           <Icon name="sticky note outline" size="large" />
           Reservation

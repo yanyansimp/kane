@@ -28,6 +28,7 @@ import UserDashboard from '../../features/user/dashboard/UserDashboard';
 import RegistrationForm from '../../features/user/RegistrationForm';
 import AddRoleForm from '../../features/role/AddRoleForm';
 import ReservationForm from '../../features/reservations/forms/ReservationForm';
+import Reservation from '../../features/reservations/Reservation';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -60,11 +61,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/property" component={PropertyForm} />
-                <Route exact path="/forms" component={ClientForm} />
+                <Route exact path="/reservation" component={Reservation} />
+                {/* <Route exact path="/forms" component={ClientForm} />
                 <Route exact path="/forms2" component={ClientForm2} />
                 <Route exact path="/forms3" component={ClientForm3} />
                 <Route exact path="/forms4" component={ClientForm4} />
-                <Route exact path="/forms5" component={ClientForm5} />
+                <Route exact path="/forms5" component={ClientForm5} /> */}
                 <Route exact path="/user" component={UserDashboard} />
                 <Route exact path="/payments" component={PaymentForm} />
                 <Route exact path="/activities" component={ActivityDashboard} />
