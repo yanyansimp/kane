@@ -79,10 +79,7 @@ export default class PropertyStore {
             }
     }
 
-
-    @action DeleteProperty = async (
-        id: string
-    ) => {
+    @action DeleteProperty = async (id: string) => {
         this.submitting = true;
         try {
             await agent.Properties.delete(id);
@@ -99,7 +96,8 @@ export default class PropertyStore {
             });
             console.log(error);
           }
-    };
+    }
+
     @action returnAvailable = async (callback: any) => {
         try {
             
@@ -119,6 +117,7 @@ export default class PropertyStore {
             console.log(error)
         }
     }
+
     @action returnReserved = async (callback: any) => {
         try {
             const properties = await agent.Properties.list();
@@ -137,6 +136,7 @@ export default class PropertyStore {
             console.log(error)
         }
     }
+
     @action returnOccupied = async (callback: any) => {
         try {
             const properties = await agent.Properties.list();
@@ -155,9 +155,6 @@ export default class PropertyStore {
             console.log(error)
         }
     }
-
-
-
 
 }
 

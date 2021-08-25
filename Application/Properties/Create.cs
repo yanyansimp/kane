@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -18,7 +20,7 @@ namespace Application.Properties
             public string Description { get; set; }
             public string Location { get; set; }
             public string Status { get; set; }
-            public string PropertyTypeId { get; set; }
+            public Guid PropertyTypeId { get; set; }
             
         }
        
@@ -51,18 +53,21 @@ namespace Application.Properties
                     Name = request.Name,
                     Description = request.Description,
                     Location = request.Location,
-                    Image = new Photo{
+                    Image = new Photo {
                         Id = request.Id.ToString(),
                         Url = "https://www.camella.com.ph/wp-content/uploads/2020/06/Website_Camella-Homes-Series_Cara-592x444.jpg",
                         IsMain = true
                     },
                     Status = request.Status,
-                    PropertyTypeId = request.PropertyTypeId
-                    
-
                 };
-                _context.Properties.Add(property);
-                
+
+                var propertyType = await _context.PropertyTypes.FindAsync(request.PropertyTypeId);
+
+                if (propertyType == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {PrpertyType = "Not Found"});
+
+                propertyType.Properties.Add(property);
+
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success) return Unit.Value;

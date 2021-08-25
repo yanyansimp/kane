@@ -16,8 +16,8 @@ namespace Application.Transactions
         public class Command : IRequest
         {
             public Guid Id { get; set; }
-            public string SalesManagerId { get; set; }
-            public string SalesAgentId { get; set; }
+            public Guid SalesManagerId { get; set; }
+            public Guid SalesAgentId { get; set; }
             public Guid PropertyId { get; set; }
             public Guid PropertyTypeId { get; set; }
             public Guid ClientId { get; set; }
@@ -29,6 +29,8 @@ namespace Application.Transactions
             public CommandValidator()
             {
                 // To be added
+                //
+                //
             }
         }
 
@@ -56,9 +58,7 @@ namespace Application.Transactions
                     MonthlyAmortization = request.Transaction.MonthlyAmortization,
                     Terms = request.Transaction.Terms,
                     Status = "Ongoing",
-                    PropertyType = propertyType,
                     Property = property,
-                    Client = client,
                     SalesManagerId = request.SalesManagerId,
                     SalesAgentId = request.SalesAgentId,
                     CreatedAt = DateTime.Now

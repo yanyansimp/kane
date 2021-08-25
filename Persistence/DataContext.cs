@@ -55,34 +55,34 @@ namespace Persistence
             //         t.ClientId }
             // ));
 
-            builder.Entity<PropertyType>()
-                .HasMany(p => p.Properties)
-                .WithOne();
+            // builder.Entity<PropertyType>()
+            //     .HasMany(p => p.Properties)
+            //     .WithOne();
 
-            builder.Entity<Transaction>()
-                .HasOne(pt => pt.PropertyType)
-                .WithMany(t => t.Transactions)
-                .HasForeignKey(pt => pt.PropertyTypeId);
+            // builder.Entity<Transaction>()
+            //     .HasOne(pt => pt.PropertyType)
+            //     .WithMany(t => t.Transactions)
+            //     .HasForeignKey(pt => pt.PropertyTypeId);
 
-            builder.Entity<Transaction>()
-                .HasOne(p => p.Property)
-                .WithMany(t => t.Transactions)
-                .HasForeignKey(p => p.PropertyId);
+            // builder.Entity<Transaction>()
+            //     .HasOne(p => p.Property)
+            //     .WithMany(t => t.Transactions)
+            //     .HasForeignKey(p => p.PropertyId);
             
-            builder.Entity<Transaction>()
-                .HasOne(c => c.Client)
-                .WithMany(t => t.Transactions)
-                .HasForeignKey(c => c.ClientId);
+            // builder.Entity<Transaction>()
+            //     .HasOne(c => c.Client)
+            //     .WithMany(t => t.Transactions)
+            //     .HasForeignKey(c => c.ClientId);
             
-            builder.Entity<Payment>()
-                .HasOne(t => t.Transaction)
-                .WithMany(p => p.Payments)
-                .HasForeignKey(t => t.TransactionId);
+            // builder.Entity<Payment>()
+            //     .HasOne(t => t.Transaction)
+            //     .WithMany(p => p.Payments)
+            //     .HasForeignKey(t => t.TransactionId);
             
-            builder.Entity<Payment>()
-                .HasOne(au => au.AppUser)
-                .WithMany(p => p.Payments)
-                .HasForeignKey(au => au.ReceivedById);
+            // builder.Entity<Payment>()
+            //     .HasOne(au => au.AppUser)
+            //     .WithMany(p => p.Payments)
+            //     .HasForeignKey(au => au.ReceivedById);
 
             
         }
