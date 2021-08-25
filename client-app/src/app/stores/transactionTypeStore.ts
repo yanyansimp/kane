@@ -40,8 +40,8 @@ export default class TransactionTypeStore {
                 transactionTypes.forEach((transactionType) => {
                     this.transactionTypeRegistry.push({
                         key: transactionType.id,
-                        text: transactionType.name,
-                        value: transactionType.name
+                        text: transactionType.id,
+                        value: transactionType.id
                     });
                 });
             });

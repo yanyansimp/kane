@@ -1,11 +1,15 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Interfaces;
 using Domain;
+using Application.Errors;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Application.Payments
 {
@@ -23,8 +27,8 @@ namespace Application.Payments
             public string InPaymentOf { get; set; }
             public float Amount { get; set; }
             public float Total {get; set;}
-            public Guid TransactionTypeId { get; set; }
-            public Guid TransactionId { get; set; }
+            public Guid TransactionTypeId { get; set; } 
+            public Guid TransactionId { get; set; }     
             public string ReceivedById { get; set; }
         }
 
@@ -49,14 +53,33 @@ namespace Application.Payments
 
          public class Handler : IRequestHandler<Command>
          {
-            private readonly DataContext _context;
-                public Handler(DataContext context)
+                private readonly DataContext _context;
+                private readonly IUserAccessor _userAccessor;
+
+                public Handler(DataContext context, IUserAccessor userAccessor)
                 {
+                    _userAccessor = userAccessor;
                     _context = context;
                 }
+
                 public async Task<Unit> Handle(Command request,
-            CancellationToken cancellationToken)
+                CancellationToken cancellationToken)
             {
+
+                var transactionType = await _context.TransactionTypes.FindAsync(request.TransactionTypeId);
+                if (transactionType == null )  
+                    throw new RestException(HttpStatusCode.NotFound, new {transactionType = "Not Found Transaction Type"});
+                
+                var transaction = await _context.Transactions.FindAsync(request.TransactionId);
+                if (transaction == null)
+                    throw new RestException(HttpStatusCode.NotFound, new{ transaction = "Not Found Transaction"});
+                
+                var received = await _context.Users.SingleOrDefaultAsync(x => 
+                        x.Id == _userAccessor.GetCurrentUsername());
+                if (received == null)
+                    throw new RestException(HttpStatusCode.NotFound, new{ received = "Not Found User"});
+                
+                
                 var payment = new Payment
                 {
                     Id = request.Id,
@@ -70,10 +93,14 @@ namespace Application.Payments
                     Amount = request.Amount,
                     Total = request.Total,
                     TransactionTypeId = request.TransactionTypeId,
+                    TransactionType = transactionType,
                     TransactionId = request.TransactionId,
+                    // Transaction = transaction,
                     ReceivedById = request.ReceivedById,
+                    // AppUser = received,
                     CreatedAt = DateTime.Now
                 };
+
                 _context.Payments.Add(payment);
                 
                 var success = await _context.SaveChangesAsync() > 0;

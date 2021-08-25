@@ -116,13 +116,14 @@ export default class UserStore {
     try {
       const user = await agent.User.current();
       runInAction(() => {
-        this.user = user;
+        this.user = user
         console.log(this.user);
       });
     } catch (error) {
       console.log(error);
     }
   };
+
 
   @action logout = () => {
     this.rootStore.commonStore.setToken(null);

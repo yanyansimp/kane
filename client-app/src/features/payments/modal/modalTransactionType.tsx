@@ -23,7 +23,9 @@ function ModalTransactionTypeModal() {
         id: uuid(),
         ...transactionType 
       }
+      
       createTransactionType(newTransaction);
+      console.log(newTransaction)
       setOpen(false)
     };
 

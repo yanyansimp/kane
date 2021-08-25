@@ -42,7 +42,8 @@ const container = {
 
 const PaymentForm = () => {
   const rootStore = useContext(RootStoreContext);
-  const { submitting, loadTransactionTypes, transactionTypeRegistry} = rootStore.transactionTypeStore;
+  const { submitting, loadTransactionTypes,  transactionTypeRegistry} = rootStore.transactionTypeStore;
+  const { roleRegistry, user } = rootStore.userStore
   const { createPayment } = rootStore.paymentStore;
   const [payment, settransactionType] = useState(new PaymentFormValues());
   const [loading, setLoading] = useState(false);
@@ -54,9 +55,6 @@ const PaymentForm = () => {
       id: uuid(), 
       ORNumber: 123,
       ...payment,
-      TransactionTypeId: uuid(), 
-      TransactionId: uuid(), 
-      ReceivedById: uuid(), 
     }
     createPayment(newPayment);
   };
@@ -65,6 +63,7 @@ const PaymentForm = () => {
   const today = new Date(timeElapsed);
   useEffect(() => {
     loadTransactionTypes()
+ 
 }, [loadTransactionTypes]);
   return (
     <Grid>
@@ -88,15 +87,15 @@ const PaymentForm = () => {
           render={({ handleSubmit, invalid, pristine}) => (
             <Form onSubmit={handleSubmit} loading={loading}>
                 <Form.Group widths="equal">
-                  {/* <Field 
-                    name="TransactionType"
+                  <Field 
+                    name="TransactionTypeId"
                     label="Transaction Type"
                     placeholder="Transaction Type"
-                    value="TransactionType"
+                    value={transactionTypeRegistry}
                     options={transactionTypeRegistry}
                     component={SelectInput}
                     // onchange={handleDropDownSelectPropertyType}
-                  /> */}
+                  />
                   <div><TransactionType/></div>
                   <Field
                     date={true}
@@ -107,24 +106,26 @@ const PaymentForm = () => {
                     component={TextInput}
                 />
                 </Form.Group>
-                {/* <Form.Group widths="equal">
+                <Form.Group widths="equal">
                 <Field
-                    name="ReceivedFrom"
+                    name="TransactionId"
                     label="Received From."
                     placeholder="Received From"
-                    // value={payment.ReceivedById}
-                    component={TextInput}
+                    value={transactionTypeRegistry}
+                    options={transactionTypeRegistry}
+                    component={SelectInput}
                   />
                   <div><NewClient/></div>
                   <Field
-                    name="AccountNo"
+                    name="ReceivedById"
                     label="Account No."
                     placeholder="Account No"
-                    // value={payment.ReceivedById}
+                    value={user?.id}
+                    options={user}
                     component={TextInput}
                   />
-                </Form.Group> */}
-                {/* <Form.Group>
+                </Form.Group>
+                <Form.Group>
                 <Field
                     width={10}
                     name="Address"
@@ -141,7 +142,7 @@ const PaymentForm = () => {
                     // value="MobileNo"
                     component={TextInput}
                   />
-                </Form.Group> */}
+                </Form.Group>
                 <Form.Group>
                 </Form.Group>
                   <Grid divided='vertically'>

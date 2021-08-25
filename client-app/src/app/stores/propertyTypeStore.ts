@@ -17,6 +17,12 @@ export default class PropertyTypeStore {
     @observable property: IProperty | null = null;
     @observable loading = false;
     @observable propertyTypeRegistry: any = [];
+    
+  
+
+
+
+
     @computed get propertyTypesByName() {
         return Array.from(this.propertyTypeRegistry.values()).sort();
     }
@@ -115,7 +121,7 @@ export default class PropertyTypeStore {
                 propertyTypes.forEach((propertyType) => {
                     this.propertyTypeRegistry.push({
                         'key': propertyType.id,
-                        'text': propertyType.description,
+                        'text': propertyType.id,
                         'value': propertyType.id
                     });
                 });
