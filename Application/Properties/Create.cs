@@ -61,11 +61,14 @@ namespace Application.Properties
                     Status = request.Status,
                 };
 
+                // Find PropertyType that the Property belongs 
                 var propertyType = await _context.PropertyTypes.FindAsync(request.PropertyTypeId);
-
+                
+                // Check if the PropertyType is null/empty 
                 if (propertyType == null)
                     throw new RestException(HttpStatusCode.NotFound, new {PrpertyType = "Not Found"});
 
+                // If PropertyType is not null/empty, add the Property to the PropertyType
                 propertyType.Properties.Add(property);
 
                 var success = await _context.SaveChangesAsync() > 0;
