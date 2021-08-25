@@ -31,6 +31,9 @@ export default class PropertyTypeStore {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
             const properties = await agent.Properties.list();
+            console.log(propertyTypes);
+            console.log(properties);
+            
             runInAction('loading property types', () => {
                 var propertyName
                 var propertyDescription

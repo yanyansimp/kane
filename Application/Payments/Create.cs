@@ -91,12 +91,7 @@ namespace Application.Payments
                     Branch = request.Branch,
                     InPaymentOf = request.InPaymentOf,
                     Amount = request.Amount,
-                    Total = request.Total,
-                    TransactionTypeId = request.TransactionTypeId,
-                    TransactionType = transactionType,
-                    TransactionId = request.TransactionId,
                     // Transaction = transaction,
-                    ReceivedById = request.ReceivedById,
                     // AppUser = received,
                     CreatedAt = DateTime.Now
                 };
