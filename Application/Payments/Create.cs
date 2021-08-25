@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -13,14 +15,17 @@ namespace Application.Payments
     {
         public class Command : IRequest
         {
+            public Guid TransactionId { get; set; }
             public Guid Id { get; set; }
-            // public string ORNumber { get; set; }
+            public string ORNumber { get; set; }
             public float Amount { get; set; }
             public string ModeOfPayment { get; set; }
-            // public DateTime DateOfPayment { get; set; }
+            public DateTime DateOfPayment { get; set; }
             public string CheckNo { get; set; }
             public string BankName { get; set; }
             public string Branch { get; set; }
+            public string InPaymentOf { get; set; }
+
             // public string TransactionId { get; set; }
             // public string ReceivedById { get; set; }
            
@@ -31,8 +36,8 @@ namespace Application.Payments
             public CommandValidator()
             {
                 // RuleFor(x => x.ORNumber).NotEmpty();
-                RuleFor(x => x.Amount).NotEmpty();
-                RuleFor(x => x.ModeOfPayment).NotEmpty();
+                // RuleFor(x => x.Amount).NotEmpty();
+                // RuleFor(x => x.ModeOfPayment).NotEmpty();
                 // RuleFor(x => x.DateOfPayment).NotEmpty();
                 // RuleFor(x => x.CheckNo).NotEmpty();
                 // RuleFor(x => x.BankName).NotEmpty();
@@ -52,19 +57,27 @@ namespace Application.Payments
             public async Task<Unit> Handle(Command request,
                 CancellationToken cancellationToken)
             {
+                var transaction = await _context.Transactions.FindAsync(request.TransactionId);
+
+                if (transaction == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {Transaction = "Not Found"});
+
                 var payment = new Payment
                 {
                     Id = request.Id,
-                    // ORNumber = request.ORNumber,
+                    ORNumber = request.ORNumber,
+                    Amount = request.Amount,
                     ModeOfPayment = request.ModeOfPayment,
-                    // DateOfPayment = request.DateOfPayment,
+                    DateOfPayment = request.DateOfPayment,
                     CheckNo = request.CheckNo,
                     BankName = request.BankName,
                     Branch = request.Branch,
                     CreatedAt = DateTime.Now
                 };
 
-                _context.Payments.Add(payment);
+                transaction.Payments.Add(payment);
+
+                // _context.Payments.Add(payment);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
