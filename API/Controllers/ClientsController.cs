@@ -11,12 +11,16 @@ namespace API.Controllers
 {
     public class ClientsController : BaseController
     {
-        [AllowAnonymous]
+        [HttpGet]
+        public async Task<List<Client>> List(string keyWord)
+        {
+            return await Mediator.Send(new List.Query(keyWord));
+        }
+
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await Mediator.Send(command);
         }
-
     }
 }

@@ -37,6 +37,7 @@ namespace Application.Clients
         {
             public CommandValidator()
             {
+                // Validation
                 // To be added
             }
         }
