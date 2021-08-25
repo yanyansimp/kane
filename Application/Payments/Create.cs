@@ -36,7 +36,7 @@ namespace Application.Payments
             public CommandValidator()
             {
                 // RuleFor(x => x.ORNumber).NotEmpty();
-                // RuleFor(x => x.Amount).NotEmpty();
+                RuleFor(x => x.Amount).NotEmpty();
                 // RuleFor(x => x.ModeOfPayment).NotEmpty();
                 // RuleFor(x => x.DateOfPayment).NotEmpty();
                 // RuleFor(x => x.CheckNo).NotEmpty();
