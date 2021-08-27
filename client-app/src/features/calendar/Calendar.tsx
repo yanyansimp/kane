@@ -7,13 +7,26 @@ const Calendar = () => {
     return (
       <Grid>
         <Grid.Column width={16}>
-          <FullCalendar 
-            plugins={[dayGridPlugin]} 
-            initialView="dayGridMonth" 
-            events={[
-              { title: 'Juan Dela Cruz', date: '2021-04-01' },
-              { title: 'Kim Jung eun', date: '2021-04-02' }
-            ]}/>
+          <Segment>
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              events={[
+                {
+                  title: '#121 Juan Dela Cruz-Payment Due',
+                  date: '2021-08-08',
+                },
+                {
+                  title: '#167 Kim Jung Eun-Payment Due',
+                  date: '2021-08-08',
+                },
+                {
+                  title: '#101 Rodrigo Duterte-Payment Due',
+                  date: '2021-08-06',
+                },
+              ]}
+            />
+          </Segment>
         </Grid.Column>
       </Grid>
     );

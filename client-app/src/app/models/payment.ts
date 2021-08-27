@@ -1,18 +1,14 @@
 export interface IPayment {
     id: string;
-    ORNumber: string;
-    Amount: string;
-    ModeOfPayment: string;
-    DateOfPayment?: Date;
-    CheckNo: string;
-    BankName: string;
-    Branch: string;
-    InPaymentOf: string;
-    Total: string;
-    TransactionTypeId: string;
-    TransactionId: string;
-    ReceivedById: string;
-    
+    orNumber: string;
+    amount: string;
+    modeOfPayment: string;
+    dateOfPayment?: Date;
+    checkNo: string;
+    bankName: string;
+    branch: string;
+    inPaymentOf: string;
+    createdAt: Date;    
 }
 
 export interface IPaymentFormValues extends Partial<IPayment> {}
