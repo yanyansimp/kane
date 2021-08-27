@@ -64,7 +64,7 @@ const Viewpropertyform:React.FC = () => {
             return(
               <Table.Row key={property.id} height={2}>
                 <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell>
-                <Table.Cell>{property.propertyTypeId}</Table.Cell>
+                <Table.Cell>{property.name}</Table.Cell>
                 <Table.Cell>{property.description.substring(0, 10)+ '...'}</Table.Cell>
                 <Table.Cell>{property.location}</Table.Cell>
                 <Table.Cell>{property.status}</Table.Cell>

@@ -31,6 +31,9 @@ export class PaymentFormValues implements IPaymentFormValues {
     TransactionTypeId?: string = undefined;
     TransactionId?:string = undefined;
     ReceivedById?: string = undefined;
+  
+  
+    
     
     constructor(init?: IPaymentFormValues) {
         Object.assign(this, init);

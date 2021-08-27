@@ -22,7 +22,7 @@ export default class PaymentStore {
 
     @action createPayment = async (payment: IPayment) => {
         this.submitting = true;
-        console.log(payment)
+        // console.log(payment)
         try {
             await agent.Payments.create(payment);
         }catch(error){

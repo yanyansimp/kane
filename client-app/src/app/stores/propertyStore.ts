@@ -19,11 +19,21 @@ export default class PropertyStore {
     @observable loading = false;
     @observable target = '';
     @observable submitting = false;
-
+    @observable propertyTypeAvailableId: any = [];
+    
     @computed get propertiesByName() {
         return Array.from(this.propertyRegistry.values()).sort();
     }
+    @action propertyTypeAvailable(data:any){
+        runInAction('loading Property Type Id',() =>{
+            this.propertyRegistry.push({
+                key:data,
+                text: data,
+                value: data
+            });
 
+        })
+    }
     @action getProperties = async (callback: any) => {
         try {
             const properties = await agent.Properties.list();
@@ -98,63 +108,17 @@ export default class PropertyStore {
           }
     }
 
-    @action returnAvailable = async (callback: any) => {
+    @action returnStatus = async (callback: any) => {
         try {
-            
-            const properties = await agent.Properties.list();
-            runInAction('loading property types',() => {
-                var propertyAvailable = new Array(0);
-                var i = 0;
-                properties.forEach((property) => {
-                    i++
-                    if(property.status === 'Available'){
-                        propertyAvailable[i] = property
-                    }
-                })
-                callback(propertyAvailable)
+            const propertyTypes = await agent.PropertyTypes.list();
+            runInAction('loading Property TYpe', () => {
+                callback(propertyTypes)
             })
         } catch (error) {
             console.log(error)
         }
     }
-
-    @action returnReserved = async (callback: any) => {
-        try {
-            const properties = await agent.Properties.list();
-            runInAction('loading property types',() => {
-                var propertyAvailable = new Array(0);
-                var i = 0;
-                properties.forEach((property) => {
-                    i++
-                    if(property.status === 'Reserved'){
-                        propertyAvailable[i] = property
-                    }
-                })
-                callback(propertyAvailable)
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    @action returnOccupied = async (callback: any) => {
-        try {
-            const properties = await agent.Properties.list();
-            runInAction('loading property types',() => {
-                var propertyAvailable = new Array(0);
-                var i = 0;
-                properties.forEach((property) => {
-                    i++
-                    if(property.status === 'Occupied'){
-                        propertyAvailable[i] = property
-                    }
-                })
-                callback(propertyAvailable)
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    
 
 }
 

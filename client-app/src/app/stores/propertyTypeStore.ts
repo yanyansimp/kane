@@ -30,7 +30,7 @@ export default class PropertyTypeStore {
     @action getpPropertyTypes = async( callback: any ) => {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
-            const properties = await agent.Properties.list(); // To be removed
+            // const properties = await agent.Properties.list(); // To be removed
             runInAction('loading property types', () => {
                 var propertyName
                 var propertyDescription
@@ -41,8 +41,6 @@ export default class PropertyTypeStore {
                 var ReservedCount
                 var propertyTypeCounts = new Array(0);
                 var i = 0;
-
-                console.log(propertyTypes);
                 
                 propertyTypes.forEach((propertyType) => {
                   var count: number = 0;
@@ -80,6 +78,7 @@ export default class PropertyTypeStore {
                   AvailableCount = Available.toString();
                   OccupiedCount = Occupied.toString();
                   ReservedCount = Reserved.toString();
+                 
                   propertyTypeCounts[i] = new Array(
                     propertyName, // 0
                     propertyDescription, // 1
@@ -134,7 +133,7 @@ export default class PropertyTypeStore {
                 propertyTypes.forEach((propertyType) => {
                     this.propertyTypeRegistry.push({
                         'key': propertyType.id,
-                        'text': propertyType.id,
+                        'text': propertyType.name,
                         'value': propertyType.id
                     });
                 });

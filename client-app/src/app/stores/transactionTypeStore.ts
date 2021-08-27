@@ -3,6 +3,7 @@ import agent from "../api/agent";
 import { ITransactionType, ITransactionTypeFormValues } from "../models/transactionType";
 import { RootStore } from "./rootStore";
 import { history } from '../..';
+import { toast } from "react-toastify";
 
 
 
@@ -25,8 +26,9 @@ export default class TransactionTypeStore {
     @action createTransactionType = async (transactionType: ITransactionType) => {
        this.submitting = true;
        try {
-           const payments = await agent.TransactionTypes.create(transactionType);
+           await agent.TransactionTypes.create(transactionType);
            history.push('/payments');
+           toast.success('User Successfully Added');
        } catch(error) {
            console.log(error)
        }
@@ -40,7 +42,7 @@ export default class TransactionTypeStore {
                 transactionTypes.forEach((transactionType) => {
                     this.transactionTypeRegistry.push({
                         key: transactionType.id,
-                        text: transactionType.id,
+                        text: transactionType.name,
                         value: transactionType.id
                     });
                 });

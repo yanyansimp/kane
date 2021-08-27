@@ -35,7 +35,7 @@ function ModalTransactionTypeModal() {
         onClose={() => setOpen(false)}
          onOpen={() => setOpen(true)}
         open={open}
-        trigger={<Button className="Change"   color='yellow'  >Add Transaction</Button>}
+        trigger={<Button  color='yellow'  >Add Transaction</Button>}
     >
       <Modal.Header>Transaction Type</Modal.Header>
       <Modal.Content image>
@@ -58,7 +58,6 @@ function ModalTransactionTypeModal() {
                             />
                         </Form.Group>
                             <Button
-                            loading={submitting}
                             disabled={loading || invalid || pristine}
                             floated="right"
                             content="Submit"

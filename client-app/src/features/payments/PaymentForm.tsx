@@ -11,6 +11,7 @@ import TextAreaInput from '../../app/common/form/TextAreaInput';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { PaymentFormValues } from '../../app/models/payment';
 import { v4 as uuid } from 'uuid';
+import { makeStyles } from '@material-ui/core';
 const validate = combineValidators({
   // TransactionType: isRequired('Transaction'),
   // ReceivedFrom:isRequired('Receiver'),
@@ -23,10 +24,9 @@ const validate = combineValidators({
   // Branch:isRequired('Branch'),
   // InPaymentOf:isRequired('Payment'),
   // Amount:isRequired('Amount'),
-
 });
 const searchBar = {
-  left: '455px',
+  left: '370px',
   width: '40%',
   height: '3.5rem',
 };
@@ -39,8 +39,16 @@ const container = {
   position: 'relative',
   zIndex: 5
 };
+const useStyles = makeStyles({
+  newTransaction: {
+    position: 'relative',
+    left: '2px',
+    top: '15px',
+},
+})
 
 const PaymentForm = () => {
+  const classes = useStyles()
   const rootStore = useContext(RootStoreContext);
   const { submitting, loadTransactionTypes,  transactionTypeRegistry} = rootStore.transactionTypeStore;
   const { roleRegistry, user } = rootStore.userStore
@@ -53,7 +61,6 @@ const PaymentForm = () => {
     const { ...payment } = values;
     let newPayment = {
       id: uuid(), 
-      ORNumber: 123,
       ...payment,
     }
     createPayment(newPayment);
@@ -69,16 +76,7 @@ const PaymentForm = () => {
     <Grid>
       <Grid.Column width={12}>
       <h2>Payment</h2>
-      <Input
-          style={searchBar}
-          type="text"
-          value={searchTerm}
-          onChange={(e) =>{
-              setSearchTerm(e.target.value);
-          }}
-          placeholder="search"
-          icon='search'
-        />
+     
       <Segment clearing>
       
         <FinalForm
@@ -86,9 +84,32 @@ const PaymentForm = () => {
           onSubmit={handleFinalFormSubmit}
           render={({ handleSubmit, invalid, pristine}) => (
             <Form onSubmit={handleSubmit} loading={loading}>
-                <Form.Group widths="equal">
+                          <Form.Group>
+                            <Field
+                              width={2}
+                              name="ORNumber"
+                              label="OR Number."
+                              placeholder="OR Number"
+                              value={payment.ORNumber}
+                              component={TextInput}
+                            />
+                          <Input
+                            width={10}
+                            style={searchBar}
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) =>{
+                                setSearchTerm(e.target.value);
+                            }}
+                            placeholder="search"
+                            icon='search'
+                          />
+                          </Form.Group>
+                          
+                <Form.Group>
                   <Field 
-                    name="TransactionTypeId"
+                    width={8}
+                    name="TransactionType"
                     label="Transaction Type"
                     placeholder="Transaction Type"
                     value={transactionTypeRegistry}
@@ -96,32 +117,33 @@ const PaymentForm = () => {
                     component={SelectInput}
                     // onchange={handleDropDownSelectPropertyType}
                   />
-                  <div><TransactionType/></div>
+                  <div className={classes.newTransaction}><TransactionType/></div>
                   <Field
+                    width={6}
                     date={true}
                     name="DateOfPayment"
                     label="Date"
                     placeholder={today.toLocaleDateString()}
-                    value="DateOfPayment"
-                    component={TextInput}
+                    value={payment.DateOfPayment}
+                    component={DateInput}
                 />
                 </Form.Group>
-                <Form.Group widths="equal">
+                <Form.Group>
                 <Field
-                    name="TransactionId"
+                    width={8}
+                    name="ReceivedFrom"
                     label="Received From."
-                    placeholder="Received From"
-                    value={transactionTypeRegistry}
-                    options={transactionTypeRegistry}
-                    component={SelectInput}
+                    placeholder={user?.lastName}{...user?.firstName}
+                    // value={user?.lastName}{...user?.firstName}
+                    component={TextInput}
                   />
-                  <div><NewClient/></div>
+                  <div className={classes.newTransaction}><NewClient/></div>
                   <Field
-                    name="ReceivedById"
+                    width={6}
+                    name="AccountNo"
                     label="Account No."
                     placeholder="Account No"
-                    value={user?.id}
-                    options={user}
+                    // value={payment.AccountNo}
                     component={TextInput}
                   />
                 </Form.Group>
@@ -131,7 +153,7 @@ const PaymentForm = () => {
                     name="Address"
                     label="Address."
                     placeholder="Address"
-                    // value="Address"
+                    // value={payment.Address}
                     component={TextInput}
                   />
                   <Field
@@ -168,7 +190,7 @@ const PaymentForm = () => {
                               name="ModeOfPayment"
                               component="input"
                               type="radio"
-                              value="Check"
+                              value={"Check"}
                               id="Check"
                               onClick={() => setDisable(false)}
                             />
@@ -179,30 +201,30 @@ const PaymentForm = () => {
                           <Grid.Column>
                             <Field 
                                 disabled={disable}
-                                style={{width:'15em'}}
+                                with={6}
                                 name="CheckNo"
                                 placeholder="Check No"
-                                value="CheckNo"
+                                value={payment.CheckNo}
                                 component="input"
                               />
                           </Grid.Column>
                           <Grid.Column>
                             <Field 
                                 disabled={disable}
-                                style={{width:'15em'}}
+                                with={6}
                                 name="BankName"
                                 placeholder="BankName"
-                                value="BankName"
+                                value={payment.BankName}
                                 component="input"
                               />
                           </Grid.Column>
                           <Grid.Column>
                             <Field 
                                 disabled={disable}
-                                style={{width:'15em'}}
+                                with={6}
                                 name="Branch"
                                 placeholder="Branch"
-                                value="Branch"
+                                value={payment.Branch}
                                 component="input"
                               />
                           </Grid.Column >
@@ -216,7 +238,7 @@ const PaymentForm = () => {
                                   with={60}
                                   name="InPaymentOf"
                                   placeholder="In Payment of"
-                                  value="InPaymentOf"
+                                  value={payment.InPaymentOf}
                                   component={TextAreaInput}
                                 />
                           </Grid.Column>
@@ -229,7 +251,7 @@ const PaymentForm = () => {
                                   with={60}
                                   name="Amount"
                                   placeholder="Payment Amount"
-                                  value="Amount"
+                                  value={payment.Amount}
                                   component={TextAreaInput}
                                 />
                           </Grid.Column>

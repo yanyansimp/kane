@@ -117,7 +117,7 @@ export default class UserStore {
       const user = await agent.User.current();
       runInAction(() => {
         this.user = user
-        console.log(this.user);
+        // console.log(this.user);
       });
     } catch (error) {
       console.log(error);
