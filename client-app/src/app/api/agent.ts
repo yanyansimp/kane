@@ -10,6 +10,7 @@ import { IRole } from '../models/role';
 import { ITransactionType, ITransactionTypeFormValues } from '../models/transactionType';
 import { IPayment } from '../models/payment';
 import { IClient } from '../models/client';
+import { ITransaction, ITransactionValues } from '../models/transaction';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -92,9 +93,14 @@ const Role = {
   create: (role: IRole) => requests.post('/roles', role)
 };
 
-const Clients= {
+const Clients = {
   list: (): Promise<IClient[]> => requests.get('/clients'),
   create: (client: IClient) => requests.post('/clients', client)
+};
+
+const Transactions = {
+  create: (transaction: ITransactionValues) =>
+    requests.post('/transactions', transaction),
 };
 
 
@@ -118,6 +124,7 @@ export default {
   Properties,
   Role,
   TransactionTypes,
+  Transactions,
   Payments,
   Clients
 };

@@ -7,6 +7,7 @@ namespace Domain
     public class Transaction
     {
         public Guid Id { get; set; }
+        public int? SequenceNo { get; set; }
         public float ContractPrice { get; set; }
         public float MonthlyAmortization { get; set; }
         public float Terms { get; set; }

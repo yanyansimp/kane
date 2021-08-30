@@ -147,23 +147,67 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<DateTime?>("AtBirthDate");
+
+                    b.Property<string>("AtFirstName");
+
+                    b.Property<string>("AtGender");
+
+                    b.Property<string>("AtLastName");
+
+                    b.Property<string>("AtMiddleName");
+
+                    b.Property<string>("AtNumber");
+
+                    b.Property<string>("AtSuffix");
+
+                    b.Property<string>("AtTIN");
+
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("CivilStatus");
+
+                    b.Property<DateTime?>("CoBirthDate");
+
+                    b.Property<string>("CoFirstName");
+
+                    b.Property<string>("CoGender");
+
+                    b.Property<string>("CoLastName");
+
+                    b.Property<string>("CoMiddleName");
+
+                    b.Property<string>("CoNumber");
+
+                    b.Property<string>("CoSuffix");
+
+                    b.Property<string>("CoTIN");
+
+                    b.Property<string>("CompanyLocation");
+
+                    b.Property<string>("CompanyName");
 
                     b.Property<string>("ContactNumber");
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("DateEmployed");
+
                     b.Property<DateTime?>("DeletedAt");
 
                     b.Property<string>("EducationalAttn");
+
+                    b.Property<string>("Employment");
+
+                    b.Property<string>("EmploymentType");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Gender");
 
                     b.Property<string>("HomeNumber");
+
+                    b.Property<string>("Industry");
 
                     b.Property<string>("LastName");
 
@@ -179,15 +223,37 @@ namespace Persistence.Migrations
 
                     b.Property<string>("OfficeNumber");
 
+                    b.Property<string>("Position");
+
+                    b.Property<string>("Profession");
+
                     b.Property<string>("Religion");
 
                     b.Property<string>("School");
+
+                    b.Property<int?>("SequenceNo");
+
+                    b.Property<DateTime?>("SpouseBirthDate");
+
+                    b.Property<string>("SpouseFirstName");
+
+                    b.Property<string>("SpouseGender");
+
+                    b.Property<string>("SpouseLastName");
+
+                    b.Property<string>("SpouseMiddleName");
+
+                    b.Property<string>("SpouseNumber");
+
+                    b.Property<string>("SpouseTIN");
 
                     b.Property<string>("Suffix");
 
                     b.Property<string>("TIN");
 
                     b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("ZipCode");
 
                     b.HasKey("Id");
 
@@ -244,6 +310,8 @@ namespace Persistence.Migrations
                     b.Property<string>("ModeOfPayment");
 
                     b.Property<string>("ORNumber");
+
+                    b.Property<int?>("SequenceNo");
 
                     b.Property<Guid?>("TransactionId");
 
@@ -360,6 +428,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("SalesAgentId");
 
                     b.Property<Guid>("SalesManagerId");
+
+                    b.Property<int?>("SequenceNo");
 
                     b.Property<string>("Status");
 

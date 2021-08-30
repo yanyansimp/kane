@@ -24,6 +24,7 @@ namespace Application.Transactions
             public Guid PropertyTypeId { get; set; }
             public Guid ClientId { get; set; }
             public Transaction Transaction { get; set; }
+
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -66,6 +67,9 @@ namespace Application.Transactions
                 // Gets the current User
                 var user = await _context.Users.SingleOrDefaultAsync(x => 
                     x.UserName == _userAccessor.GetCurrentUsername());
+                
+                if (property.Status == "Available")
+                    property.Status = "Reserved";
 
                 var transaction = new Transaction
                 {
@@ -80,8 +84,10 @@ namespace Application.Transactions
                     CreatedAt = DateTime.Now
                 };
 
-                property.Status = property.Status == "Available" ? "Reserved" : property.Status;
-                
+                // Change Property status to Reserved
+                if (property.Status == "Available")
+                    property.Status = "Reserved";
+
                 //
                 client.Transactions.Add(transaction);
 

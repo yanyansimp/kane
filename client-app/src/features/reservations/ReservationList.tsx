@@ -1,8 +1,19 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect } from 'react';
 import { Table, Segment } from 'semantic-ui-react';
+import { IClient } from '../../app/models/client';
+import { RootStoreContext } from '../../app/stores/rootStore';
 import ReservationListItem from './ReservationListItem';
 
 const ReservationList = () => {
+   const rootStore = useContext(RootStoreContext);
+   const { loadReservations, reservationRegistry } =
+     rootStore.reservationStore;
+
+   useEffect(() => {
+     loadReservations();
+   }, [loadReservations]);
+
   return (
     <Segment>
       <Table selectable basic="very">
@@ -11,6 +22,7 @@ const ReservationList = () => {
             <Table.HeaderCell>Sequence No.</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Property</Table.HeaderCell>
+            <Table.HeaderCell>Terms(Years)</Table.HeaderCell>
             <Table.HeaderCell>Contact Price</Table.HeaderCell>
             <Table.HeaderCell>Balance</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
@@ -19,11 +31,13 @@ const ReservationList = () => {
         </Table.Header>
 
         <Table.Body>
-          <ReservationListItem />
+          {reservationRegistry?.map(client => 
+            <ReservationListItem key={client.id} client={client} />
+          )}
         </Table.Body>
       </Table>
     </Segment>
   );
 };
 
-export default ReservationList;
+export default observer(ReservationList);

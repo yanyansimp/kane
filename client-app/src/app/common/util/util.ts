@@ -1,6 +1,20 @@
 import { IUser } from "../../models/user";
 import { IActivity, IAttendee } from "../../models/activity";
 
+export const toMoney = (m: any) => {
+    return m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const setStatusColor = (status: string) => {
+  if (status === 'On Going') {
+    return 'blue';
+  } else if (status === 'Completed') {
+    return 'green';
+  } else {
+    return 'red';
+  }
+};
+
 export const combineDateAndTime = (date: Date, time: Date) => {
     const timeString = time.getHours() + ':' + time.getMinutes() + ':00';
 

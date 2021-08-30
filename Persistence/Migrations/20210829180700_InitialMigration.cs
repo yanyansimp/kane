@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class RefactorDB : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -79,25 +79,58 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    SequenceNo = table.Column<int>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
                     Suffix = table.Column<string>(nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
+                    Gender = table.Column<string>(nullable: true),
+                    CivilStatus = table.Column<string>(nullable: true),
+                    Religion = table.Column<string>(nullable: true),
                     TIN = table.Column<string>(nullable: true),
                     ContactNumber = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
                     Nationality = table.Column<string>(nullable: true),
-                    CivilStatus = table.Column<string>(nullable: true),
-                    NumberOfDependents = table.Column<string>(nullable: true),
                     EducationalAttn = table.Column<string>(nullable: true),
+                    NumberOfDependents = table.Column<string>(nullable: true),
                     School = table.Column<string>(nullable: true),
-                    Religion = table.Column<string>(nullable: true),
-                    HomeNumber = table.Column<string>(nullable: true),
-                    OfficeNumber = table.Column<string>(nullable: true),
                     MonthlyIncome = table.Column<string>(nullable: true),
                     MonthlyHouseholdIncome = table.Column<string>(nullable: true),
+                    SpouseLastName = table.Column<string>(nullable: true),
+                    SpouseFirstName = table.Column<string>(nullable: true),
+                    SpouseMiddleName = table.Column<string>(nullable: true),
+                    SpouseBirthDate = table.Column<DateTime>(nullable: true),
+                    SpouseGender = table.Column<string>(nullable: true),
+                    SpouseTIN = table.Column<string>(nullable: true),
+                    SpouseNumber = table.Column<string>(nullable: true),
+                    CoLastName = table.Column<string>(nullable: true),
+                    CoFirstName = table.Column<string>(nullable: true),
+                    CoMiddleName = table.Column<string>(nullable: true),
+                    CoSuffix = table.Column<string>(nullable: true),
+                    CoBirthDate = table.Column<DateTime>(nullable: true),
+                    CoGender = table.Column<string>(nullable: true),
+                    CoTIN = table.Column<string>(nullable: true),
+                    CoNumber = table.Column<string>(nullable: true),
+                    AtLastName = table.Column<string>(nullable: true),
+                    AtFirstName = table.Column<string>(nullable: true),
+                    AtMiddleName = table.Column<string>(nullable: true),
+                    AtSuffix = table.Column<string>(nullable: true),
+                    AtBirthDate = table.Column<DateTime>(nullable: true),
+                    AtGender = table.Column<string>(nullable: true),
+                    AtTIN = table.Column<string>(nullable: true),
+                    AtNumber = table.Column<string>(nullable: true),
+                    Employment = table.Column<string>(nullable: true),
+                    EmploymentType = table.Column<string>(nullable: true),
+                    CompanyName = table.Column<string>(nullable: true),
+                    CompanyLocation = table.Column<string>(nullable: true),
+                    Industry = table.Column<string>(nullable: true),
+                    DateEmployed = table.Column<string>(nullable: true),
+                    Profession = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
+                    HomeNumber = table.Column<string>(nullable: true),
+                    OfficeNumber = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     DeletedAt = table.Column<DateTime>(nullable: true)
@@ -298,6 +331,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    SequenceNo = table.Column<int>(nullable: true),
                     ORNumber = table.Column<string>(nullable: true),
                     Amount = table.Column<float>(nullable: false),
                     ModeOfPayment = table.Column<string>(nullable: true),
@@ -405,6 +439,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    SequenceNo = table.Column<int>(nullable: true),
                     ContractPrice = table.Column<float>(nullable: false),
                     MonthlyAmortization = table.Column<float>(nullable: false),
                     Terms = table.Column<float>(nullable: false),

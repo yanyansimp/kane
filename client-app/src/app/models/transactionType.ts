@@ -1,6 +1,6 @@
 export interface ITransactionType {
     id: string;
-    name: string;
+    name?: string;
 }
 
 export interface ITransactionTypeFormValues extends Partial<ITransactionType> {}

@@ -78,6 +78,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
                 <Route
                   key={location.key}
+                  path={['/newReservation', '/newReservation/:id']}
+                  component={ReservationForm}
+                />
+                <Route
+                  key={location.key}
                   path={['/registerUser', '/editUser/:id']}
                   component={RegistrationForm}
                 />

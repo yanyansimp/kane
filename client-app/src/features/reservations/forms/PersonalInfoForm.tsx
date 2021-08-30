@@ -95,6 +95,15 @@ const PersonalInfoForm = () => {
           component={TextInput}
         />
       </Form.Group>
+      <Form.Group>
+        <Field
+          width={16}
+          label="Address"
+          name="address"
+          placeholder="Address"
+          component={TextInput}
+        />
+      </Form.Group>
       <h2>Spouse' Information</h2>
       <Form.Group>
         <Checkbox label="Spouse Information (Please check if applicable)" />

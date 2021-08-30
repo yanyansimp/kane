@@ -1,27 +1,57 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Segment, Form } from 'semantic-ui-react';
 import SelectInput from '../../../app/common/form/SelectInput';
 import TextInput from '../../../app/common/form/TextInput';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { OnChange } from 'react-final-form-listeners';
 
 const SelectPropertyForm = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {
+    loadPropertyTypes,
+    propertyTypeRegistry,
+    getPropertiesByAvailable,
+    propertyRegistry,
+  } = rootStore.propertyTypeStore;
+  const {
+    loadingInitial,
+    loadProperties,
+    // propertyRegistry,
+    // getPropertiesByAvailable,
+  } = rootStore.propertyStore;
+
+   useEffect(() => {
+     loadPropertyTypes();
+     loadProperties();
+   }, [loadPropertyTypes, loadProperties]);
+
   return (
     <Segment>
       <h2>Choose Property</h2>
-      <Form.Group fluid>
+      <Form.Group fluid="true">
         <Field
           width={8}
           label="Property Type"
-          name="propertyType"
+          loading={loadingInitial}
+          name="propertyTypeId"
           placeholder="Property Type"
           component={SelectInput}
+          options={propertyTypeRegistry}
         />
+        <OnChange name="propertyTypeId">
+          {(value: any, previous: any) => {
+            getPropertiesByAvailable(value);
+          }}
+        </OnChange>
         <Field
           width={8}
           label="Property"
-          name="property"
-          placeholder="property"
+          name="propertyId"
+          placeholder="Property"
           component={SelectInput}
+          options={propertyRegistry}
         />
       </Form.Group>
       <Form.Group fluid>
@@ -58,14 +88,14 @@ const SelectPropertyForm = () => {
         <Field
           width={8}
           label="Sales Manager"
-          name="salesManager"
+          name="salesManagerId"
           placeholder="Sales Manager"
           component={SelectInput}
         />
         <Field
           width={8}
           label="Sales Agent"
-          name="salesAgent"
+          name="salesAgentId"
           placeholder="Sales Agent"
           component={SelectInput}
         />
@@ -74,4 +104,4 @@ const SelectPropertyForm = () => {
   );
 };
 
-export default SelectPropertyForm;
+export default observer(SelectPropertyForm);

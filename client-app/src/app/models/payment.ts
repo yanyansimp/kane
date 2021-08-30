@@ -1,7 +1,7 @@
 export interface IPayment {
     id: string;
     orNumber: string;
-    amount: string;
+    amount: number;
     modeOfPayment: string;
     dateOfPayment?: Date;
     checkNo: string;
