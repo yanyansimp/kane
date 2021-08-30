@@ -4,14 +4,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Domain;
+using Application.Errors;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Application.Payments
 {
-    public class Create
+    public class Create 
     {
         public class Command : IRequest
         {
@@ -46,15 +48,18 @@ namespace Application.Payments
             }
         }
 
-        public class Handler : IRequestHandler<Command>
-        {
-            private readonly DataContext _context;
-            public Handler(DataContext context)
-            {
-                _context = context;
-            }
+         public class Handler : IRequestHandler<Command>
+         {
+                private readonly DataContext _context;
+                // private readonly IUserAccessor _userAccessor;
 
-            public async Task<Unit> Handle(Command request,
+                public Handler(DataContext context) //, IUserAccessor userAccessor)
+                {
+                    // _userAccessor = userAccessor;
+                    _context = context;
+                }
+
+                public async Task<Unit> Handle(Command request,
                 CancellationToken cancellationToken)
             {
                 var transaction = await _context.Transactions.FindAsync(request.TransactionId);
@@ -66,12 +71,15 @@ namespace Application.Payments
                 {
                     Id = request.Id,
                     ORNumber = request.ORNumber,
-                    Amount = request.Amount,
                     ModeOfPayment = request.ModeOfPayment,
                     DateOfPayment = request.DateOfPayment,
                     CheckNo = request.CheckNo,
                     BankName = request.BankName,
                     Branch = request.Branch,
+                    InPaymentOf = request.InPaymentOf,
+                    Amount = request.Amount,
+                    // Transaction = transaction,
+                    // AppUser = received,
                     CreatedAt = DateTime.Now
                 };
 
@@ -85,6 +93,7 @@ namespace Application.Payments
 
                 throw new Exception("Problem saving changes");
             }
-        }
+
+         }
     }
 }

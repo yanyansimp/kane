@@ -27,8 +27,7 @@ function ModalTransactionTypeModal() {
         onClose={() => setOpen(false)}
          onOpen={() => setOpen(true)}
         open={open}
-        trigger={<Button>New Client</Button>}
-    >
+        trigger={<Button color='yellow'  >New Client</Button>}>
       <Modal.Header>Transaction Type</Modal.Header>
       <Modal.Content image>
         <Modal.Description>

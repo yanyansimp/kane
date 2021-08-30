@@ -18,15 +18,21 @@ interface IfirstChildProps {
     const [open, setOpen] = React.useState(false)
     const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);
-    const {returnOccupied} = rootStore.propertyStore
-    const [properties, setProperties] = useState([])
+    const {returnStatus} = rootStore.propertyStore
+    const [proper, setProperties] = useState([])
     const propFunc = (prop: any) => {
       setProperties(prop)
     }
     useEffect(() => {
         setChildProperty(name)
-        returnOccupied(propFunc)
-        },[name, returnOccupied])
+        returnStatus(propFunc)
+        },[name, returnStatus])
+        var i=0,j=0;
+        var propertyTypeId:any = [];
+        var n = [[''], ['']];
+        var d = [[''], ['']];
+        var l = [[''], ['']];
+        var s = [[''], ['']];
   return (
     <Grid>
       <Grid.Column with={16}>
@@ -46,16 +52,7 @@ interface IfirstChildProps {
               </Button>
                     }
           >
-            <Input
-                            style={searchBar}
-                            type="text"
-                            value={searchTerm}
-                            onChange={(e) =>{
-                                setSearchTerm(e.target.value);
-                            }}
-                            placeholder="search"
-                            icon='search'
-                          />
+           
             <Modal.Header>OCCUPIED</Modal.Header>
             <Modal.Content image>
               <Modal.Description>
@@ -71,21 +68,28 @@ interface IfirstChildProps {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {properties
-                .filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
-                .map((property: any) =>{
-                  if(property.propertyTypeId === name[6]){
-                    return (
-                      <Table.Row key={property.id}>
-                        {/* <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell> */}
-                        <Table.Cell>{property.name}</Table.Cell>
-                        <Table.Cell>{property.description}</Table.Cell>
-                        <Table.Cell>{property.location}</Table.Cell>
-                        <Table.Cell>{property.status}</Table.Cell>
-                      </Table.Row> 
-                    )
-                  }
-                })}
+              {proper
+              .map((propertyType: any) =>{ 
+                if(propertyType.id === name[6]){
+                  propertyTypeId = propertyType
+                  propertyTypeId.properties?.map((property: any)=>{
+                    if(property.status === 'Occupied'){
+                      n[i][j] = property.name;
+                      d[i][j] = property.description;
+                      l[i][j] = property.location;
+                      s[i][j] = property.status;
+                      j++
+                    }})}})}
+              {propertyTypeId.properties?.map((property:any, index:any) => {
+                 return(
+                  <Table.Row key={index}>
+                    {/* <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell> */}
+                    <Table.Cell>{n[i][index]}</Table.Cell>
+                    <Table.Cell>{d[i][index]}</Table.Cell>
+                    <Table.Cell>{l[i][index]}</Table.Cell>
+                    <Table.Cell>{s[i][index]}</Table.Cell>
+                  </Table.Row> 
+                )})}
               </Table.Body>
             </Table>
               </Modal.Description>

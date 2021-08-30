@@ -138,6 +138,17 @@ export default class PropertyStore {
       console.log(error);
     }
   };
+    @action returnStatus = async (callback: any) => {
+        try {
+            const propertyTypes = await agent.PropertyTypes.list();
+            runInAction('loading Property TYpe', () => {
+                callback(propertyTypes)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
 
   @action returnOccupied = async (callback: any) => {
     try {

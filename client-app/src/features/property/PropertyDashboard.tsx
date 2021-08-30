@@ -99,6 +99,7 @@ const PropertyDashboard: React.FC = () => {
     const classes = useStyles()
     const rootStore = useContext(RootStoreContext);
     const {getpPropertyTypes} = rootStore.propertyTypeStore;
+    
     const [propertyTypes, setPropertyTypes] = useState([])
     const propFunc = (prop: any) => {
         setPropertyTypes(prop)
@@ -124,7 +125,7 @@ const PropertyDashboard: React.FC = () => {
                                 </Card.Header>
 
                                     <Card.Description  style={buttonStyle}>
-                                    <div className={classes.buttonAvailableStyle}><Available  name={propertyType}/></div> 
+                                    <div className={classes.buttonAvailableStyle}><Available  name={propertyType} /></div> 
                                     </Card.Description>
 
                                     <Card.Description  style={buttonStyle}>
