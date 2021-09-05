@@ -17,6 +17,8 @@ export default class PropertyTypeStore {
     @observable property: IProperty | null = null;
     @observable loading = false;
     @observable propertyTypeRegistry: any = [];
+    @observable submitting = false;
+    @observable target = '';
     
   
 
@@ -27,6 +29,16 @@ export default class PropertyTypeStore {
         return Array.from(this.propertyTypeRegistry.values()).sort();
     }
     @observable propertyTyCount: any = [];
+    @action displayPropertyTypes = async (callback :any) => {
+        try {
+            const propertyTypes = await agent.PropertyTypes.list();
+            runInAction('loading Property TYpe', () => {
+                callback(propertyTypes)
+            })
+        }catch (error){
+            console.log(error)
+        }
+    }
     @action getpPropertyTypes = async( callback: any ) => {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
@@ -48,18 +60,6 @@ export default class PropertyTypeStore {
                   var Occupied: number = 0;
                   var Reserved: number = 0;
                   i++;
-                  // properties.forEach((property) => {
-                  //     if(propertyType.id === property.propertyTypeId){
-                  //         count ++
-                  //     }
-                  //     if(property.status === 'Available' && propertyType.id === property.propertyTypeId){
-                  //         Available ++
-                  //     } else if( property.status === 'Occupied' && propertyType.id === property.propertyTypeId){
-                  //         Occupied ++
-                  //     } else if( property.status === 'Reserved' && propertyType.id === property.propertyTypeId){
-                  //         Reserved ++
-                  //     }
-                  // })
                   propertyType.properties?.forEach((property) => {
                         count++;
                       if(property.status === 'Available'){
@@ -125,7 +125,6 @@ export default class PropertyTypeStore {
 
     // PROPERTYTYPE DROPDOWN
     @action loadPropertyTypes = async () => {
-       
         try {
             this.propertyTypeRegistry = [];
             const propertyTypes = await agent.PropertyTypes.list();
@@ -178,7 +177,24 @@ export default class PropertyTypeStore {
         }
     }
 
-
+    @action DeletePropertyType = async (id: string) => {
+        this.submitting = true;
+        try {
+            await agent.PropertyTypes.delete(id);
+            runInAction('deleting property', () => {
+              this.propertyTypeRegistry.delete(id);
+              this.submitting = false;
+              this.target = '';
+            //   history.push('/property')
+            });
+          } catch (error) {
+            runInAction('delete property error', () => {
+              this.submitting = false;
+              this.target = '';
+            });
+            console.log(error);
+          }
+    }
 
 
 

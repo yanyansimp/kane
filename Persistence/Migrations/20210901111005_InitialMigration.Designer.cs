@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210825054543_RefactorDB")]
-    partial class RefactorDB
+    [Migration("20210901111005_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -218,6 +218,24 @@ namespace Persistence.Migrations
                     b.HasIndex("TransactionId");
 
                     b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("Domain.LandingPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("IsMain");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LandingPhotos");
                 });
 
             modelBuilder.Entity("Domain.Payment", b =>

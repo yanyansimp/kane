@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { Route, withRouter, RouteComponentProps, Switch} from 'react-router-dom';
+import { Route, withRouter, RouteComponentProps, Switch, Link, useLocation, useParams} from 'react-router-dom';
 import NavBar from '../../features/nav/NavBar';
 import HomePage from '../../features/home/HomePage';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
@@ -29,12 +29,15 @@ import RegistrationForm from '../../features/user/RegistrationForm';
 import AddRoleForm from '../../features/role/AddRoleForm';
 import ReservationForm from '../../features/reservations/forms/ReservationForm';
 import Reservation from '../../features/reservations/Reservation';
+import LandingPage from '../../features/home/LandingPage';
+import HomePageSample from '../../features/home/HomePageSample'
+import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
+  var id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
   const rootStore = useContext(RootStoreContext);
   const {setAppLoaded, token, appLoaded} = rootStore.commonStore;
   const {getUser} = rootStore.userStore;
-
   useEffect(() => {
     if (token) {
       getUser().finally(() => setAppLoaded());
@@ -44,18 +47,22 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   }, [getUser, setAppLoaded, token]);
 
   if (!appLoaded) return <LoadingComponent content='Loading app..' />
-
+ 
   return (
     <Fragment>
       <ModalContainer />
-      <Route exact path="/" component={HomePage} />
+      {/* <Route exact path="/" component={HomePage} /> */}
+      <Route exact path="/" component={HomePageSample} />
+      
       <ToastContainer position="bottom-right" />
       <Route
         path={'/(.+)'}
         render={() => (
           <Fragment>
-            <NavBar />
-            <SideBar />
+          {location.pathname !== `/properties/${id}` && <NavBar /> }
+          {location.pathname !== `/properties/${id}` && <SideBar />}
+            {/* <NavBar /> */}
+            {/* <SideBar /> */}
             <Container className={'main-container'}>
               <Switch>
                 <Route exact path="/dashboard" component={Dashboard} />
@@ -91,6 +98,14 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/createReservation', '/editReservation/:id']}
                   component={ReservationForm}
                 />
+                <Route exact path="/landingPage" component={LandingPage} />
+                
+                <Route 
+                key={location.key} 
+                path={['/properties/:id']} 
+                component={LandingPageOfPropertyType} 
+                />
+                
                 <Route path="/profile/:username" component={ProfilePage} />
                 <Route path="/login" component={LoginForm} />
                 <Route component={NotFound} />

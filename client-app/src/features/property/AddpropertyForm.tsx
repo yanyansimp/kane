@@ -124,7 +124,7 @@ const AddPropertyForm = () => {
       setImages(imageList as never[]);
     };
 
-   const handleDropDownSelectStatus = (event:any, data:any) => {
+   const handleDropDownSelectStatus = ( data:any) => {
     val4 = data.value;
    };
 
