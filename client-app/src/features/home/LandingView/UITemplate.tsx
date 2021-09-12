@@ -20,17 +20,6 @@ const UITemplate = () => {
         <Grid.Column width={6}>
       </Grid.Column>
         <Grid.Column width={16}>
-        {/* <Table celled >
-        <Table.Header>
-          <Table.Row>
-            <Table.Cell>IMAGE</Table.Cell>
-            <Table.Cell>PROPERTY</Table.Cell>
-            <Table.Cell>DESCRIPTION</Table.Cell>
-            <Table.Cell>LOCATION</Table.Cell>
-            <Table.Cell>STATUS</Table.Cell>
-          </Table.Row>
-        </Table.Header>
-        </Table> */}
         <Table>
         <Table.Body>
           {

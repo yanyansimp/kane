@@ -128,16 +128,16 @@ export default class PropertyTypeStore {
         try {
             this.propertyTypeRegistry = [];
             const propertyTypes = await agent.PropertyTypes.list();
+            
             runInAction('loading property types', () => {
                 propertyTypes.forEach((propertyType) => {
                     this.propertyTypeRegistry.push({
-                        'key': propertyType.id,
-                        'text': propertyType.name,
-                        'value': propertyType.id
+                        key: propertyType.id,
+                        text: propertyType.name,
+                        value: propertyType.id
                     });
                 });
             });
-            
 
         } 
         catch (error) {

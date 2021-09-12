@@ -18,7 +18,7 @@ const HeaderClass = () => {
         // id: uuid(),
         id: 'e867e465-aedb-4e0b-931e-56d01827ba92',
         ...homepage,
-        isMain: 'Header'
+        isMain: 'Body'
       }
       EditLandingPage(newhomepage);
     };

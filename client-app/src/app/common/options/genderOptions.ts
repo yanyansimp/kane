@@ -1,5 +1,4 @@
 export const gender = [
   { key: 'male', text: 'Male', value: 'male' },
-  { key: 'female', text: 'Female', value: 'female' },
-  { key: 'others', text: 'Others', value: 'others' }
+  { key: 'Base on Price', text: 'Base on Price', value: 'Base on Price' },
 ];

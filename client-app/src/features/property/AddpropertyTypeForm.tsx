@@ -8,13 +8,8 @@ import { v4 as uuid } from 'uuid';
 import{
     Typography,
     Button,
-    Checkbox,
     TextField,
-    OutlinedInput,
-    FormControl,
-    InputLabel,
-    InputAdornment,
-    IconButton
+    TextareaAutosize 
 } from '@material-ui/core'
 
 
@@ -169,7 +164,6 @@ const AddpropertyTypeForm = () => {
                     <TextField
                         className={classes.inputField} 
                                 label='Name'
-                                placeholder='Name'
                                 variant='outlined'
                                 onChange={(e) => {
                                     val1 = e.target.value

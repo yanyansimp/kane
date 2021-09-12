@@ -146,7 +146,6 @@ const optionsArray = [
           <Header>Header</Header>
           <div>
                 <form>
-            
                 <div>
                     <TextField
                         className={classes.inputField} 

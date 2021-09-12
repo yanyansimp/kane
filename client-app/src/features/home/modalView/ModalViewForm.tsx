@@ -20,7 +20,7 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
         {name.location}
         </Header.Subheader>
         <Header.Subheader>
-           <p>Description:</p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Earum repudiandae pariatur, mollitia exercitationem similique eligendi animi est ex sint, quam modi reiciendis fugit quibusdam atque? Aliquam dolores explicabo non dignissimos!
+           <p><b>Description:</b>{name.description}</p> 
         </Header.Subheader>
       </Grid.Column>
     </Grid>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { combineValidators } from 'revalidate';
-import HeaderClass from './landingPage/Header';
-import BodyClass from './landingPage/Body';
+import HeaderClass from './landingPageOwnerView/Header';
+import BodyClass from './landingPageOwnerView/Body';
 import UITemplate from './LandingView/UITemplate';
-import HeaderPage from './LandingView/Components/LandingPageOverView'
+import HeaderPage from './landingPageOwnerView/LandingPageOverView'
 import {
     Container,
     Segment,
@@ -12,7 +12,7 @@ import {
     Grid,
     Form,
   } from 'semantic-ui-react';
-import FooterClass from './landingPage/Footer';
+import FooterClass from './landingPageOwnerView/Footer';
 import HomePageSample from './HomePageSample';
   const validate = combineValidators({})
   

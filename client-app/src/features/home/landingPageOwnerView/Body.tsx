@@ -25,7 +25,7 @@ const BodyClass = () => {
         <Grid>
             <Grid.Column>
                 <Segment clearing>
-                <h1><label>Body Image  view</label></h1>
+                <h1><label>Slider Image  view</label></h1>
                     <FinalForm
                         validate={validate}
                         onSubmit={handleFinalFormSubmit}

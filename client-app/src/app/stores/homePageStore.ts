@@ -27,6 +27,24 @@ export default class HomePageStore{
             console.log(error)
         }
     }
+    @action displayLandingBody = async (callback :any) => {
+        try {
+            const landingSlide:any = [];
+            var i = 0
+            const landingPhoto = await agent.LandingPhotos.list();
+            landingPhoto.forEach((landing)=>{
+                if(landing.isMain === "Body"  ){
+                    landingSlide[i] = landing
+                    i++
+                }
+            })
+            runInAction('loading Property TYpe', () => {
+                callback(landingSlide)
+            })
+        }catch (error){
+            console.log(error)
+        }
+    }
     @action createLandingPage = async (LandingPhoto: ILandingPhoto) => {
         try {
             await agent.LandingPhotos.create(LandingPhoto);

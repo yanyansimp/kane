@@ -124,7 +124,7 @@ const AddPropertyForm = () => {
       setImages(imageList as never[]);
     };
 
-   const handleDropDownSelectStatus = ( data:any) => {
+   const handleDropDownSelectStatus = (event:any, data:any) => {
     val4 = data.value;
    };
 
@@ -132,7 +132,7 @@ const AddPropertyForm = () => {
      val0 = data.value;
    };
    
-  
+   
     
     return (
         <div className={classes.mainContainer}>

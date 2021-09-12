@@ -47,7 +47,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   }, [getUser, setAppLoaded, token]);
 
   if (!appLoaded) return <LoadingComponent content='Loading app..' />
- 
+  let noNavAndSideBar = true;
+
   return (
     <Fragment>
       <ModalContainer />
@@ -61,9 +62,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Fragment>
           {location.pathname !== `/properties/${id}` && <NavBar /> }
           {location.pathname !== `/properties/${id}` && <SideBar />}
+          {location.pathname === `/properties/${id}` && (noNavAndSideBar = false) }
             {/* <NavBar /> */}
             {/* <SideBar /> */}
-            <Container className={'main-container'}>
+            <Container   className={noNavAndSideBar ?'main-container': ' '}>
               <Switch>
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/calendar" component={Calendar} />
