@@ -2,6 +2,7 @@ import { ITransaction } from "./transaction";
 
 export interface IClient {
   id: string;
+  sequenceNo: string;
   lastName: string;
   firstName: string;
   middleName: string;

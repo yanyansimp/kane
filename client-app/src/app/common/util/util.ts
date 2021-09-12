@@ -3,7 +3,11 @@ import { IActivity, IAttendee } from "../../models/activity";
 
 export const toMoney = (m: any) => {
     return m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
+
+export const addZeroDate = (d: any) => {
+  return d <= 9 ? '0'+d : d;
+};
 
 export const setStatusColor = (status: string) => {
   if (status === 'On Going') {

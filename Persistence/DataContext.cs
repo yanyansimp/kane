@@ -48,6 +48,15 @@ namespace Persistence
                 .WithMany(u => u.UserActivities)
                 .HasForeignKey(a => a.ActivityId);
 
+            // builder.Entity<Payment>()
+            //     .HasKey(p => new { p.Id, p.SequenceNo });
+
+            // builder.Entity<Payment>()
+            //     .Property(p => p.SequenceNo)
+            //     .ValueGeneratedOnAdd();
+                // .Metadata.AfterSaveBehavior = PropertySaveBehavior.Throw;
+
+
             // builder.Entity<Transaction>(x => x.HasKey(t =>
             //     new { 
             //         t.PropertyTypeId, 

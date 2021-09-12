@@ -5,3 +5,5 @@ appsettings.json
 *.db
 Prototype
 Kane.postman_collection
+wwwroot
+publish

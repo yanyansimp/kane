@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210829180700_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210903035841_ChangedSequenceNumber")]
+    partial class ChangedSequenceNumber
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -313,7 +313,7 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ORNumber");
 
-                    b.Property<int?>("SequenceNo");
+                    b.Property<int>("SequenceNo");
 
                     b.Property<Guid?>("TransactionId");
 

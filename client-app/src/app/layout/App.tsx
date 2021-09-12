@@ -10,11 +10,6 @@ import ActivityDetails from '../../features/activities/details/ActivityDetails';
 import NotFound from './NotFound';
 import {ToastContainer} from 'react-toastify';
 import LoginForm from '../../features/user/LoginForm';
-import ClientForm from '../../features/forms22/ClientForm';
-import ClientForm2 from '../../features/forms22/ClientForm2';
-import ClientForm3 from '../../features/forms22/ClientForm3';
-import ClientForm4 from '../../features/forms22/ClientForm4';
-import ClientForm5 from '../../features/forms22/ClientForm5';
 import { RootStoreContext } from '../stores/rootStore';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
@@ -29,6 +24,9 @@ import RegistrationForm from '../../features/user/RegistrationForm';
 import AddRoleForm from '../../features/role/AddRoleForm';
 import ReservationForm from '../../features/reservations/forms/ReservationForm';
 import Reservation from '../../features/reservations/Reservation';
+import Payment from '../../features/payments/Payment';
+import ClientDetails from '../../features/clients/ClientDetails';
+import PrivateRoute from './PrivateRoute';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -58,45 +56,49 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <SideBar />
             <Container className={'main-container'}>
               <Switch>
-                <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/calendar" component={Calendar} />
-                <Route exact path="/property" component={PropertyForm} />
-                <Route exact path="/reservation" component={Reservation} />
-                {/* <Route exact path="/forms" component={ClientForm} />
-                <Route exact path="/forms2" component={ClientForm2} />
-                <Route exact path="/forms3" component={ClientForm3} />
-                <Route exact path="/forms4" component={ClientForm4} />
-                <Route exact path="/forms5" component={ClientForm5} /> */}
-                <Route exact path="/user" component={UserDashboard} />
-                <Route exact path="/payments" component={PaymentForm} />
-                <Route exact path="/activities" component={ActivityDashboard} />
-                <Route path="/activities/:id" component={ActivityDetails} />
-                <Route
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/calendar" component={Calendar} />
+                <PrivateRoute exact path="/property" component={PropertyForm} />
+                <PrivateRoute exact path="/reservation" component={Reservation} />
+                <PrivateRoute exact path="/user" component={UserDashboard} />
+                <PrivateRoute exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/activities" component={ActivityDashboard} />
+
+                <PrivateRoute path="/activities/:id" component={ActivityDetails} />
+                <PrivateRoute path="/clients/:id" component={ClientDetails} />
+
+                <PrivateRoute
                   key={location.key}
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
-                <Route
+                <PrivateRoute
                   key={location.key}
-                  path={['/newReservation', '/newReservation/:id']}
+                  path={['/newReservation', '/editReservation/:id']}
                   component={ReservationForm}
                 />
-                <Route
+                <PrivateRoute
                   key={location.key}
-                  path={['/registerUser', '/editUser/:id']}
+                  path={['/newPayment', '/editPayment/:id']}
+                  component={PaymentForm}
+                />
+                <PrivateRoute
+                  key={location.key}
+                  path={['/newUser', '/editUser/:id']}
                   component={RegistrationForm}
                 />
-                <Route
+                <PrivateRoute
                   key={location.key}
-                  path={['/createRole', '/editRole/:id']}
+                  path={['/newRole', '/editRole/:id']}
                   component={AddRoleForm}
                 />
-                <Route
+                <PrivateRoute
                   key={location.key}
                   path={['/createReservation', '/editReservation/:id']}
                   component={ReservationForm}
                 />
-                <Route path="/profile/:username" component={ProfilePage} />
+
+                <PrivateRoute path="/profile/:username" component={ProfilePage} />
                 <Route path="/login" component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>

@@ -182,9 +182,14 @@ namespace Application.Clients
 
                 if (property.Status == "Available")
                 {
+                    var lastTransaction = await _context.Transactions.LastOrDefaultAsync();
+
+                    var sequenceNo = lastTransaction != null ? lastTransaction.SequenceNo : 0;
+
                     var transaction = new Transaction
                     {
                         Id = Guid.NewGuid(),
+                        SequenceNo = sequenceNo + 1,
                         ContractPrice = request.ContractPrice,
                         MonthlyAmortization = request.MonthlyAmortization,
                         Terms = request.Terms,
@@ -199,7 +204,6 @@ namespace Application.Clients
 
                     var user = await _context.Users.SingleOrDefaultAsync(x => 
                         x.UserName == _userAccessor.GetCurrentUsername());
-
 
                     client.Transactions.Add(transaction);
 

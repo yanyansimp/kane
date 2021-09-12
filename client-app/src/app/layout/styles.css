@@ -88,6 +88,11 @@ body {
   font-weight: normal;
 }
 
+/* Calendar */
+.due {
+  background-color: red;
+}
+
 /* .masthead h2 {
   font-size: 1.7em;
   font-weight: normal;

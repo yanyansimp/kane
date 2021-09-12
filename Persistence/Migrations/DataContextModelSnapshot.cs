@@ -311,7 +311,7 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ORNumber");
 
-                    b.Property<int?>("SequenceNo");
+                    b.Property<int>("SequenceNo");
 
                     b.Property<Guid?>("TransactionId");
 

@@ -1,12 +1,13 @@
 import { RootStore } from './rootStore';
-import { observable, action, runInAction } from 'mobx';
+import { observable, action, runInAction, toJS, computed } from 'mobx';
 import { IClient } from '../models/client';
 import { history } from '../..';
 import agent from '../api/agent';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
+import { addZeroDate } from '../common/util/util';
 
-export default class ModalStore {
+export default class ReservationStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -16,6 +17,8 @@ export default class ModalStore {
   @observable reservationRegistry: IClient[] | null = [];
   @observable step = 4;
   @observable newReservationView = false;
+
+  @observable paymentDues: any = [];
 
   @observable loadingInitial = false;
   @observable loading = false;
@@ -43,8 +46,70 @@ export default class ModalStore {
     this.newReservationView = v;
   };
 
+  @computed get getPaymentDues() {
+    return toJS(this.paymentDues);
+  }
+
+  getClient = (id: string) => {
+    return this.reservationRegistry?.find(c => c.id === id);
+  }
+
+  @action loadClient = async (id: string) => {
+    let client = this.getClient(id);
+
+    if (client) {
+      // console.log(client);
+      this.client = client;
+      return client;
+    } else {
+      this.loadingInitial = true;
+      try {
+        client = await agent.Clients.details(id);
+        runInAction('Getting client', () => {
+          console.log(client);
+          this.client = client!;
+          this.loadingInitial = false;
+        });
+        return client;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  @action loadPaymentDues = async () => {
+      this.loadingInitial = true;
+      try {
+        const clients = await agent.Clients.list();
+        runInAction('loading payment dues', () => {
+          this.paymentDues = [];
+          clients.forEach(client => {
+            client.transactions.forEach(transaction => {
+              if (transaction.status !== 'Completed') {
+
+                if (!transaction.payments?.find(p => new Date(p.dateOfPayment!).toISOString().slice(0,7) ===
+                  new Date().toISOString().slice(0,7))) {
+                    const d = new Date();
+                    this.paymentDues.push({
+                      title: `#${transaction.sequenceNo}-${client.lastName}, ${client.firstName}`,
+                      date: `${d.getFullYear()}-${addZeroDate(d.getMonth() + 1) }-${addZeroDate(new Date(transaction.createdAt!).getDate())}`,
+                    });
+                }
+
+              }
+            });
+          });
+          this.loadingInitial = false;
+        });
+      } catch (error) {
+        runInAction('loading payment dues error', () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+  }
+
   @action loadReservations = async () => {
-    let totalPayment = 0;
     this.loadingInitial = true;
     try {
       const reservations = await agent.Clients.list();
@@ -52,16 +117,17 @@ export default class ModalStore {
         this.reservationRegistry = [];
         reservations.forEach(client => {
           client.transactions.forEach(transaction => {
+            let totalPayment = 0;
             transaction.payments?.forEach(payment => {
               totalPayment += payment.amount;
             });
             transaction.balance = transaction.contractPrice - totalPayment;
           })
            this.reservationRegistry?.push(client);
-           console.log(totalPayment);
+           console.log(client);
         });
         this.loadingInitial = false;
-        console.log(this.reservationRegistry?.length);
+        // console.log(this.reservationRegistry?.length);
       });
     } catch (error) {
       runInAction('load client reservations error', () => {
@@ -100,6 +166,7 @@ export default class ModalStore {
       runInAction(() => {
         this.submitting = false;
       });
+      toast.error('Error saving data');
       console.log(error);
     }
   };

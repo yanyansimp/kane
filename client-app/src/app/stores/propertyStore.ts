@@ -58,7 +58,9 @@ export default class PropertyStore {
   @action createProperty = async (property: IProperty) => {
     try {
       await agent.Properties.create(property);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   @action EditProperty = async (property: IProperty) => {

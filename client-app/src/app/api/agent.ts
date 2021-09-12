@@ -8,11 +8,11 @@ import { IPropertyType } from '../models/propertyType';
 import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
 import { ITransactionType, ITransactionTypeFormValues } from '../models/transactionType';
-import { IPayment } from '../models/payment';
+import { IPayment, IPaymentFormValues } from '../models/payment';
 import { IClient } from '../models/client';
 import { ITransaction, ITransactionValues } from '../models/transaction';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use((config) => {
   const token = window.localStorage.getItem('jwt');
@@ -59,8 +59,8 @@ const TransactionTypes ={
 };
 
 const Payments = {
-  create: (payment: IPayment) => requests.post('/payments', payment),
-}
+  create: (payment: IPaymentFormValues) => requests.post('/payments', payment),
+};
 
 const PropertyTypes = {
   list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
@@ -95,7 +95,8 @@ const Role = {
 
 const Clients = {
   list: (): Promise<IClient[]> => requests.get('/clients'),
-  create: (client: IClient) => requests.post('/clients', client)
+  create: (client: IClient) => requests.post('/clients', client),
+  details: (id: string) => requests.get(`/clients/${id}`)
 };
 
 const Transactions = {

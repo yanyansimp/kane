@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
             positive
             content="Create Activity"
           /> */}
-          {user!.roleClaims.includes('User') && <Label>Hello Admin</Label>}
+          {/* {user?.roleClaims.includes('Calendar') && <Label size="large">Hello Admin</Label>} */}
         </Menu.Item>
         {user && (
           <Menu.Item position="right">
@@ -47,12 +47,12 @@ const NavBar: React.FC = () => {
             {/* <Dropdown pointing="top right" text={user.displayName} > */}
             <Dropdown pointing="top right">
               <Dropdown.Menu>
-                <Dropdown.Item
+                {/* <Dropdown.Item
                   as={Link}
                   to={`/profile/${user.username}`}
                   text="My profile"
                   icon="user"
-                />
+                /> */}
                 <Dropdown.Item onClick={logout} text="Logout" icon="power" />
               </Dropdown.Menu>
             </Dropdown>

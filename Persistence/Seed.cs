@@ -13,6 +13,7 @@ namespace Persistence
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, 
             RoleManager<IdentityRole> roleManager)
         {
+
             if (!roleManager.Roles.Any())
             {
                 var newRole = new IdentityRole {
@@ -20,12 +21,31 @@ namespace Persistence
                         Name = "Admin",
                         NormalizedName = "ADMIN"
                     };
+                
+                var roleClaims = new List<String>
+                {
+                    "Dashboard", "Full Dashboard",
+                    "Calendar", "Full Calendar",
+                    "Reservation", "Full Reservation",
+                    "Payment", "Full Payment",
+                    "Property", "Full Property",
+                    "User", "Full User",
+                    "Report", "Full Report",
+                    "Settings", "Full Settings"
+                };
 
                 await roleManager.CreateAsync(newRole);
 
                 var role = await roleManager.FindByNameAsync(newRole.Name);
 
-                await roleManager.AddClaimAsync(role, new Claim("Calendar", "Calendar"));
+                foreach (var claim in roleClaims)
+                {
+                    await roleManager.AddClaimAsync(role, new Claim(claim, claim));
+                }
+
+                // await roleManager.AddClaimAsync(role, new Claim("Dashboard", "Dashboard"));
+                // await roleManager.AddClaimAsync(role, new Claim("User", "User"));
+
             }
 
             if (!userManager.Users.Any())
@@ -35,24 +55,24 @@ namespace Persistence
                     new AppUser
                     {
                         Id = "e6c4edd4-ac56-4c57-8f03-370fb25c6d9f",
-                        DisplayName = "Bob",
-                        UserName = "bob",
-                        Email = "bob@test.com"
+                        DisplayName = "Super Admin",
+                        UserName = "superadmin",
+                        Email = "superadmin@test.com"
                     },
                     new AppUser
                     {
                         Id = "a079714e-5871-47de-9cc8-ebdb7d573d98",
-                        DisplayName = "Jane",
-                        UserName = "jane",
-                        Email = "jane@test.com"
+                        DisplayName = "Admin",
+                        UserName = "admin",
+                        Email = "admin@test.com"
                     },
-                    new AppUser
-                    {
-                        Id = "b76373d6-8081-4eff-957d-86c4572ac65d",
-                        DisplayName = "Tom",
-                        UserName = "tom",
-                        Email = "tom@test.com"
-                    },
+                    // new AppUser
+                    // {
+                    //     Id = "b76373d6-8081-4eff-957d-86c4572ac65d",
+                    //     DisplayName = "Tom",
+                    //     UserName = "tom",
+                    //     Email = "tom@test.com"
+                    // },
                 };
 
                 foreach (var user in users)

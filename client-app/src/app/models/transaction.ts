@@ -3,6 +3,7 @@ import { IProperty } from "./Property";
 
 export interface ITransaction {
     id: string;
+    sequenceNo: string;
     contractPrice: number;
     monthlyAmortization: number;
     terms: number;

@@ -20,6 +20,7 @@ import{
 import { keys, values } from 'mobx'
 import SelectInput from '../../app/common/form/SelectInput'
 import { category } from '../../app/common/options/categoryOptions'
+import { observer } from 'mobx-react-lite'
 
 
 
@@ -266,6 +267,6 @@ const AddPropertyForm = () => {
         </div>
     )
 }
-export default AddPropertyForm
+export default observer(AddPropertyForm);
 
 

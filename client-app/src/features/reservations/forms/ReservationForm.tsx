@@ -22,7 +22,7 @@ const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { step, nextStep, prevStep, createReservation } = rootStore.reservationStore;
+  const { step, nextStep, prevStep, createReservation, submitting, loading } = rootStore.reservationStore;
 
   const renderForm = () => {
     switch (step) {
@@ -55,7 +55,7 @@ const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
       };
       createReservation(newClient);
     } else {
-      
+      // Edit Client
     }
   };
 
@@ -71,11 +71,12 @@ const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
           onSubmit={handleFinalFormSubmit}
           render={({ handleSubmit, invalid, pristine }) => (
             <Form onSubmit={handleSubmit}>
+
               <SelectPropertyForm />
               <PersonalInfoForm />
               <CoBorrowerAtty />
-                
               <WorkFormPersonal />
+              
               {/* {renderForm()}
 
               {step > 1 && (
@@ -94,19 +95,25 @@ const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 onClick={nextStep}
               /> */}
               <Button
-                // loading={submitting}
-                // disabled={loading || invalid || pristine}
+                loading={submitting}
+                disabled={loading || invalid || pristine}
                 floated="right"
                 positive
                 type="submit"
                 content="Submit"
+              />
+              <Button
+                onClick={() => history.push('/reservation')}
+                disabled={loading}
+                floated="right"
+                type="button"
+                content="Cancel"
               />
             </Form>
           )}
         />
       </Grid.Column>
 
-      <Grid.Column width={16}></Grid.Column>
     </Grid>
   );
 };

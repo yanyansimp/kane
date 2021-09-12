@@ -27,6 +27,8 @@ const DateInput: React.FC<IProps> = ({
         onKeyDown={(e) => e.preventDefault()}
         date={date}
         time={time}
+        // min={new Date().setDate(new Date().getDate()) - 1}
+        //max={new Date(2126, 5, 5, 16, 1)}
       />
       {touched && error && (
         <Label basic color="red">

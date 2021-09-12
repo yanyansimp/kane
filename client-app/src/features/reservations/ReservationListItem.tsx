@@ -1,14 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Table, Label, Button } from 'semantic-ui-react';
 import { setStatusColor, toMoney } from '../../app/common/util/util';
 import { IClient } from '../../app/models/client';
 
 const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
- const transaction = client.transactions[0];
+  const transaction = client.transactions[0];
+
   return (
     <Table.Row>
       <Table.Cell>
-        <h4>#1</h4>
+        <h4>
+          {'#'}
+          {transaction.sequenceNo}
+        </h4>
       </Table.Cell>
       <Table.Cell>
         <h4>
@@ -19,12 +24,12 @@ const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
           {client.suffix}
         </h4>
       </Table.Cell>
-      <Table.Cell>{transaction.property?.name}</Table.Cell>
+      <Table.Cell>
+        <h4>{transaction.property?.name}</h4>
+      </Table.Cell>
       <Table.Cell textAlign="center">{transaction.terms}</Table.Cell>
       <Table.Cell textAlign="center">
-        {transaction.contractPrice
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        {toMoney(transaction.contractPrice)}
       </Table.Cell>
       <Table.Cell textAlign="center">{toMoney(transaction.balance)}</Table.Cell>
       <Table.Cell>
@@ -33,7 +38,12 @@ const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
         </Label>
       </Table.Cell>
       <Table.Cell>
-        <Button circular icon="id badge outline" />
+        <Button
+          as={Link}
+          to={`/clients/${client.id}`}
+          circular
+          icon="id badge outline"
+        />
         <Button circular icon="pencil" />
         <Button circular icon="trash alternate outline" />
       </Table.Cell>

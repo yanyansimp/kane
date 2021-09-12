@@ -35,7 +35,7 @@ const LoginForm = () => {
         <Form onSubmit={handleSubmit} error>
           <Header
             as="h2"
-            content="Login to Kiri"
+            content="Login to Kane"
             color="teal"
             textAlign="center"
           />
