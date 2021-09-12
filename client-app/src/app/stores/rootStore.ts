@@ -10,6 +10,7 @@ import PropertyStore from "./propertyStore";
 import ReservationStore from './reservationStore';
 import TransactionTypeStore from './transactionTypeStore';
 import PaymentStore from './paymentStore';
+import HomePageStore from './homePageStore'
 
 configure({ enforceActions: 'always' });
 
@@ -24,6 +25,7 @@ export class RootStore {
   reservationStore: ReservationStore;
   transactionTypeStore: TransactionTypeStore;
   paymentStore: PaymentStore;
+  homePageStore: HomePageStore;
 
   constructor() {
     this.activityStore = new ActivityStore(this);
@@ -36,6 +38,7 @@ export class RootStore {
     this.reservationStore = new ReservationStore(this);
     this.transactionTypeStore = new TransactionTypeStore(this);
     this.paymentStore = new PaymentStore(this);
+    this.homePageStore = new HomePageStore(this);
   }
 }
 

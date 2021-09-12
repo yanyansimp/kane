@@ -26,6 +26,7 @@ const HomePage = () => {
           /> */}
           Kane Realty
         </Header>
+        
         {isLoggedIn && user ? (
           <Fragment>
             <Header

@@ -8,7 +8,6 @@ namespace Persistence
     {
         public DataContext(DbContextOptions options) : base(options)
         {
-            
         }
 
         public DbSet<Value> Values { get; set; }
@@ -23,6 +22,7 @@ namespace Persistence
         public DbSet<Document> Documents { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
+        public DbSet<LandingPhoto> LandingPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

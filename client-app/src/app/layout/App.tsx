@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { Route, withRouter, RouteComponentProps, Switch} from 'react-router-dom';
+import { Route, withRouter, RouteComponentProps, Switch, Link, useLocation, useParams} from 'react-router-dom';
 import NavBar from '../../features/nav/NavBar';
 import HomePage from '../../features/home/HomePage';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
@@ -27,12 +27,15 @@ import Reservation from '../../features/reservations/Reservation';
 import Payment from '../../features/payments/Payment';
 import ClientDetails from '../../features/clients/ClientDetails';
 import PrivateRoute from './PrivateRoute';
+import LandingPage from '../../features/home/LandingPage';
+import HomePageSample from '../../features/home/HomePageSample'
+import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
+  var id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
   const rootStore = useContext(RootStoreContext);
   const {setAppLoaded, token, appLoaded} = rootStore.commonStore;
   const {getUser} = rootStore.userStore;
-
   useEffect(() => {
     if (token) {
       getUser().finally(() => setAppLoaded());
@@ -42,19 +45,25 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   }, [getUser, setAppLoaded, token]);
 
   if (!appLoaded) return <LoadingComponent content='Loading app..' />
+  let noNavAndSideBar = true;
 
   return (
     <Fragment>
       <ModalContainer />
-      <Route exact path="/" component={HomePage} />
+      {/* <Route exact path="/" component={HomePage} /> */}
+      <Route exact path="/" component={HomePageSample} />
+      
       <ToastContainer position="bottom-right" />
       <Route
         path={'/(.+)'}
         render={() => (
           <Fragment>
-            <NavBar />
-            <SideBar />
-            <Container className={'main-container'}>
+          {location.pathname !== `/properties/${id}` && <NavBar /> }
+          {location.pathname !== `/properties/${id}` && <SideBar />}
+          {location.pathname === `/properties/${id}` && (noNavAndSideBar = false) }
+            {/* <NavBar /> */}
+            {/* <SideBar /> */}
+            <Container   className={noNavAndSideBar ?'main-container': ' '}>
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/calendar" component={Calendar} />
@@ -97,8 +106,15 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/createReservation', '/editReservation/:id']}
                   component={ReservationForm}
                 />
-
-                <PrivateRoute path="/profile/:username" component={ProfilePage} />
+                <Route exact path="/landingPage" component={LandingPage} />
+                
+                <Route 
+                key={location.key} 
+                path={['/properties/:id']} 
+                component={LandingPageOfPropertyType} 
+                />
+                
+                <Route path="/profile/:username" component={ProfilePage} />
                 <Route path="/login" component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>

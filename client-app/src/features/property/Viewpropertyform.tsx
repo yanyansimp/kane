@@ -76,7 +76,7 @@ const Viewpropertyform:React.FC = () => {
         </Table.Body>
       </Table>
         </Grid.Column>
-        <Grid.Column style={pagination}>
+        {/* <Grid.Column style={pagination}>
         <Pagination
               
               defaultActivePage={5}
@@ -87,7 +87,7 @@ const Viewpropertyform:React.FC = () => {
               nextItem={{ content: <Icon name='angle right' />, icon: true }}
               totalPages={50}
             />
-        </Grid.Column>
+        </Grid.Column> */}
       </Grid>
       
     );

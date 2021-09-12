@@ -8,7 +8,7 @@ import Occupied from './statusForm/ModalOccupiedForm'
 import Reserved from './statusForm/ModalReservedForm'
 import ModalEdit from './condition/ModalEditForm'
 import ModalEditPropertyType from './condition/ModalEditPropertyTypeForm'
-import ModalDelete from './condition/ModalDeleteForm'
+import ModalDeletePropertyType from './condition/ModalDeletePropertyTypeForm'
 
 
 

@@ -22,6 +22,8 @@ export default class PropertyTypeStore {
 
   @observable loadingInitial = true;
   @observable loading = false;
+  @observable submitting = false;
+  @observable target = '';
   @observable propertyTypeRegistry: any = [];
 
   //
@@ -200,4 +202,26 @@ export default class PropertyTypeStore {
       // console.log(error)
     }
   };
+
+    @action DeletePropertyType = async (id: string) => {
+        this.submitting = true;
+        try {
+            await agent.PropertyTypes.delete(id);
+            runInAction('deleting property', () => {
+              this.propertyTypeRegistry.delete(id);
+              this.submitting = false;
+              this.target = '';
+            //   history.push('/property')
+            });
+          } catch (error) {
+            runInAction('delete property error', () => {
+              this.submitting = false;
+              this.target = '';
+            });
+            console.log(error);
+          }
+    }
+
+
+
 }

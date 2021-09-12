@@ -75,7 +75,7 @@ interface IfirstChildProps {
                   propertyTypeId.properties?.map((property: any)=>{
                     if(property.status === 'Occupied'){
                       n[i][j] = property.name;
-                      d[i][j] = property.description;
+                      d[i][j] = property.description.substring(0,10)+'...';
                       l[i][j] = property.location;
                       s[i][j] = property.status;
                       j++

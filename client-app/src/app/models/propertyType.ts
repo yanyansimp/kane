@@ -9,9 +9,7 @@ export interface IPropertyType {
     properties?: IProperty[] | null;
 }
 
-export interface IPropertyTypeFormValues extends Partial<IPropertyType> {
-
-}
+export interface IPropertyTypeFormValues extends Partial<IPropertyType> {}
 
 export class PropertyTypeFormValues implements IPropertyTypeFormValues {
   id?: string = undefined;

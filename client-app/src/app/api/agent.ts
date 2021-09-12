@@ -11,6 +11,7 @@ import { ITransactionType, ITransactionTypeFormValues } from '../models/transact
 import { IPayment, IPaymentFormValues } from '../models/payment';
 import { IClient } from '../models/client';
 import { ITransaction, ITransactionValues } from '../models/transaction';
+import { ILandingPhoto } from '../models/landingPhoto'
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -67,6 +68,7 @@ const PropertyTypes = {
   create: (propertyType: IPropertyType) => requests.post('/propertyTypes', propertyType),
   update: (propertyType: IPropertyType) => 
     requests.put(`/propertyTypes/${propertyType.id}`,propertyType),
+  delete: (id: string) => requests.del(`/propertyTypes/${id}`),
 };
 
 const Properties = {
@@ -76,6 +78,13 @@ const Properties = {
     requests.put(`/properties/${property.id}`,property),
   delete: (id: string) => requests.del(`/properties/${id}`),
 };
+const LandingPhotos = {
+  list: (): Promise<ILandingPhoto[]> => requests.get('/landingPhotos'),
+  create: (landingPhoto: ILandingPhoto) => requests.post('/landingPhotos', landingPhoto),
+  update: (landingPhoto: ILandingPhoto) => 
+    requests.put(`/landingPhotos/${landingPhoto.id}`,landingPhoto),
+  delete: (id: string) => requests.del(`/landingPhotos/${id}`),
+}
 
 const Activities = {
   list: (): Promise<IActivity[]> => requests.get('/activities'),
@@ -127,5 +136,6 @@ export default {
   TransactionTypes,
   Transactions,
   Payments,
-  Clients
+  Clients,
+  LandingPhotos
 };

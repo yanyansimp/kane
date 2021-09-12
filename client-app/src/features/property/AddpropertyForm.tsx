@@ -133,7 +133,7 @@ const AddPropertyForm = () => {
      val0 = data.value;
    };
    
-  
+   
     
     return (
         <div className={classes.mainContainer}>

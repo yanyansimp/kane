@@ -53,6 +53,43 @@ body {
   border-radius: 10px !important;
 }
 
+/* navbar-landingpage*/
+.ui.inverted.horizontal.top.fixed.menu {
+  margin-top: 4.61em;
+  background-color: white;
+  padding: 10px;
+}
+
+.ui.inverted.horizontal.top.fixed.menu > .item {
+  align-items: center;
+  color: black;
+  display: flex;
+  height: 50px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  justify-items: flex-start;
+}
+
+.ui.inverted.horizontal.top.fixed.menu > .item > span{
+  align-items: center;
+  display: flex;
+  height: 20px;
+}
+
+.ui.inverted.horizontal.top.fixed.menu > a.item.active {
+  background-color: #ffff99;
+  border-radius: 10px !important;
+}
+
+.ui.inverted.horizontal.top.fixed.menu > .item.active > span {
+  color: #ffce2f;
+}
+
+.ui.inverted.horizontal.top.fixed.menu > a.item:hover {
+  background-color: #ffff99;
+  border-radius: 10px !important;
+}
+
 /* main-container */
 
 .ui.container.main-container {
@@ -76,6 +113,14 @@ body {
     rgb(32, 167, 172) 89%
   ) !important;
   height: 100vh;
+}
+.landingpage {
+  background-image: linear-gradient(
+    135deg,
+    rgb(24, 42, 115) 0%,
+    rgb(33, 138, 174) 69%,
+    rgb(32, 167, 172) 89%
+  ) !important;
 }
 
 .masthead .ui.menu .ui.button,
@@ -126,3 +171,16 @@ body {
 /* .nine.wide.column{
   margin-left: 10px;
 } */
+
+/* Slider Image */
+
+.slideImage {
+  opacity: 0;
+  transition-duration: 1s ease;
+}
+
+.slideImage.activeImage {
+  opacity: 1;
+  transition-duration: 1s;
+  transform: scale(1.08);
+}
