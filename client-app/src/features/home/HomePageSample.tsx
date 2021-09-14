@@ -154,7 +154,7 @@ const HomePageSample = () => {
                 {propertyTypes.map((properties : any, index:any) => {  
                     return(
                     <Card style={cardStyle} raised link href={`/properties/${properties.id}`}  key={properties.id} inverted> 
-                     <Image src={properties.image.url} wrapped ui={false} />
+                     <Image src={properties.image?.url} wrapped ui={false} />
                         <Card.Content>
                             <Card.Header>{properties.name}</Card.Header>
                             <Card.Meta>

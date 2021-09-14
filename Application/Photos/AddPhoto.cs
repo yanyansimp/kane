@@ -11,7 +11,7 @@ using Persistence;
 
 namespace Application.Photos
 {
-    public class Add
+    public class AddPhoto
     {
         public class Command : IRequest<Photo>
         {
@@ -27,8 +27,6 @@ namespace Application.Photos
             public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
             {
                 _photoAccessor = photoAccessor;
-                _userAccessor = userAccessor;//
-                _context = context;//
             }
 
             public async Task<Photo> Handle(Command request,
@@ -36,7 +34,6 @@ namespace Application.Photos
             {
                 var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername()); //
 
                 var photo = new Photo
                 {
@@ -44,14 +41,11 @@ namespace Application.Photos
                     Id = photoUploadResult.PublicId
                 };
 
-                if (!user.Photos.Any(x => x.IsMain)) //
-                    photo.IsMain = true; //
-                
-                user.Photos.Add(photo);//
+                var p = await _context.Photos.FindAsync(photoUploadResult.PublicId);
 
-                var success = await _context.SaveChangesAsync() > 0;//
+                // await _context.SaveChangesAsync();
 
-                if (success) return photo;
+                if (photo != null) return photo;
 
                 throw new Exception("Problem saving changes");
             }

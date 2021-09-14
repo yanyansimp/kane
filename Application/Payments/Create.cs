@@ -4,11 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Domain;
-using Application.Errors;
 using FluentValidation;
 using MediatR;
 using Persistence;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Application.Payments

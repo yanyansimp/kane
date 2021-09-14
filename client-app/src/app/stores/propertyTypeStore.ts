@@ -19,15 +19,26 @@ export default class PropertyTypeStore {
     @observable propertyTypeRegistry: any = [];
     @observable submitting = false;
     @observable target = '';
+    @observable status = '';
     
-  
+     /// Image Upload
+    @observable image: Blob | null = null;
+    @observable files: any[] = [];
+    @observable uploadingPhoto = false;
 
-
+    @action setFiles = (files: object[]) => {
+        this.files = files;
+      };
+    
+    @action setImage = (file: Blob) => {
+        this.image = file;
+    };
 
 
     @computed get propertyTypesByName() {
         return Array.from(this.propertyTypeRegistry.values()).sort();
     }
+
     @observable propertyTyCount: any = [];
     @action displayPropertyTypes = async (callback :any) => {
         try {
@@ -42,7 +53,6 @@ export default class PropertyTypeStore {
     @action getpPropertyTypes = async( callback: any ) => {
         try {
             const propertyTypes = await agent.PropertyTypes.list();
-            // const properties = await agent.Properties.list(); // To be removed
             runInAction('loading property types', () => {
                 var propertyName
                 var propertyDescription
@@ -111,7 +121,7 @@ export default class PropertyTypeStore {
                     var count:number = 0;
                     properties.forEach((property) => {
                         if(propertyType.id === property.propertyTypeId){
-                            count += 1
+                            count += 1;
                             // console.log(property.name);
                         }
                     })
@@ -146,11 +156,41 @@ export default class PropertyTypeStore {
     }
 
     @action createPropertyType = async (propertyType: IPropertyType) => {
-        try {
-            await agent.PropertyTypes.create(propertyType);
-        } catch (error) {
+        this.submitting = true;
+        try{
+            runInAction(() => {
+                this.status = 'Uploading Details ...';
+            });
+            console.log(this.image)
+            var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
+            console.log(returnimage)
+        //    let newImage = {
+        //         id: returnimage.id,
+        //         url: returnimage.url,
+        //    };
+           console.log(returnimage);
+           this.image = null;
+           this.files = [];
+            // propertyType.image = newImage;
+           const prop = await agent.PropertyTypes.create(propertyType);
+             // Image Upload
+             if (this.image  !== null) {
+                runInAction(()=>{
+                    this.status = 'Uploading Image ...';
+                });
+             }
 
+        }catch(error){
+            console.log(error)
         }
+       
+       
+        // try {
+        //     await agent.PropertyTypes.create(propertyType);
+            
+        // } catch (error) {
+
+        // }
     }
 
     @action EditPropertyType = async (propertyType: IPropertyType) => {

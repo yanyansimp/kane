@@ -20,7 +20,7 @@ const dropzoneActive = {
 };
 
 const PhotoWidgetDropzone: React.FC<IProps> = ({setFiles}) => {
-
+    
     const onDrop = useCallback(acceptedFiles => {
         setFiles(acceptedFiles.map((file: object) => Object.assign(file, {
             preview: URL.createObjectURL(file)

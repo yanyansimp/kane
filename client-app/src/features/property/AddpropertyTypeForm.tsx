@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import ReactCircleModal from 'react-circle-modal'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Image, Input, Grid, Tab, Table,  } from 'semantic-ui-react'
+import { Image, Input, Grid, Tab, Table, Segment,  } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { v4 as uuid } from 'uuid';
 import{
@@ -11,6 +11,7 @@ import{
     TextField,
     TextareaAutosize 
 } from '@material-ui/core'
+import PhotoUpload from './photoUpload/PhotoUpload';
 
 
 const useStyles = makeStyles({
@@ -171,7 +172,7 @@ const AddpropertyTypeForm = () => {
                         />
                         <TextField
                         className={classes.inputField} 
-                                label='Descriptopn'
+                                label='Description'
                                 variant='outlined'
                                 onChange={(e) =>{
                                     val2 = e.target.value
@@ -187,51 +188,17 @@ const AddpropertyTypeForm = () => {
                         />
                 </div>
 {/* UPLOAD IMAGE */}
-                <div>
-                        
-                         <ImageUploading
-                            value={images}
-                            onChange={onChange}
-                            maxNumber={maxNumber}
-                        >
-                            {({
-                            imageList,
-                            onImageUpload,
-                            onImageUpdate,
-                            onImageRemove,
-                            isDragging,
-                            dragProps
-                            }) => (
-                            // write your building UI
-                            <div className="upload__image-wrapper">
-                                <Button 
-                                className={classes.uploadbutton} 
-                                style={isDragging ? { color: "red" } : undefined}
-                                onClick={onImageUpload}
-                               
-                                >
-                               UPLOAD IMAGE OF PROPERTY
-                                </Button>
-                                {imageList.map((image, index) => (
-                                <div className="image-item">
-                                    <img src={image.dataURL} alt="" width="500" />
-                                    <div className="image-item__btn-wrapper">
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageUpdate(index)}>Update</Button>
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageRemove(index)}>Remove</Button>
-                                    </div>
-                                </div>
-                                ))}
-                            </div>
-                            )}
-                        </ImageUploading>   
-                </div>       
-                        
-                      
+               
+                        <Segment>
+                            <h3>Photo</h3>
+                            <PhotoUpload />
+                        </Segment>
+                                
                     <>
                             <Button 
                             className={classes.btn1}
                                 variant='contained'
-                                type='submit'
+                                type='button'
                                 onClick={() => {
                                     let newVal = {
                                         ...propertyType,
@@ -240,7 +207,6 @@ const AddpropertyTypeForm = () => {
                                         description: val2,
                                         location: val3
                                     };
-                                    
                                     createPropertyType(newVal!);
                                 }}
                             >
