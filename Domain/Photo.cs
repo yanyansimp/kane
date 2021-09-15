@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Domain
 {
     public class Photo
@@ -5,5 +8,6 @@ namespace Domain
         public string Id { get; set; }
         public string Url { get; set; }
         public bool IsMain { get; set; }
+
     }
 }

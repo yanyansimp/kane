@@ -5,6 +5,7 @@ import { IProperty } from "../models/Property";
 import { RootStore } from "./rootStore";
 import { history } from '../..';
 import { forEachChild } from "typescript";
+import { toast } from "react-toastify";
 
 
 export default class PropertyStore {
@@ -20,6 +21,23 @@ export default class PropertyStore {
     @observable target = '';
     @observable submitting = false;
     @observable propertyTypeAvailableId: any = [];
+    @observable status = '';
+
+
+      /// Image Upload
+    @observable image: Blob | null = null;
+    @observable files: any[] = [];
+    @observable uploadingPhoto = false;
+
+    @action setFiles = (files: object[]) => {
+        // console.log(files)
+        this.files = files;
+      };
+    
+    @action setImage = (file: Blob) => {
+        // console.log(file)
+        this.image = file;
+    };
     
     @computed get propertiesByName() {
         return Array.from(this.propertyRegistry.values()).sort();
@@ -61,11 +79,26 @@ export default class PropertyStore {
     }
 
     @action createProperty = async (property: IProperty) => {
+        
+        this.submitting = true;
         try {
-            await agent.Properties.create(property);
+            runInAction(() => {
+                this.status = 'Uploading Details ...';
+            });
+            var returnimage = await agent.Properties.uploadPhoto(this.image!);
+            let newImage = {
+                id: returnimage.id,
+                url: returnimage.url,
+                isMain: true,
+           };
+           property.image = newImage;
+           
+           await agent.Properties.create(property);
+           toast.success('Property Successfully Added');
         } catch (error) {
 
         }
+        // await agent.Properties.create(property);
     }
     
     @action EditProperty = async (property: IProperty) => {

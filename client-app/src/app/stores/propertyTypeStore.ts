@@ -3,6 +3,8 @@ import agent from "../api/agent";
 import { IPropertyType } from "../models/propertyType";
 import { IProperty } from "../models/Property";
 import { RootStore } from "./rootStore";
+import { history } from '../..';
+import { toast } from "react-toastify";
 
 
 
@@ -97,7 +99,7 @@ export default class PropertyTypeStore {
                     ReservedCount, // 4
                     OccupiedCount, // 5
                     propertyType.id, // 6
-                    propertyLocation // 7
+                    propertyLocation, // 7
                   );
                 })
                 callback(propertyTypeCounts)
@@ -161,36 +163,27 @@ export default class PropertyTypeStore {
             runInAction(() => {
                 this.status = 'Uploading Details ...';
             });
-            console.log(this.image)
-            var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
-            console.log(returnimage)
-        //    let newImage = {
-        //         id: returnimage.id,
-        //         url: returnimage.url,
-        //    };
-           console.log(returnimage);
-           this.image = null;
-           this.files = [];
-            // propertyType.image = newImage;
-           const prop = await agent.PropertyTypes.create(propertyType);
-             // Image Upload
-             if (this.image  !== null) {
+            let propId = propertyType.id
+        var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
+           let newImage = {
+                id: returnimage.id,
+                url: returnimage.url,
+                isMain: true,
+                propertyTypeId: propertyType.id
+           };
+                propertyType.image = newImage;
+             if (newImage  !== null) {
                 runInAction(()=>{
                     this.status = 'Uploading Image ...';
                 });
+                await agent.PropertyTypes.create(propertyType);
+             }else {
+                 console.log("Image was Empty")
              }
-
+             toast.success('Property Type Successfully Added');
         }catch(error){
             console.log(error)
         }
-       
-       
-        // try {
-        //     await agent.PropertyTypes.create(propertyType);
-            
-        // } catch (error) {
-
-        // }
     }
 
     @action EditPropertyType = async (propertyType: IPropertyType) => {
@@ -219,13 +212,21 @@ export default class PropertyTypeStore {
 
     @action DeletePropertyType = async (id: string) => {
         this.submitting = true;
+        var ImageId: any = []
         try {
-            await agent.PropertyTypes.delete(id);
+            const propertyTypes = await agent.PropertyTypes.list();
+            propertyTypes.forEach((property) => {
+                if(property.id === id){
+                    ImageId = property.image?.id
+                }
+            })
+             await agent.PropertyTypes.delete(id);
+             await agent.PropertyTypes.del(ImageId);
             runInAction('deleting property', () => {
               this.propertyTypeRegistry.delete(id);
               this.submitting = false;
               this.target = '';
-            //   history.push('/property')
+              history.push('/property')
             });
           } catch (error) {
             runInAction('delete property error', () => {
@@ -235,6 +236,24 @@ export default class PropertyTypeStore {
             console.log(error);
           }
     }
+    // @action DeletePhoto = async (id: string) => {
+    //     this.submitting = true;
+    //     try {
+    //         await agent.PropertyTypes.delete(id);
+    //         runInAction('deleting property', () => {
+    //           this.propertyTypeRegistry.delete(id);
+    //           this.submitting = false;
+    //           this.target = '';
+    //         //   history.push('/property')
+    //         });
+    //       } catch (error) {
+    //         runInAction('delete property error', () => {
+    //           this.submitting = false;
+    //           this.target = '';
+    //         });
+    //         console.log(error);
+    //       }
+    // }
 
 
 

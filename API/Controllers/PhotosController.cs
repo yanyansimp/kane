@@ -15,7 +15,7 @@ namespace API.Controllers
         }
 
         [HttpPost("addPhoto")]
-        public async Task<Photo> AddPhoto([FromForm]Add.Command command)
+        public async Task<Photo> AddPhoto([FromForm]AddPhoto.Command command)
         {
             return await Mediator.Send(command);
         }

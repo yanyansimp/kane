@@ -1,26 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dropdown, } from 'semantic-ui-react'
+import { Dropdown,Segment } from 'semantic-ui-react'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType } from "react-images-uploading"
 import AddpropertyTypeForm from './AddpropertyTypeForm'
 import { RootStoreContext } from '../../app/stores/rootStore'
+
 import { v4 as uuid } from 'uuid';
 import{
     Typography,
     Button,
-    Grid,
-    Checkbox,
     TextField,
-    OutlinedInput,
-    FormControl,
-    InputLabel,
-    InputAdornment,
-    IconButton
 } from '@material-ui/core'
-import { keys, values } from 'mobx'
-import SelectInput from '../../app/common/form/SelectInput'
-import { category } from '../../app/common/options/categoryOptions'
-
+import PhotoUploadProp from './photoUpload/PhotoUploadProp';
 
 
 const useStyles = makeStyles({
@@ -189,7 +180,6 @@ const AddPropertyForm = () => {
                 </div>
 {/* UPLOAD IMAGE */}
                 <div>
-
                 <div className={classes.drpdwnField}>
                     
                      <Dropdown 
@@ -202,50 +192,16 @@ const AddPropertyForm = () => {
                         options={optionsArray}
                     />
                 </div>
-                         <ImageUploading
-                            value={images}
-                            onChange={onChange}
-                            maxNumber={maxNumber}
-                        >
-                            {({
-                            imageList,
-                            onImageUpload,
-                            onImageUpdate,
-                            onImageRemove,
-                            isDragging,
-                            dragProps
-                            }) => (
-                            // write your building UI
-                            <div className="upload__image-wrapper">
-                                <Button 
-                                className={classes.uploadbutton} 
-                                style={isDragging ? { color: "red" } : undefined}
-                                onClick={onImageUpload}
-                               
-                                >
-                               UPLOAD IMAGE OF PROPERTY
-                               
-                                </Button>
-                                {imageList.map((image, index) => (
-                                <div className="image-item">
-                                    <img src={image.dataURL} alt="" width="500" />
-                                    <div className="image-item__btn-wrapper">
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageUpdate(index)}>Update</Button>
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageRemove(index)}>Remove</Button>
-                                    </div>
-                                </div>
-                                ))}
-                            </div>
-                            )}
-                        </ImageUploading>   
+                         <Segment>
+                            <h3>Photo</h3>
+                            <PhotoUploadProp />
+                        </Segment>
                 </div>       
-                        
-                      
                     <>
                             <Button 
                             className={classes.btn}
                                 variant='contained'
-                                type='submit'
+                                type='button'
                                 onClick={() => {
                                     let newVal = {
                                         id: uuid(),

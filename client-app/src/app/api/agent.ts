@@ -77,6 +77,7 @@ const PropertyTypes = {
   delete: (id: string) => requests.del(`/propertyTypes/${id}`),
   uploadPhoto: (photo: Blob ): Promise<IPhoto> =>
     requests.postForm(`/photos/addPhoto`, photo),
+  del: (id: string) => requests.del(`/photos/${id}`),
 };
 
 const Properties = {
@@ -85,7 +86,10 @@ const Properties = {
   update: (property: IProperty) => 
     requests.put(`/properties/${property.id}`,property),
   delete: (id: string) => requests.del(`/properties/${id}`),
+  uploadPhoto: (photo: Blob ): Promise<IPhoto> =>
+    requests.postForm(`/photos/addPhoto`, photo),
 };
+
 const LandingPhotos = {
   list: (): Promise<ILandingPhoto[]> => requests.get('/landingPhotos'),
   create: (landingPhoto: ILandingPhoto) => requests.post('/landingPhotos', landingPhoto),
