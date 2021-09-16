@@ -113,7 +113,8 @@ export default class PropertyStore {
                     this.propertyRegistry.set(property.id, property);
                     this.property = property;
                     this.loading = false;
-                    // history.push('/dashboard')
+                    
+                    
                 })
             } catch (error){
                 runInAction('editing property error', () => {
@@ -121,6 +122,7 @@ export default class PropertyStore {
                 })
                 console.log("error")
             }
+            toast.success('property has been edited');
     }
 
     @action DeleteProperty = async (id: string) => {

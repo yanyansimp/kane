@@ -201,6 +201,7 @@ export default class PropertyTypeStore {
                 this.propertyTypeRegistry.set(propertyType.id, propertyType);
                 this.propertyType = propertyType;
                 this.loading = false;
+                
             })
         } catch (error){
             runInAction('editing property error', () => {
