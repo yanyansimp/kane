@@ -95,6 +95,7 @@ export default class PropertyStore {
            
            await agent.Properties.create(property);
            toast.success('Property Successfully Added');
+           window.location.reload();
         } catch (error) {
 
         }

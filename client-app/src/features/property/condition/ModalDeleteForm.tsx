@@ -19,9 +19,12 @@ import { useHistory } from 'react-router-dom'
         },[name])
 
     let history = useHistory();
-    function handleClick() {
+    function handleClick(e: any) {
     DeleteProperty(name.id);
-    history.push("/dashboard");
+    window.location.reload();
+    // e.target.reset();
+    // this.props.history.push('/property');
+    // history.push("/property");
   } 
   
   return (

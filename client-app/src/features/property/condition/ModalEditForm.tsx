@@ -248,7 +248,7 @@ const optionsArray = [
                     propertyTypeId: name.propertyTypeId
                 };
                 EditProperty(editVal);
-                history.push("/property");
+                window.location.reload();
             }}
             >
             <Icon name='checkmark' /> Submit
