@@ -79,13 +79,13 @@ const HomePageSample = () => {
 
 
     return (
-        <Segment className="landingpage">
-                    {LandingPage.map((landingpage: any) => {
+        <Segment > 
+                    {LandingPage.map((landingpage: any) => { //className="landingpage"
                         if( landingpage.isMain === 'Header'){
                             return(
                                <> <Header style={{
                                     height: "700px",
-                                    backgroundImage: `url(${landingpage.url})`, //landingpage.image.url,
+                                    backgroundImage: `url(${landingpage.url})`,
                                     backgroundSize: "1000px 600px",
                                     backgroundPosition: 'left',
                                     backgroundRepeat: 'no-repeat'
@@ -102,12 +102,6 @@ const HomePageSample = () => {
                                     <Card style={cardFormLogReg}>
                                         <Card.Content inverted textAlign="center" vertical className="masthead">
                                             <Header as="h1" inverted>
-                                            {/* <Image
-                                                size="massive"
-                                                src="/textwhiteassets/logo.png"
-                                                alt="logo"
-                                                style={{ marginBottom: 12, width: "30px"}}
-                                            /> */}
                                             Kane Realty
                                             </Header>
                                             { isLoggedIn && user ? (
@@ -168,12 +162,7 @@ const HomePageSample = () => {
                     )
                 })}
             </Card.Group>
-
-
             <Divider hidden/>
-            <Divider hidden/>
-            <Divider hidden/>
-           
             <ImageSlider/>
             <Divider hidden/>
             <Divider hidden/>

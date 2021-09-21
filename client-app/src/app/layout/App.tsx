@@ -33,6 +33,7 @@ import LandingPage from '../../features/home/LandingPage';
 import HomePageSample from '../../features/home/HomePageSample'
 import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
 
+
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   var id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
   const rootStore = useContext(RootStoreContext);
@@ -116,6 +117,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           </Fragment>
         )}
       />
+      
     </Fragment>
   );
 };

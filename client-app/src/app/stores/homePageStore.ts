@@ -19,7 +19,15 @@ export default class HomePageStore{
 
     @action displayLandingPage = async (callback :any) => {
         try {
+            const landingSlide:any = [];
+            var i = 0
             const landingPhoto = await agent.LandingPhotos.list();
+            landingPhoto.forEach((landing)=>{
+                if(landing.isMain === "Header"  ){
+                    landingSlide[i] = landing
+                    i++
+                }
+            })
             runInAction('loading Property TYpe', () => {
                 callback(landingPhoto)
             })

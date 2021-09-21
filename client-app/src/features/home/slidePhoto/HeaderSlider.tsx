@@ -1,8 +1,13 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Card, Container, Divider, Header, Image, Step  } from 'semantic-ui-react';
-import {FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa'
+import React, { useContext, useEffect, useState } from 'react'
+import { Container, Grid, Image } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore';
-
+const slider = {
+    position: "relative",
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  }
 const slideshow = {
   margin: "0 auto",
   overflow: "hidden",
@@ -35,7 +40,13 @@ const leftArrow = {
     userSelect: "none",
   }
 
-const ImageSlider = () => {
+const sliderImage ={
+    height: '60px',
+    width: '122px',
+    
+}
+
+const HeaderSlider = () => {
     const rootStore = useContext(RootStoreContext);
     const {displayLandingBody} = rootStore.homePageStore;
     const [LandingPage, setLandingPage] = useState([])
@@ -76,8 +87,8 @@ const ImageSlider = () => {
     if (!Array.isArray(LandingPage) || LandingPage.length <= 0) {
         return null;
       }
-  return (
-   <Container style={slideshow}>
+    return (
+        <Container style={slideshow}>
        {/* <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
        <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step> */}
        <div
@@ -92,6 +103,7 @@ const ImageSlider = () => {
                 >
                   <div>
                     <Image src={slide.url} alt="travel image" style={image} />
+
                   </div>
                   
               </div>
@@ -111,8 +123,6 @@ const ImageSlider = () => {
 
    </Container>
     )
-};
+}
 
-export default ImageSlider;
-
-
+export default HeaderSlider

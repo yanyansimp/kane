@@ -82,6 +82,11 @@ const NavMenu: React.FC = () => {
                         icon ='bars'
                         >
                         <Dropdown.Menu>
+                        <Image
+                        src="/assets/logo/LogoBlackGold.svg"
+                        alt="logo"
+                        style={{ width: '150px' }}
+                    />
                             <Dropdown.Item>
                                 <Popup trigger={<Button primary>OUR BRAND</Button>} hoverable inverted basic position='left center'>
                                 <Grid columns={1} style={{width:"150px"}}>
