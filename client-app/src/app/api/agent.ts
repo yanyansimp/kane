@@ -96,6 +96,8 @@ const LandingPhotos = {
   update: (landingPhoto: ILandingPhoto) => 
     requests.put(`/landingPhotos/${landingPhoto.id}`,landingPhoto),
   delete: (id: string) => requests.del(`/landingPhotos/${id}`),
+  uploadPhoto: (photo: Blob ): Promise<IPhoto> =>
+    requests.postForm(`/photos/addPhoto`, photo),
 }
 
 const Activities = {

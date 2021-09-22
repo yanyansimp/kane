@@ -15,8 +15,8 @@ const BodyClass = () => {
     const handleFinalFormSubmit = (values: any) => {
       const { ...homepage } = values;
       let newhomepage = {
-        // id:uuid(),
-        id:"1ada948b-c62a-4708-afe0-f1226c2dedf8",
+        id:uuid(),
+        // id:"1ada948b-c62a-4708-afe0-f1226c2dedf8",
         ...homepage,
         isMain: 'Body'
       }

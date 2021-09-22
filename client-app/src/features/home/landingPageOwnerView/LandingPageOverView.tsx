@@ -6,6 +6,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ModalEditForm from '../modalView/ModalEditForm';
 import ImageSlider from '../slidePhoto/ImageSlider';
 
+
 const cardStyle = {
   padding: '1px',
   borderRadius: '10px',
@@ -47,8 +48,8 @@ const image = {
 }
 const rightArrow = {
   position: "absolute",
-  top: "50%",
-  right: "32px",
+  top: "60%",
+  right: "70px",
   fontSize: "3rem",
   color: "#000",
   zIndex: "10",
@@ -57,8 +58,8 @@ const rightArrow = {
 }
 const leftArrow = {
   position: "absolute",
-  top: "50%",
-  left: "32px",
+  top: "60%",
+  left: "60px",
   fontSize: "3rem",
   color: "#000",
   zIndex: "10",
@@ -71,171 +72,214 @@ const sliderImage ={
   width: '80px',
   
 }
-const src="/assets/categoryImages/Lumina.jpg"
-const MenuHeader = () => {
+const LandingPageOverView = () => {
   const rootStore = useContext(RootStoreContext);
-  const {displayPropertyTypes} = rootStore.propertyTypeStore;
-  const [propertyTypes, setpropertyTypes] = useState([])
-  const {displayLandingPage, displayLandingBody} = rootStore.homePageStore;
   const {openModal} = rootStore.modalStore;
+  const {displayLandingPageHeader, displayLandingBody} = rootStore.homePageStore;
   const [LandingPage, setLandingPage] = useState([])
-  const [SlidePhoto, setSlidePhoto] = useState([])
-  const propFunc = (prop: any) => {
-    setpropertyTypes(prop)
-  }
   const landfunc = (prop: any) => {
-    setLandingPage(prop)
-  }
-  const slidefunc = (prop: any) => {
-    setSlidePhoto(prop)
-}
-  useEffect(() => {
-    displayPropertyTypes(propFunc)
-    displayLandingPage(landfunc)
-    displayLandingBody(slidefunc)
-  }, [displayPropertyTypes, displayLandingPage, displayLandingBody]);
-
-  const [current, setCurrent] = useState(0)
-    const length = SlidePhoto.length;
-    const nextSlide = () => {
-        setCurrent(current === length - 1 ? 0 : current + 1);
-      };
-    const prevSlide = () => {
-        setCurrent(current === 0 ? length - 1 : current - 1);
-    };
-    if (!Array.isArray(SlidePhoto) || SlidePhoto.length <= 0) {
-        return null;
+        setLandingPage(prop)
       }
-
-    return (
-      <Card style={{  width:"450px"}}>
-        {LandingPage.map((landingpage: any) => {
-          if( landingpage.isMain === 'Header'){
-            return(
-              <Card.Content
-              style={{
-                height: "300px",
-                width:"450px",
-                backgroundImage: `url(${landingpage.url})`, //landingpage.image.url,
-                backgroundSize: "cover",
-              }}
-            >
-              <Card.Description style={{ color: "white" }}>
-                        <Menu inverted style={{width:"0px"}}>
-                          <Menu.Item name='home' position='left'/>
-                          <Menu.Item name='messages' position='left'/>
-                          <Menu.Item name='friends' position='left'/>
-                          <Menu.Menu position='right'>
-                              <Menu.Item name='login'/>
-                              <Menu.Item>
-                                <Button primary>Register</Button>
-                              </Menu.Item>
-                            </Menu.Menu>
-                        </Menu>
-                    <Card.Description textAlign="center">
-                      <h5>{landingpage.name} </h5> 
-                      <h6>{landingpage.description}</h6>
-                  </Card.Description>
-              </Card.Description>
-            </Card.Content>
-            )
+      const delay = 4500;
+    const [index2, setIndex] = useState(0);
+    let timer: number;
+  useEffect(() => {
+        displayLandingPageHeader(landfunc)
+        timer = window.setTimeout(() => 
+                setIndex((prevIndex) => 
+                  prevIndex === LandingPage.length -1 ? 0 : prevIndex + 1
+                ),
+                delay
+        );
+        return() => {};
+      }, [ displayLandingPageHeader ]);
+        function nextSlide(){
+          setIndex(index2 === LandingPage.length - 1 ? 0 : index2 + 1);
+          };
+        function prevSlide (){
+          setIndex(index2 === 0 ? LandingPage.length - 1 : index2 - 1);
+        };
+        if (!Array.isArray(LandingPage) || LandingPage.length <= 0) {
+            return null;
           }
-          
-        })} 
+  return(
+    <Container style={{width:"450px"}}>
+      <div
+         className="slideshowSlider"
+      
+      >
+        {LandingPage.map((landingpage:any, index) =>{
+              return(
+                <div className={index === index2 ? 'slideImage activeImage' : 'slideImage' }>
+                  {index === index2 && (
+                    <Card.Content
+                    className="slide"
+                    style={{
+                      height: "300px",
+                      width: "450px",
+                      backgroundImage: `url(${landingpage.url})`,
+                      backgroundSize: "cover",
+                    }}
+                   
+                    >
+                      <Button primary  onClick={() => openModal(<ModalEditForm name={landingpage}/>)} size="huge" inverted>
+                        Edit
+                     </Button>
+                      <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
+                      <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step>
+                  </Card.Content>
+                  )}
+                </div>
+              )
+          })}
+      </div>
+      <div className="slideshowDots">
+          {LandingPage.map((_,idx) => (
+              <div key={idx} className={`slideshowDot${index2 === idx ? " active" : ""}`} 
+              onClick={() => {
+              setIndex(idx);
+            }}></div>
+          ))}
+      </div>
+       
+    </Container>
+  )
+//   const rootStore = useContext(RootStoreContext);
+//   const {displayPropertyTypes} = rootStore.propertyTypeStore;
+//   const [propertyTypes, setpropertyTypes] = useState([])
+//   const {displayLandingPageHeader, displayLandingBody} = rootStore.homePageStore;
+//   const [LandingPage, setLandingPage] = useState([])
+//   const [SlidePhoto, setSlidePhoto] = useState([])
+//   const propFunc = (prop: any) => {
+//     setpropertyTypes(prop)
+//   }
+//   const landfunc = (prop: any) => {
+//     setLandingPage(prop)
+//   }
+//   const slidefunc = (prop: any) => {
+//     setSlidePhoto(prop)
+// }
+//   useEffect(() => {
+//     displayPropertyTypes(propFunc)
+//     displayLandingPageHeader(landfunc)
+//     displayLandingBody(slidefunc)
+//   }, [displayPropertyTypes, displayLandingPageHeader, displayLandingBody]);
 
-            <Divider hidden/>
-            <Divider hidden/>
+//   const [current, setCurrent] = useState(0)
+//     const length = SlidePhoto.length;
+//     const nextSlide = () => {
+//         setCurrent(current === length - 1 ? 0 : current + 1);
+//       };
+//     const prevSlide = () => {
+//         setCurrent(current === 0 ? length - 1 : current - 1);
+//     };
+//     if (!Array.isArray(SlidePhoto) || SlidePhoto.length <= 0) {
+//         return null;
+//       }
+//     return (
+//       <Card style={{  width:"450px"}}>
+//         {LandingPage.map((landingpage: any) => {
+//             return(
+//               <Card.Content
+//               style={{
+//                 height: "300px",
+//                 width:"450px",
+//                 backgroundImage: `url(${landingpage.url})`, 
+//                 backgroundSize: "cover",
+//               }}
+//             >
+//             </Card.Content>
+//             )
+//         })} 
+
+//             <Divider hidden/>
+//             <Divider hidden/>
          
-          <Card.Group>
-          {propertyTypes.map((properties : any, index:any) => {  // {`/properties/${properties.id}`}, key={properties.id}, "{"/edit/${id}"}",  {'/properties/' + properties.id}
-                    return(
-                    <Card style={cardStyle} raised link  inverted> 
-                     <Image src={properties.image.url} wrapped ui={false} />
-                        <Card.Content>
-                            <Card.Header>{properties.name}</Card.Header>
-                            <Card.Meta>
-                                <span className='date'>{properties.location}</span>
-                            </Card.Meta>
-                            <Card.Description>
-                                {properties.description.substring(0, 10)+ '...'}
-                            </Card.Description>
-                        </Card.Content>
-                    </Card>
-                    )
-                })}
-            </Card.Group>
+//           <Card.Group>
+//           {propertyTypes.map((properties : any, index:any) => {  // {`/properties/${properties.id}`}, key={properties.id}, "{"/edit/${id}"}",  {'/properties/' + properties.id}
+//                     return(
+//                     <Card style={cardStyle} raised link  inverted> 
+//                      <Image src={properties.image.url} wrapped ui={false} />
+//                         <Card.Content>
+//                             <Card.Header>{properties.name}</Card.Header>
+//                             <Card.Meta>
+//                                 <span className='date'>{properties.location}</span>
+//                             </Card.Meta>
+//                             <Card.Description>
+//                                 {properties.description.substring(0, 10)+ '...'}
+//                             </Card.Description>
+//                         </Card.Content>
+//                     </Card>
+//                     )
+//                 })}
+//             </Card.Group>
          
         
-            <Card.Group>
-            <Container style={slider}>
-                <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
-                <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step>
-              {SlidePhoto.map((slide:any, index:any) =>{
-                  if(slide.isMain === "Body"){
-                    console.log(slide)
-                      return (
+//             <Card.Group>
+//             <Container style={slider}>
+//                 <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
+//                 <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step>
+//               {SlidePhoto.map((slide:any, index:any) =>{
+//                   if(slide.isMain === "Body"){
+//                       return (
                         
-                          <div className={index === current ? 'slideImage activeImage' : 'slideImage'}
-                          key={index}
-                          >
-                            {index === current && (
-                                <>
-                                <Divider hidden/>
-                                <Divider hidden/>
-                                <Button primary  onClick={() => openModal(<ModalEditForm name={slide}/>)} size="huge" inverted>
-                                      Edit
-                                </Button>
-                                <Image src={slide.url} alt="travel image" style={image} />
-                                <Header as="h1" style={{ color: "black", textAlign: 'center',}}>{slide.name}</Header> 
-                                <Header as="h3" style={{ color: "black", textAlign: 'center',}}> {slide.description}</Header>
+//                           <div className={index === current ? 'slideImage activeImage' : 'slideImage'}
+//                           key={index}
+//                           >
+//                             {index === current && (
+//                                 <>
+//                                 <Divider hidden/>
+//                                 <Divider hidden/>
+//                                 <Button primary  onClick={() => openModal(<ModalEditForm name={slide}/>)} size="huge" inverted>
+//                                       Edit
+//                                 </Button>
+//                                 <Image src={slide.url} alt="travel image" style={image} />
+//                                 <Header as="h1" style={{ color: "black", textAlign: 'center',}}>{slide.name}</Header> 
+//                                 <Header as="h3" style={{ color: "black", textAlign: 'center',}}> {slide.description}</Header>
                                 
-                                </>
-                            )}
-                          </div>
-                      )}})}
-            </Container>
+//                                 </>
+//                             )}
+//                           </div>
+//                       )}})}
+//             </Container>
                
-            </Card.Group>
+//             </Card.Group>
 
-             {LandingPage.map((ladingpage:any) => {
-               if (ladingpage.isMain === 'Footer'){
-                 return(
-                  <Card style={imageFooter}  >
-                  <Card.Content style={{
-                    backgroundImage: `url(/assets/categoryImages/Lumina.jpg)`,
-                    backgroundSize: "cover",
-                                      }}>
-                    <Card.Description style={textBottom} >
-                            <h5 style={{bottom:' 10px'}}>{ladingpage.name}</h5> 
-                            <h6>
-                                {ladingpage.description}
-                            </h6>
-                      </Card.Description>
-                  </Card.Content>
-                </Card>
-                 )
-               }
-             })}
+//              {LandingPage.map((ladingpage:any) => {
+//                if (ladingpage.isMain === 'Footer'){
+//                  return(
+//                   <Card style={imageFooter}  >
+//                   <Card.Content style={{
+//                     backgroundImage: `url(/assets/categoryImages/Lumina.jpg)`,
+//                     backgroundSize: "cover",
+//                                       }}>
+//                     <Card.Description style={textBottom} >
+//                             <h5 style={{bottom:' 10px'}}>{ladingpage.name}</h5> 
+//                             <h6>
+//                                 {ladingpage.description}
+//                             </h6>
+//                       </Card.Description>
+//                   </Card.Content>
+//                 </Card>
+//                  )
+//                }
+//              })}
           
 
 
 
-          <Divider hidden/>
-          <List bulleted horizontal>
-            <List.Item as='a'>About Us</List.Item>
-            <List.Item as='a'>Sitemap</List.Item>
-            <List.Item as='a'>Contact</List.Item>
-            <List.Item as='a'>About Us</List.Item>
-            <List.Item as='a'>Sitemap</List.Item>
-            <List.Item as='a'>Contact</List.Item>
-          </List>
-      </Card>
-    )
+//           <Divider hidden/>
+//           <List bulleted horizontal>
+//             <List.Item as='a'>About Us</List.Item>
+//             <List.Item as='a'>Sitemap</List.Item>
+//             <List.Item as='a'>Contact</List.Item>
+//             <List.Item as='a'>About Us</List.Item>
+//             <List.Item as='a'>Sitemap</List.Item>
+//             <List.Item as='a'>Contact</List.Item>
+//           </List>
+//       </Card>
+//     )
   }
 
-export default MenuHeader
-
-function openModal(arg0: JSX.Element): void {
-  throw new Error('Function not implemented.');
-}
+export default LandingPageOverView
 

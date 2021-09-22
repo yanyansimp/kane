@@ -92,14 +92,12 @@ export default class PropertyStore {
                 isMain: true,
            };
            property.image = newImage;
-           
            await agent.Properties.create(property);
            toast.success('Property Successfully Added');
            window.location.reload();
         } catch (error) {
 
         }
-        // await agent.Properties.create(property);
     }
     
     @action EditProperty = async (property: IProperty) => {

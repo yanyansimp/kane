@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, Grid, Header, Image, Modal, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
-import TextInput from '../../../app/common/form/TextInput';
 import { combineValidators } from 'revalidate';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import PhotoUpload from '../landingPageOwnerView/photoUpload/PhotoUploadEdit';
+import { RootStoreContext } from '../../../../app/stores/rootStore';
+import TextInput from '../../../../app/common/form/TextInput';
 const validate = combineValidators({
   // firstName: isRequired('First Name'),
   // lastName: isRequired('Last Name'),
@@ -30,7 +29,7 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
     let newhomepage = {
       id: name.id,
       ...homepage,
-      isMain: 'Header'
+      isMain: 'Body'
     }
     EditLandingPage(newhomepage);
   };
@@ -60,10 +59,6 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
                     component={TextInput}
                    
                 />
-                <Segment>
-                    <h3>Photo</h3>
-                    <PhotoUpload/>
-                </Segment>
                 <Button
                     loading={submitting}
                     disabled={loading || invalid || pristine}

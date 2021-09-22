@@ -3,7 +3,7 @@ import { combineValidators } from 'revalidate';
 import HeaderClass from './landingPageOwnerView/Header';
 import BodyClass from './landingPageOwnerView/Body';
 import UITemplate from './LandingView/UITemplate';
-import HeaderPage from './landingPageOwnerView/LandingPageOverView'
+import LandingPageOverView from './landingPageOwnerView/LandingPageOverView'
 import {
     Container,
     Segment,
@@ -39,16 +39,11 @@ const LandingPage = () => {
         <HeaderClass/>
         <BodyClass/>
         <FooterClass/>
-
-        
         </Grid.Column>
         <Grid.Column  style={container}>
-        
         <Segment>
         <h2>Landing Page Over View</h2>
-        {/* <UITemplate/> */}
-        <HeaderPage />
-        {/* <HomePageSample/> */}
+        <LandingPageOverView />
         </Segment>
       </Grid.Column>
       </Grid>

@@ -1,22 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Container, Grid, Image } from 'semantic-ui-react'
+import { Card, Container, Divider, Grid, Header, Image } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore';
-const slider = {
-    position: "relative",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  }
+
 const slideshow = {
   margin: "0 auto",
   overflow: "hidden",
-  maxWidth: "500px"
+  maxWidth: "5700px"
 }
  const image = {
-    width: "1000px",
-    height: "600px",
-    borderRadius: "10px",
+    width: "78%",
+    height: "100%",
+    top:"50px",
     left: "50px"
   }
 const rightArrow = {
@@ -48,12 +42,12 @@ const sliderImage ={
 
 const HeaderSlider = () => {
     const rootStore = useContext(RootStoreContext);
-    const {displayLandingBody} = rootStore.homePageStore;
+    const {displayLandingPageHeader} = rootStore.homePageStore;
     const [LandingPage, setLandingPage] = useState([])
     const landfunc = (prop: any) => {
         setLandingPage(prop)
     }
-    const delay = 4500;
+    const delay = 10000;
     const [index2, setIndex] = useState(0);
     let timer: number;
     
@@ -65,7 +59,7 @@ const HeaderSlider = () => {
   
     useEffect(() => {
       resetTimeout();
-        displayLandingBody(landfunc)
+      displayLandingPageHeader(landfunc)
         timer = window.setTimeout(() => 
               setIndex((prevIndex) => 
                 prevIndex === LandingPage.length - 1 ? 0 : prevIndex + 1 
@@ -75,7 +69,7 @@ const HeaderSlider = () => {
           return() => {
             resetTimeout();
           };
-    }, [index2, displayLandingBody]);
+    }, [index2, displayLandingPageHeader]);
     function nextSlide(){
       setIndex(index2 === LandingPage.length - 1 ? 0 : index2 + 1);
       resetTimeout();
@@ -93,30 +87,41 @@ const HeaderSlider = () => {
        <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step> */}
        <div
           className="slideshowSlider"
-          style={{ transform: `translate3d(${-index2 * 100}%, 0, 0)` }}
+         style={{ transform: `translate3d(${-index2 * 100}%, 0, 0)` }}
        >
-            {LandingPage.map((slide:any, index) => (
-              <div
+            {LandingPage.map((slide:any, index) => {
+              if(slide.isMain === "Header"){
+                return(
+                  <Card.Content
                   className="slide"
-                  key={index}
-                  style={{  }}
+                  alt={image}
+                  style={{
+                    textAlign: "center",
+                    backgroundImage: `url(${slide.url})`,
+                    Width: "100%",
+                    Height: "100%",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center"
+                  }}
                 >
-                  <div>
-                    <Image src={slide.url} alt="travel image" style={image} />
-
-                  </div>
-                  
-              </div>
-            ))}
+                </Card.Content>
+                )
+              }
+            })}
             
        </div>
               <div className="slideshowDots">
-                    {LandingPage.map((_,idx) => (
-                       <div key={idx} className={`slideshowDot${index2 === idx ? " active" : ""}`} 
-                       onClick={() => {
-                        setIndex(idx);
-                      }}></div>
-                    ))}
+                    {LandingPage.map((slide:any,idx) => {
+                      if(slide.isMain === "Header"){
+                        return(
+                          <div key={idx} className={`slideshowDot${index2 === idx ? " active" : ""}`} 
+                          onClick={() => {
+                           setIndex(idx);
+                         }}></div>
+                        )
+                      }
+                      
+                })}
               </div>
       
      

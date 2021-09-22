@@ -181,6 +181,7 @@ export default class PropertyTypeStore {
                  console.log("Image was Empty")
              }
              toast.success('Property Type Successfully Added');
+             window.location.reload();
         }catch(error){
             console.log(error)
         }
@@ -227,7 +228,8 @@ export default class PropertyTypeStore {
               this.propertyTypeRegistry.delete(id);
               this.submitting = false;
               this.target = '';
-              history.push('/property')
+              window.location.reload();
+              toast.success('Property Type was Deleted');
             });
           } catch (error) {
             runInAction('delete property error', () => {
