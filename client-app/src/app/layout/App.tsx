@@ -30,6 +30,7 @@ import PrivateRoute from './PrivateRoute';
 import LandingPage from '../../features/home/LandingPage';
 import HomePageSample from '../../features/home/HomePageSample'
 import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
+import EditClientForm from '../../features/clients/forms/EditClientForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   var id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
@@ -50,8 +51,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <Fragment>
       <ModalContainer />
-      {/* <Route exact path="/" component={HomePage} /> */}
-      <Route exact path="/" component={HomePageSample} />
+      <Route exact path="/" component={HomePage} />
+      {/* <Route exact path="/" component={HomePageSample} /> */}
       
       <ToastContainer position="bottom-right" />
       <Route
@@ -81,31 +82,49 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   path={['/createActivity', '/manage/:id']}
                   component={ActivityForm}
                 />
+
                 <PrivateRoute
                   key={location.key}
                   path={['/newReservation', '/editReservation/:id']}
                   component={ReservationForm}
                 />
+
+                <PrivateRoute 
+                  key={location.key}
+                  path={['/editClient/:id']}
+                  component={EditClientForm}
+                />
+
+                <PrivateRoute
+                  key={location.key}
+                  path={['/newReservation', '/editReservation/:id']}
+                  component={ReservationForm}
+                />
+
                 <PrivateRoute
                   key={location.key}
                   path={['/newPayment', '/editPayment/:id']}
                   component={PaymentForm}
                 />
+
                 <PrivateRoute
                   key={location.key}
                   path={['/newUser', '/editUser/:id']}
                   component={RegistrationForm}
                 />
+
                 <PrivateRoute
                   key={location.key}
                   path={['/newRole', '/editRole/:id']}
                   component={AddRoleForm}
                 />
+
                 <PrivateRoute
                   key={location.key}
                   path={['/createReservation', '/editReservation/:id']}
                   component={ReservationForm}
                 />
+
                 <Route exact path="/landingPage" component={LandingPage} />
                 
                 <Route 
@@ -114,7 +133,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 component={LandingPageOfPropertyType} 
                 />
                 
-                <Route path="/profile/:username" component={ProfilePage} />
+                {/* <Route path="/profile/:username" component={ProfilePage} /> */}
                 <Route path="/login" component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>

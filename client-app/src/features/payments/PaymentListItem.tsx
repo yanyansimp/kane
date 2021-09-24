@@ -19,16 +19,14 @@ const PaymentListItem: React.FC<{ client: IClient }> = ({ client }) => {
             </h4>
           </Table.Cell>
           <Table.Cell>
-            <h4>
-              {payment.orNumber}
-            </h4>
+            <h4>{payment.orNumber}</h4>
           </Table.Cell>
           <Table.Cell>
             <h4>
               {client.lastName}
               {', '}
-              {client.firstName} {client.middleName.charAt(0)}
-              {'.  '}
+              {client.firstName}{' '}
+              {client.middleName && client.middleName?.charAt(0) + '. '}
               {client.suffix}
             </h4>
           </Table.Cell>
@@ -42,14 +40,12 @@ const PaymentListItem: React.FC<{ client: IClient }> = ({ client }) => {
             {toMoney(transaction.balance)}
           </Table.Cell>
           <Table.Cell textAlign="center">{toMoney(payment.amount)}</Table.Cell>
+          <Table.Cell textAlign="center">{payment.modeOfPayment}</Table.Cell>
           <Table.Cell textAlign="center">
-            {payment.modeOfPayment}
-          </Table.Cell>
-          <Table.Cell textAlign="center">
-            {format(new Date(payment.dateOfPayment!), 'MMM dd yyyy')}
+            {format(new Date(payment.dateOfPayment!), 'MMM dd, yyyy')}
           </Table.Cell>
           <Table.Cell>
-            <Button circular icon="id badge outline" />
+            <Button circular icon="id badge outline" size="tiny" />
           </Table.Cell>
         </Table.Row>
       ))}

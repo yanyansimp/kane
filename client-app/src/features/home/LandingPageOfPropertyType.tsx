@@ -33,14 +33,14 @@ const LandingPageOfPropertyType = () => {
     var id = url.substring(url.lastIndexOf('/') + 1);
     const rootStore = useContext(RootStoreContext);
     const {openModal} = rootStore.modalStore;
-    const {displayPropertyTypes} = rootStore.propertyTypeStore;
+    // const {displayPropertyTypes} = rootStore.propertyTypeStore;
     const [propertyTypes, setpropertyTypes] = useState([])
     const propFunc = (prop: any) => {
         setpropertyTypes(prop)
     }
     useEffect(() => {
-        displayPropertyTypes(propFunc)
-    }, [displayPropertyTypes ]);
+        // displayPropertyTypes(propFunc)
+    }, []);
     return (
 
       <Grid>

@@ -115,6 +115,7 @@ const Transactions = {
 
 
 const User = {
+  list: (): Promise<IUser[]> => requests.get('/user/list'),
   current: (): Promise<IUser> => requests.get('/user'),
   login: (user: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', user),

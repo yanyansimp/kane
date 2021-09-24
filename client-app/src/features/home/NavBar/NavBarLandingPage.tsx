@@ -14,14 +14,14 @@ const NavMenu: React.FC = () => {
     const [activeItem, setActiveItem] = useState('Laptop Item')
     const [showModal, setShowModal] = useState(false)
     const rootStore = useContext(RootStoreContext);
-    const {displayPropertyTypes} = rootStore.propertyTypeStore;
+    // const {displayPropertyTypes} = rootStore.propertyTypeStore;
     const [propertyTypes, setpropertyTypes] = useState([])
     const propFunc = (prop: any) => {
         setpropertyTypes(prop)
     }
     useEffect(() => {
-        displayPropertyTypes(propFunc)
-    }, [displayPropertyTypes ]);
+        // displayPropertyTypes(propFunc)
+    }, []);
 
 
     return (

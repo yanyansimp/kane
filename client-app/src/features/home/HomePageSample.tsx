@@ -61,7 +61,7 @@ const HomePageSample = () => {
     const rootStore = useContext(RootStoreContext);
     const { isLoggedIn, user } = rootStore.userStore;
     const {openModal} = rootStore.modalStore;
-    const {displayPropertyTypes} = rootStore.propertyTypeStore;
+    // const {displayPropertyTypes} = rootStore.propertyTypeStore;
     const [propertyTypes, setpropertyTypes] = useState([])
     const {displayLandingPage} = rootStore.homePageStore;
     const [LandingPage, setLandingPage] = useState([])
@@ -72,9 +72,9 @@ const HomePageSample = () => {
         setLandingPage(prop)
     }
     useEffect(() => {
-        displayPropertyTypes(propFunc)
+        // displayPropertyTypes(propFunc)
         displayLandingPage(landfunc)
-    }, [displayPropertyTypes, displayLandingPage]);
+    }, [displayLandingPage]);
     
 
 

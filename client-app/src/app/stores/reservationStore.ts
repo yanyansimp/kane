@@ -5,7 +5,7 @@ import { history } from '../..';
 import agent from '../api/agent';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
-import { addZeroDate } from '../common/util/util';
+import { addZeroDate, setClientProps } from '../common/util/util';
 
 export default class ReservationStore {
   rootStore: RootStore;
@@ -59,19 +59,23 @@ export default class ReservationStore {
 
     if (client) {
       // console.log(client);
-      this.client = client;
-      return client;
+      this.client = setClientProps(client);
+      return toJS(client);
     } else {
       this.loadingInitial = true;
       try {
         client = await agent.Clients.details(id);
         runInAction('Getting client', () => {
           console.log(client);
-          this.client = client!;
+          this.client = setClientProps(client!);
+          // this.reservationRegistry?.push(client!);
           this.loadingInitial = false;
         });
         return client;
       } catch (error) {
+         runInAction('get activity error', () => {
+           this.loadingInitial = false;
+         });
         console.log(error);
       }
     }
@@ -154,6 +158,7 @@ export default class ReservationStore {
         client.businesses.push(business);
       }
 
+      // console.log(client);
       await agent.Clients.create(client);
 
       runInAction(() => {

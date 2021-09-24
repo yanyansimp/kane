@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.User;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -27,6 +28,12 @@ namespace API.Controllers
         public async Task<ActionResult<User>> CurrentUser()
         {
             return await Mediator.Send(new CurrentUser.Query());
+        }
+
+        [HttpGet("list")]
+        public async Task<ActionResult<List<AppUserDto>>> List()
+        {
+            return await Mediator.Send(new List.Query());
         }
     }
 }

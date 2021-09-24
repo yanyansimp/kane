@@ -44,6 +44,7 @@ export default class UserStore {
     try {
       const roles = await agent.Role.list();
       runInAction('loading roles', () => {
+        this.roleRegistry = [];
         roles.forEach((role) => {
           this.roleRegistry.push({
             key: role.id,
@@ -52,7 +53,9 @@ export default class UserStore {
           });
         });
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   @action addRole = async (role: IRole) => {
@@ -68,6 +71,7 @@ export default class UserStore {
         });
         this.submitting = false;
       });
+      history.push('/user');
     } catch (error) {
       runInAction('creating role error', () => {
         this.submitting = false;

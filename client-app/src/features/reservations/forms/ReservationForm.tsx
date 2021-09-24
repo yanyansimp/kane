@@ -46,7 +46,6 @@ const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [])
 
   const handleFinalFormSubmit = (values: any) => {
-    // console.log(values);
     const { ...client } = values;
 
     if (!client.id) {

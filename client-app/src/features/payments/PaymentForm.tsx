@@ -67,8 +67,8 @@ const PaymentForm = () => {
                     fluid
                     width={8}
                     name="transactionSequenceNo"
-                    label="Sequence #"
-                    placeholder="Sequence Number"
+                    label="Transaction No."
+                    placeholder="Transaction Number"
                     component={TextInput}
                   />
                   <Field

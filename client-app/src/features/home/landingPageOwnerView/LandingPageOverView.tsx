@@ -74,7 +74,7 @@ const sliderImage ={
 const src="/assets/categoryImages/Lumina.jpg"
 const MenuHeader = () => {
   const rootStore = useContext(RootStoreContext);
-  const {displayPropertyTypes} = rootStore.propertyTypeStore;
+  // const {displayPropertyTypes} = rootStore.propertyTypeStore;
   const [propertyTypes, setpropertyTypes] = useState([])
   const {displayLandingPage, displayLandingBody} = rootStore.homePageStore;
   const {openModal} = rootStore.modalStore;
@@ -90,10 +90,10 @@ const MenuHeader = () => {
     setSlidePhoto(prop)
 }
   useEffect(() => {
-    displayPropertyTypes(propFunc)
+    // displayPropertyTypes(propFunc)
     displayLandingPage(landfunc)
     displayLandingBody(slidefunc)
-  }, [displayPropertyTypes, displayLandingPage, displayLandingBody]);
+  }, [displayLandingPage, displayLandingBody]);
 
   const [current, setCurrent] = useState(0)
     const length = SlidePhoto.length;

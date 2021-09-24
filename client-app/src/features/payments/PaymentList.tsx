@@ -18,7 +18,7 @@ const PaymentList = () => {
       <Table selectable basic="very">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Sequence No.</Table.HeaderCell>
+            <Table.HeaderCell>Seq. No.</Table.HeaderCell>
             <Table.HeaderCell>OR No.</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Property</Table.HeaderCell>

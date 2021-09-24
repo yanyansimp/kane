@@ -1,5 +1,5 @@
 
-import { createMedia } from '@artsy/fresnel'
+// import { createMedia } from '@artsy/fresnel'
 import React, { useContext, useEffect, useState } from 'react'
 import { Grid, Segment, Table, Image } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore';

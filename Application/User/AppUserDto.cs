@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using Domain;
+using Newtonsoft.Json;
 
-namespace Domain
+namespace Application.User
 {
-    public class AppUser : IdentityUser
+    public class AppUserDto : IdentityUser
     {
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -17,13 +19,14 @@ namespace Domain
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public string Image { get; set; }
+        public string Role { get; set; }
 
-        // Navigation Properties
-        public virtual ICollection<Transaction> Transactions { get; set; }
-        public virtual ICollection<Payment> Payments { get; set;}
-        public virtual ICollection<Photo> Photos { get; set; }
-        
-        public virtual ICollection<UserActivity> UserActivities { get; set; }
-        
+        // public virtual ICollection<Transaction> Transactions { get; set; }
+        // public virtual ICollection<Payment> Payments { get; set;}
+        // public virtual ICollection<Photo> Photos { get; set; }
+
+        // [JsonProperty("userActivities")]
+        // public virtual ICollection<UserActivity> UserActivities { get; set; }
     }
 }

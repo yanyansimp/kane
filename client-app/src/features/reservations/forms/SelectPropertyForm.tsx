@@ -6,6 +6,7 @@ import SelectInput from '../../../app/common/form/SelectInput';
 import TextInput from '../../../app/common/form/TextInput';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { OnChange } from 'react-final-form-listeners';
+import DateInput from '../../../app/common/form/DateInput';
 
 const SelectPropertyForm = () => {
   const rootStore = useContext(RootStoreContext);
@@ -31,6 +32,14 @@ const SelectPropertyForm = () => {
     <Segment>
       <h2>Choose Property</h2>
       <Form.Group fluid="true">
+        <Field
+          width={8}
+          date="true"
+          label="Date of Transaction"
+          name="createdAt"
+          placeholder="MM/DD/YYYY"
+          component={DateInput}
+        />
         <Field
           width={8}
           label="Property Type"
@@ -84,7 +93,7 @@ const SelectPropertyForm = () => {
           component={TextInput}
         />
       </Form.Group>
-      <Form.Group fluid>
+      {/* <Form.Group fluid>
         <Field
           width={8}
           label="Sales Manager"
@@ -99,7 +108,7 @@ const SelectPropertyForm = () => {
           placeholder="Sales Agent"
           component={SelectInput}
         />
-      </Form.Group>
+      </Form.Group> */}
     </Segment>
   );
 };

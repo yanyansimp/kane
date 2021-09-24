@@ -39,10 +39,16 @@ namespace Application.Clients
                 CancellationToken cancellationToken)
             {
                 var queryable = _context.Clients
-                    .OrderBy(x => x.Id)
+                    // .OrderByDescending(x => x.Transactions.FirstOrDefault().SequenceNo)
+                    .OrderByDescending(x => x.Transactions.Select(t => t.SequenceNo).FirstOrDefault())
+                    // .Take(10)
                     .AsQueryable();
+                    // .Reverse();
 
-                var clients = await queryable.ToListAsync();
+                var clients = await queryable
+                    // .Skip(Math.Max(0, queryable.Count() - 5)).Take(5)
+                    // .Take(10)
+                    .ToListAsync();
 
                 if (clients == null)
                     throw new RestException(HttpStatusCode.NotFound, new { person = "Not Found" });

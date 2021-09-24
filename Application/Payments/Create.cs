@@ -9,7 +9,7 @@ using FluentValidation;
 using MediatR;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 
 namespace Application.Payments
 {
@@ -76,14 +76,15 @@ namespace Application.Payments
                 if (transaction == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Transaction = "Not Found"});
                 
-                var lastPayment = await _context.Payments.LastOrDefaultAsync();
+                var payments = await _context.Payments.ToListAsync();
 
-                var sequenceNo = lastPayment != null ? lastPayment.SequenceNo : 0;
+                // var sequenceNo = lastPayment != null ? lastPayment.SequenceNo : 0;
+                var sequenceNo = payments.Max(p => p.SequenceNo) < 1 ? 1 : payments.Max(p => p.SequenceNo) + 1;
 
                 var payment = new Payment
                 {
                     Id = request.Id,
-                    SequenceNo = sequenceNo + 1,
+                    SequenceNo = sequenceNo,
                     ORNumber = request.ORNumber,
                     ModeOfPayment = request.ModeOfPayment,
                     DateOfPayment = request.DateOfPayment,

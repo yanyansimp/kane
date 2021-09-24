@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Application.Clients
         public class Command : IRequest
         {
             public Guid Id { get; set; }
+            public DateTime CreatedAt { get; set; }
 
             // Transaction Details
             public Guid SalesManagerId { get; set; }
@@ -182,14 +184,15 @@ namespace Application.Clients
 
                 if (property.Status == "Available")
                 {
-                    var lastTransaction = await _context.Transactions.LastOrDefaultAsync();
+                    var transactions = await _context.Transactions.ToListAsync();
 
-                    var sequenceNo = lastTransaction != null ? lastTransaction.SequenceNo : 0;
+                    // var lastTransaction = await _context.Transactions.LastOrDefaultAsync();
+                    // var sequenceNo = lastTransaction != null ? lastTransaction.SequenceNo : 0;
 
                     var transaction = new Transaction
                     {
                         Id = Guid.NewGuid(),
-                        SequenceNo = sequenceNo + 1,
+                        SequenceNo = transactions.Max(t => t.SequenceNo) < 1 ? 1 : transactions.Max(t => t.SequenceNo) + 1,
                         ContractPrice = request.ContractPrice,
                         MonthlyAmortization = request.MonthlyAmortization,
                         Terms = request.Terms,
@@ -197,7 +200,7 @@ namespace Application.Clients
                         Property = property,
                         SalesAgentId = request.SalesAgentId,
                         SalesManagerId = request.SalesManagerId,
-                        CreatedAt = DateTime.Now,
+                        CreatedAt = request.CreatedAt // Temporary
                     };
 
                     property.Status = "Reserved";

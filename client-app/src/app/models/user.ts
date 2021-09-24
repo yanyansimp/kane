@@ -9,7 +9,7 @@ export interface IUser {
   middleName: string;
   suffix: string;
   birthDate?: Date;
-  contactNumber: string;
+  phoneNumber: string;
   address: string;
   displayName: string;
   username: string;
@@ -30,7 +30,7 @@ export class UserFormValues implements IUserFormValues {
   middleName: string = '';
   suffix: string = '';
   birthDate?: Date = undefined;
-  contactNumber: string = '';
+  phoneNumber: string = '';
   address: string = '';
   role: string = '';
 
@@ -47,7 +47,7 @@ export interface IUserFormValues {
   middleName: string;
   suffix: string;
   birthDate?: Date;
-  contactNumber: string;
+  phoneNumber: string;
   address: string;
   role: string;
   displayName?: string;

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { combineValidators, isRequired } from 'revalidate';
 import { Grid, Segment, Form, Button, Image } from 'semantic-ui-react';
 import DateInput from '../../app/common/form/DateInput';
@@ -119,10 +119,10 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   component={DateInput}
                 />
                 <Field
-                  name="contactNumber"
+                  name="phoneNumber"
                   label="Contact Number"
                   placeholder="Contact Number"
-                  value={user.contactNumber}
+                  value={user.phoneNumber}
                   component={TextInput}
                 />
                 <Field
@@ -157,9 +157,11 @@ const RegistrationForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Button
                   disabled={loading}
+                  as={Link}
                   floated="right"
                   type="button"
                   content="Cancel"
+                  to={'/user'}
                 />
               </Form>
             )}
