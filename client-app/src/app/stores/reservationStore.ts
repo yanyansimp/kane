@@ -54,6 +54,7 @@ export default class ReservationStore {
     return this.reservationRegistry?.find(c => c.id === id);
   }
 
+
   @action loadClient = async (id: string) => {
     let client = this.getClient(id);
 
@@ -79,7 +80,26 @@ export default class ReservationStore {
         console.log(error);
       }
     }
-  }
+  };
+
+  @action editClient = async (client: IClient) => {
+    this.submitting = true;
+    try {
+      await agent.Clients.update(client);
+      runInAction('editing client', () => {
+        this.client = client;
+        this.submitting = false;
+      });
+      history.push(`/clients/${client.id}`);
+      toast.success('Edit Success');
+    } catch (error) {
+      runInAction('edit client error', () => {
+        this.submitting = false;
+      });
+      toast.error('Problem submitting data');
+      console.log(error.response);
+    }
+  };
 
   @action loadPaymentDues = async () => {
       this.loadingInitial = true;

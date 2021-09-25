@@ -9,6 +9,7 @@ import SelectInput from '../../../app/common/form/SelectInput';
 import { gender } from '../../../app/common/options/genderOptions';
 import { ClientFormValues } from '../../../app/models/client';
 import RadioInput from '../../../app/common/form/RadioInput';
+import { observer } from 'mobx-react-lite';
 
 
 interface DetailParams {
@@ -20,7 +21,7 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadClient } = rootStore.reservationStore;
+  const { loadClient, editClient, submitting } = rootStore.reservationStore;
 
   const [client, setClient] = useState(new ClientFormValues());
   const [loading, setLoading] = useState(false);
@@ -35,8 +36,8 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadClient, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
-    //   hello
-    console.log(values)
+    // console.log(values)
+    editClient(values);
   };
 
   return (
@@ -582,7 +583,7 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
               {/*  */}
 
               <Button
-                // loading={submitting}
+                loading={submitting}
                 disabled={loading || invalid || pristine}
                 floated="right"
                 positive
@@ -604,4 +605,4 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
   );
 };
 
-export default EditClientForm
+export default observer(EditClientForm);

@@ -78,6 +78,7 @@ const Properties = {
     requests.put(`/properties/${property.id}`,property),
   delete: (id: string) => requests.del(`/properties/${id}`),
 };
+
 const LandingPhotos = {
   list: (): Promise<ILandingPhoto[]> => requests.get('/landingPhotos'),
   create: (landingPhoto: ILandingPhoto) => requests.post('/landingPhotos', landingPhoto),
@@ -104,8 +105,10 @@ const Role = {
 
 const Clients = {
   list: (): Promise<IClient[]> => requests.get('/clients'),
+  details: (id: string) => requests.get(`/clients/${id}`),
   create: (client: IClient) => requests.post('/clients', client),
-  details: (id: string) => requests.get(`/clients/${id}`)
+  update: (client: IClient) => 
+    requests.put(`/clients/${client.id}`, client),
 };
 
 const Transactions = {

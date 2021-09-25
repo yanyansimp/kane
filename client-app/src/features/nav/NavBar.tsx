@@ -53,7 +53,7 @@ const NavBar: React.FC = () => {
                   text="My profile"
                   icon="user"
                 /> */}
-                <Dropdown.Item text="Account Settings" icon="gear" />
+                <Dropdown.Item text="Account Settings" icon="settings" />
                 <Dropdown.Item onClick={logout} text="Logout" icon="power" />
               </Dropdown.Menu>
             </Dropdown>

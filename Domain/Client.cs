@@ -30,6 +30,8 @@ namespace Domain
         public string SpouseLastName { get; set; }
         public string SpouseFirstName { get; set; }
         public string SpouseMiddleName { get; set; }
+        
+        // public string SpouseSuffix { get; set; }
         public DateTime? SpouseBirthDate { get; set; }
         public string SpouseGender { get; set; }
         public string SpouseTIN { get; set; }

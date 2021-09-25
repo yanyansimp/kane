@@ -51,7 +51,12 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
                   >
                     <Dropdown.Menu>
                       <Dropdown.Item text="View Full Details" icon="user" />
-                      <Dropdown.Item as={Link} to={`/editClient/${client?.id}` }text="Edit" icon="edit outline" />
+                      <Dropdown.Item
+                        as={Link}
+                        to={`/editClient/${client?.id}`}
+                        text="Edit"
+                        icon="edit outline"
+                      />
                       <Dropdown.Item text="Delete" icon="user delete" />
                     </Dropdown.Menu>
                   </Dropdown>
@@ -144,40 +149,44 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
           <List horizontal>
             <List.Item>
               <List.Content>
-                <Header icon="ellipsis vertical" as="h5">
-                  - Post Dated Cheque
-                </Header>
+                <Icon name="check circle" size="small" color="green" />
+                Post Dated Cheque
               </List.Content>
               <List.Content>
-                <Header as="h5">
-                  - Photocopy of Marriage Certificate/Birth Certificate
-                </Header>
+                <Icon name="check circle" size="small" color="green" />
+                Photocopy of Marriage Certificate/Birth Certificate
               </List.Content>
               <List.Content>
-                <Header as="h5">- 2 pcs 2x2 picture</Header>
+                <Icon name="check circle" size="small" color="green" />2 pcs 2x2
+                picture
               </List.Content>
               <List.Content>
-                <Header as="h5">- Community Tax Certificate</Header>
+                <Icon name="check circle" size="small" color="green" />
+                Community Tax Certificate
               </List.Content>
               <List.Content>
-                <Header as="h5">- Proof of Billing</Header>
+                <Icon name="check circle" size="small" color="green" />
+                Proof of Billing
               </List.Content>
               <List.Content>
-                <Header as="h5">- 2 Valid ID's (Company and Government)</Header>
+                <Icon name="check circle" size="small" color="green" />2 Valid
+                ID's (Company and Government)
               </List.Content>
               <List.Content>
-                <Header as="h5">- Tax Identification Number</Header>
+                <Icon name="check circle" size="small" color="green" />
+                Tax Identification Number
               </List.Content>
               <List.Content>
-                <Header as="h5">- House Sketch</Header>
+                <Icon name="check circle" size="small" color="green" />
+                House Sketch
               </List.Content>
               <List.Content>
-                <Header as="h5">- 3 pcs 1x1 picture</Header>
+                <Icon name="check circle" size="small" color="green" />3 pcs 1x1
+                picture
               </List.Content>
               <List.Content>
-                <Header as="h5">
-                  - SPA (with Consular Seal if notarized abroad){' '}
-                </Header>
+                <Icon name="check circle" size="small" color="green" />
+                SPA (with Consular Seal if notarized abroad)
               </List.Content>
             </List.Item>
           </List>
