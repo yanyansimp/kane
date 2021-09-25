@@ -87,8 +87,11 @@ export default class ReservationStore {
     try {
       await agent.Clients.update(client);
       runInAction('editing client', () => {
-        this.client = client;
-        this.submitting = false;
+        if (!this.reservationRegistry) {
+            this.loadReservations();
+            this.client = client;
+        }
+          this.submitting = false;
       });
       history.push(`/clients/${client.id}`);
       toast.success('Edit Success');
