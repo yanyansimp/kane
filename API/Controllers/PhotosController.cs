@@ -14,6 +14,12 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
 
+        [HttpPost("addPhoto")]
+        public async Task<Photo> AddPhoto([FromForm]AddPhoto.Command command)
+        {
+            return await Mediator.Send(command);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(string id)
         {

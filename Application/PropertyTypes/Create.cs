@@ -1,6 +1,9 @@
+
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -17,7 +20,7 @@ namespace Application.PropertyTypes
             public string Name { get; set; }
             public string Description { get; set; }
             public string Location { get; set; }
-            
+            public Photo Image { get; set; }
            
         }
 
@@ -49,14 +52,18 @@ namespace Application.PropertyTypes
                     Description = request.Description,
                     Location = request.Location,
                     Image = new Photo {
-                        Id =  request.Id.ToString(),
-                        Url = "https://www.camella.com.ph/wp-content/uploads/2020/06/Website_Camella-Homes-Series_Cara-592x444.jpg",
-                        IsMain = true
+                        Id =  request.Image.Id,
+                        Url = request.Image.Url,
+                        IsMain = true,
+                        
+                        
                     },
                     CreatedAt = DateTime.Now
                 };
-
+                
                 _context.PropertyTypes.Add(propertyType);
+
+                 
 
                 var success = await _context.SaveChangesAsync() > 0;
 

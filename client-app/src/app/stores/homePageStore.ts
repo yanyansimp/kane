@@ -1,4 +1,5 @@
 import { action, observable, runInAction } from "mobx";
+import { toast } from "react-toastify";
 import agent from "../api/agent";
 import { ILandingPhoto } from "../models/landingPhoto";
 import { RootStore } from "./rootStore";
@@ -16,12 +17,53 @@ export default class HomePageStore{
     @observable submitting = false;
     @observable landingPageRegistry: any = [];
     @observable target = '';
+    @observable status = '';
 
-    @action displayLandingPage = async (callback :any) => {
+
+      /// Image Upload
+      @observable image: Blob | null = null;
+      @observable files: any[] = [];
+      @observable uploadingPhoto = false;
+  
+      @action setFiles = (files: object[]) => {
+          this.files = files;
+        };
+      
+      @action setImage = (file: Blob) => {
+          this.image = file;
+      };
+
+    @action displayLandingPageHeader = async (callback :any) => {
         try {
+            const landingSlide:any = [];
+            var i = 0
             const landingPhoto = await agent.LandingPhotos.list();
+            landingPhoto.forEach((landing)=>{
+                if(landing.isMain === "Header"  ){
+                    landingSlide[i] = landing
+                    i++
+                }
+            })
             runInAction('loading Property TYpe', () => {
-                callback(landingPhoto)
+                callback(landingSlide)
+            })
+        }catch (error){
+            console.log(error)
+        }
+    }
+    @action displayLandingPageFooter = async (callback :any) => {
+        try {
+            const landingSlide:any = [];
+            var i = 0
+            const landingPhoto = await agent.LandingPhotos.list();
+            landingPhoto.forEach((landing)=>{
+                if(landing.isMain === "Footer"  ){
+                    landingSlide[i] = landing
+                    i++
+                }
+            })
+            runInAction('loading Property TYpe', () => {
+                callback(landingSlide)
             })
         }catch (error){
             console.log(error)
@@ -46,12 +88,21 @@ export default class HomePageStore{
         }
     }
     @action createLandingPage = async (LandingPhoto: ILandingPhoto) => {
+        this.submitting = true;
         try {
+            runInAction(() => {
+                this.status = 'Uploading Details...'
+            })
+            var returnimage = await agent.LandingPhotos.uploadPhoto(this.image!);
+            LandingPhoto.url = returnimage.url;
             await agent.LandingPhotos.create(LandingPhoto);
+            toast.success('Property Successfully Added');
+            window.location.reload();
         } catch (error) {
             console.log(error)
         }
     }
+    
     @action DeleteLandingPage = async (id: string) => {
         this.submitting = true;
         try {

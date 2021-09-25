@@ -3,24 +3,23 @@ import { Button, Form, Grid, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators } from 'revalidate';
 import TextInput from '../../../app/common/form/TextInput';
-import PhotoUpload from '../../../app/common/photoUpload/PhotoUpload';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import PhotoUpload from './photoUpload/PhotoUploadFooter';
 import { v4 as uuid } from 'uuid'; 
 const validate = combineValidators({})
 
 const FooterClass = () => {
     const [loading, setLoading] = useState(false);
     const rootStore = useContext(RootStoreContext);
-    const { homepage,submitting, createLandingPage,EditLandingPage } = rootStore.homePageStore;
+    const { homepage,submitting,EditLandingPage, createLandingPage } = rootStore.homePageStore;
     const handleFinalFormSubmit = (values: any) => {
       const { ...homepage } = values;
       let newhomepage = {
-        //   id:uuid(),
-            id: '868ade56-e15b-4531-af87-78a45bf2879d',
+          id:uuid(),
           ...homepage,
           isMain: 'Footer'
       }
-      EditLandingPage(newhomepage);
+      createLandingPage(newhomepage);
     };
     return (
         <Grid>
@@ -44,12 +43,10 @@ const FooterClass = () => {
                                 placeholder={homepage?.description}
                                 component={TextInput}
                             />
-                            <Field
-                                name="image"
-                                label="Footer Description  "
-                                placeholder="Description"
-                                component={PhotoUpload}
-                            />    
+                           <Segment>
+                                <h3>Photo</h3>
+                                <PhotoUpload/>
+                            </Segment>  
                              <Button
                                 loading={submitting}
                                 disabled={loading || invalid || pristine}

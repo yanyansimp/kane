@@ -236,6 +236,7 @@ const optionsArray = [
                     location: propLocation,
                 };
                 EditPropertyType(editVal);
+                window.location.reload();
             }}
             >
             <Icon name='checkmark' /> Submit

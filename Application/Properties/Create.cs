@@ -21,6 +21,7 @@ namespace Application.Properties
             public string Location { get; set; }
             public string Status { get; set; }
             public Guid PropertyTypeId { get; set; }
+            public Photo Image { get; set; }
             
         }
        
@@ -54,8 +55,8 @@ namespace Application.Properties
                     Description = request.Description,
                     Location = request.Location,
                     Image = new Photo {
-                        Id = request.Id.ToString(),
-                        Url = "https://www.camella.com.ph/wp-content/uploads/2020/06/Website_Camella-Homes-Series_Cara-592x444.jpg",
+                        Id =  request.Image.Id,
+                        Url = request.Image.Url,
                         IsMain = true
                     },
                     Status = request.Status,

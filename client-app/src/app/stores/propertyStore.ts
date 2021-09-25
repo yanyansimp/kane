@@ -4,6 +4,9 @@ import agent from "../api/agent";
 import { IProperty } from "../models/Property";
 import { RootStore } from "./rootStore";
 import { history } from '../..';
+import { forEachChild } from "typescript";
+import { toast } from "react-toastify";
+
 
 export default class PropertyStore {
   rootStore: RootStore;
@@ -14,10 +17,38 @@ export default class PropertyStore {
   // @observable propertyRegistry = new Map();
   @observable property: IProperty | null = null;
   @observable propertyRegistry: any = [];
-  @observable loadingInitial = false;
   @observable loading = false;
+  @observable loadingInitial = false;
+
   @observable target = '';
   @observable submitting = false;
+  @observable propertyTypeAvailableId: any = [];
+  @observable status = '';
+
+  /// Image Upload
+  @observable image: Blob | null = null;
+  @observable files: any[] = [];
+  @observable uploadingPhoto = false;
+
+  @action setFiles = (files: object[]) => {
+    // console.log(files)
+    this.files = files;
+  };
+
+  @action setImage = (file: Blob) => {
+    // console.log(file)
+    this.image = file;
+  };
+
+  @action propertyTypeAvailable(data: any) {
+    runInAction('loading Property Type Id', () => {
+      this.propertyRegistry.push({
+        key: data,
+        text: data,
+        value: data,
+      });
+    });
+  }
 
   @computed get propertiesByName() {
     return Array.from(this.propertyRegistry.values()).sort();
@@ -56,19 +87,22 @@ export default class PropertyStore {
   };
 
   @action createProperty = async (property: IProperty) => {
+    this.submitting = true;
     try {
+      runInAction(() => {
+        this.status = 'Uploading Details ...';
+      });
+      var returnimage = await agent.Properties.uploadPhoto(this.image!);
+      let newImage = {
+        id: returnimage.id,
+        url: returnimage.url,
+        isMain: true,
+      };
+      property.image = newImage;
       await agent.Properties.create(property);
+      toast.success('Property Successfully Added');
+      window.location.reload();
     } catch (error) {
-      console.log(error);
-    }
-  };
-
-  @action EditProperty = async (property: IProperty) => {
-    this.loading = true;
-    try {
-      // Agent.ts Connection to Bakcend (API)
-      await agent.Properties.update(property);
-
       // Mobx
       runInAction('editing property', () => {
         this.propertyRegistry.set(property.id, property);
@@ -76,31 +110,46 @@ export default class PropertyStore {
         this.loading = false;
         // history.push('/dashboard')
       });
-    } catch (error) {
-      runInAction('editing property error', () => {
-        this.loading = false;
-      });
-      console.log('error');
     }
   };
 
-  @action DeleteProperty = async (id: string) => {
+  @action EditProperty = async (property: IProperty) => {
+    this.loading = true;
     this.submitting = true;
     try {
-      await agent.Properties.delete(id);
-      runInAction('deleting property', () => {
-        this.propertyRegistry.delete(id);
+      if (this.image != null) {
+        var returnimage = await agent.Properties.uploadPhoto(this.image!);
+        let newImage = {
+          id: returnimage.id,
+          url: returnimage.url,
+          isMain: true,
+        };
+        property.image = newImage;
+        await agent.Properties.update(property);
+      } else {
+        const properties = await agent.Properties.list();
+        properties.forEach((prop) => {
+          if (property.id === prop.id) {
+            property.image = prop.image;
+          }
+        });
+        await agent.Properties.update(property);
+      }
+      runInAction('editing property', () => {
+        this.propertyRegistry.set(property.id, property);
+        this.property = property;
+        this.loading = false;
         this.submitting = false;
-        this.target = '';
-        //   history.push('/property')
       });
     } catch (error) {
-      runInAction('delete property error', () => {
+      runInAction('editing property error', () => {
+        this.loading = false;
         this.submitting = false;
-        this.target = '';
       });
       console.log(error);
     }
+    toast.success('property has been edited');
+    window.location.reload();
   };
 
   @action returnAvailable = async (callback: any) => {
@@ -140,17 +189,16 @@ export default class PropertyStore {
       console.log(error);
     }
   };
-    @action returnStatus = async (callback: any) => {
-        try {
-            const propertyTypes = await agent.PropertyTypes.list();
-            runInAction('loading Property TYpe', () => {
-                callback(propertyTypes)
-            })
-        } catch (error) {
-            console.log(error)
-        }
+  @action returnStatus = async (callback: any) => {
+    try {
+      const propertyTypes = await agent.PropertyTypes.list();
+      runInAction('loading Property TYpe', () => {
+        callback(propertyTypes);
+      });
+    } catch (error) {
+      console.log(error);
     }
-    
+  };
 
   @action returnOccupied = async (callback: any) => {
     try {

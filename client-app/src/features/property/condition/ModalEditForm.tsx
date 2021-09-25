@@ -14,6 +14,7 @@ import{
     InputAdornment,
     IconButton
 } from '@material-ui/core'
+import { toast } from 'react-toastify';
 const useStyles = makeStyles({
     mainContainer: {
         display: 'grid',
@@ -248,7 +249,7 @@ const optionsArray = [
                     propertyTypeId: name.propertyTypeId
                 };
                 EditProperty(editVal);
-                history.push("/property");
+                window.location.reload();
             }}
             >
             <Icon name='checkmark' /> Submit

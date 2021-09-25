@@ -16,6 +16,7 @@ namespace Application.LandingPhotos
             public string Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
+            public string Url { get; set; }
             public string IsMain { get; set; }
            
         }
@@ -46,7 +47,7 @@ namespace Application.LandingPhotos
                     Id = request.Id,
                     Name = request.Name,
                     Description = request.Description,
-                    Url = "https://www.camella.com.ph/wp-content/uploads/2020/06/Website_Camella-Homes-Series_Cara-592x444.jpg",
+                    Url = request.Url,
                     IsMain = request.IsMain
                 };
 

@@ -3,8 +3,8 @@ import { Button, Form, Grid, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators } from 'revalidate';
 import TextInput from '../../../app/common/form/TextInput';
-import PhotoUpload from '../../../app/common/photoUpload/PhotoUpload';
 import { RootStore, RootStoreContext } from '../../../app/stores/rootStore';
+import PhotoUpload from './photoUpload/PhotoUpload';
 import { v4 as uuid } from 'uuid'; 
 const validate = combineValidators({})
 
@@ -15,12 +15,12 @@ const HeaderClass = () => {
     const handleFinalFormSubmit = (values: any) => {
       const { ...homepage } = values;
       let newhomepage = {
-        // id: uuid(),
-        id: 'e867e465-aedb-4e0b-931e-56d01827ba92',
+        id: uuid(),
         ...homepage,
-        isMain: 'Body'
+        isMain: 'Header'
       }
-      EditLandingPage(newhomepage);
+      createLandingPage(newhomepage);
+    //   EditLandingPage(newhomepage);
     };
     return (
         <Grid>
@@ -46,18 +46,17 @@ const HeaderClass = () => {
                                 value={homepage?.description}
                                 component={TextInput}
                             />
-                            <Field
-                                name="image"
-                                label="Header image  "
-                                placeholder="image"
-                                component={PhotoUpload}
-                            />
+                            
+                            <Segment>
+                                <h3>Photo</h3>
+                                <PhotoUpload/>
+                            </Segment>
                             <Button
                                 loading={submitting}
                                 disabled={loading || invalid || pristine}
                                 floated="right"
                                 positive
-                                type="submit"
+                                type="Submit"
                                 content="Submit"
                                 />
                                 <Button

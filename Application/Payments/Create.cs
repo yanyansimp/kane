@@ -4,12 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Domain;
-using Application.Errors;
 using FluentValidation;
 using MediatR;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+
 
 namespace Application.Payments
 {
@@ -75,6 +75,8 @@ namespace Application.Payments
 
                 if (transaction == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Transaction = "Not Found"});
+
+                    // throw new RestException(HttpStatusCode.NotFound, new {Transaction = "Not Found"});
                 
                 var payments = await _context.Payments.ToListAsync();
 

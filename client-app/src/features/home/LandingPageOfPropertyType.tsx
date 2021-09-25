@@ -5,28 +5,24 @@ import NavBarLandingPage from './NavBar/NavBarLandingPage';
 import ModalViewForm from './modalView/ModalViewForm';
 import Formvisitor from './Form/FormVisitor';
 import ContactInformation from './Form/ContactInformation';
-import { Field } from 'react-final-form';
 import ImageSlider from './slidePhoto/ImageSlider';
-
-
-const propType = {
-    color: "black", 
-    textAlign: 'left',
-    margintop: '-200px',
-   
-  }  
+ 
   const HeadText = {
     marginLeft: 'auto',
     marginRight: 'auto',
     textAlign: 'center',
-    // margin: "20px",
     padding: "50px",
-    // fontFamily: 'https://fonts.googleapis.com/css?family=Roboto&display=swap', 
   }  
   const PropertiesBoby = {
     marginLeft: 'auto',
     marginRight: 'auto'
   } 
+  const image = {
+    width: "78%",
+    height: "100%",
+    top:"50px",
+    left: "50px"
+  }
 
 const LandingPageOfPropertyType = () => {
     var url = window.location.pathname;
@@ -48,15 +44,19 @@ const LandingPageOfPropertyType = () => {
              {propertyTypes.map((properties:any)=>{
                  if(properties.id === id){
                     return(
-                        <><Header style={{
-                            height: "700px",
+                        <><Card.Content 
+                        className="slide"
+                        alt={image}
+                        style={{
+                            textAlign: "center",
+                            Height: "100%",
+                            Width: "100%",
                             backgroundImage: `url(${properties.image.url})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat'
                         }}>
                            
-                        </Header>
+                        </Card.Content>
                         <NavBarLandingPage/>
                         <Header.Subheader style={HeadText}>
                                     <Header>{properties.name}</Header>
@@ -111,7 +111,7 @@ const LandingPageOfPropertyType = () => {
         <Divider hidden/>
         <Divider hidden/>
         <Divider/>
-            <Formvisitor/>
+            {/* <Formvisitor/> */}
             <ContactInformation/>
           </Grid.Column>
       </Grid>

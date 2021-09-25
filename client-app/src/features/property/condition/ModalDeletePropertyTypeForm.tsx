@@ -9,7 +9,6 @@ import { useHistory } from 'react-router-dom'
   }
 
   const ModalDeleteModal: React.FC<IfirstChildProps> = ({name}) =>  {
-    console.log(name)
     const [open, setOpen] = React.useState(false)
     const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);

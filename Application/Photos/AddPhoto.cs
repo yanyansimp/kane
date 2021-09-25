@@ -11,7 +11,7 @@ using Persistence;
 
 namespace Application.Photos
 {
-    public class Add
+    public class AddPhoto
     {
         public class Command : IRequest<Photo>
         {
@@ -22,36 +22,27 @@ namespace Application.Photos
         public class Handler : IRequestHandler<Command, Photo>
         {
             private readonly DataContext _context;
-            private readonly IUserAccessor _userAccessor;
+            // private readonly IUserAccessor _userAccessor;
             private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
+            public Handler(DataContext context1, IPhotoAccessor photoAccessor) // , IUserAccessor userAccessor, 
             {
                 _photoAccessor = photoAccessor;
-                _userAccessor = userAccessor;//
-                _context = context;//
+                // _userAccessor = userAccessor;
             }
 
-            public async Task<Photo> Handle(Command request,
-                CancellationToken cancellationToken)
+            public async Task<Photo> Handle(Command request,CancellationToken cancellationToken)
             {
                 var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername()); //
 
                 var photo = new Photo
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId
                 };
+                if (photo != null) return photo;
 
-                if (!user.Photos.Any(x => x.IsMain)) //
-                    photo.IsMain = true; //
-                
-                user.Photos.Add(photo);//
-
-                var success = await _context.SaveChangesAsync() > 0;//
-
-                if (success) return photo;
+                var p = await _context.Photos.FindAsync(photoUploadResult.PublicId);
 
                 throw new Exception("Problem saving changes");
             }
