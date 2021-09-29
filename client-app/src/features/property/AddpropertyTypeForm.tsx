@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import ReactCircleModal from 'react-circle-modal'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { Image, Input, Grid, Tab, Table, Segment,  } from 'semantic-ui-react'
+import { Image, Input, Grid, Tab, Table, Segment, Loader, Dimmer  } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { v4 as uuid } from 'uuid';
 import{
@@ -72,9 +72,8 @@ const useStyles = makeStyles({
         }
     },
     btn1: {
-        top: '100px',
         right: '-520px',
-        width: '40%',
+        width: '30%',
         height: '3rem',
         background: 'teal',
         color: '#fff',
@@ -101,32 +100,18 @@ const container = {
     backgroundColor: 'transparent',
     border: 'transparent',
     display: 'grid',
-    // right: '-820px',
     position: 'relative',
     zIndex: 5
   };
 
 const AddpropertyTypeForm = () => {
-    
     const rootStore = useContext(RootStoreContext);
-    const {propertyType, createPropertyType} = rootStore.propertyTypeStore;
+    const {propertyType, createPropertyType, submitting, loading} = rootStore.propertyTypeStore;
     let [val1] = useState('');
     let [val2] = useState('');
     let [val3] = useState('');
-    
+    const [isLoading, setLoading] = useState(false);
     const classes = useStyles()
-    const [images, setImages] = React.useState([]);
-    const maxNumber = 69;
-  
-    const onChange = (
-      imageList: ImageListType,
-      addUpdateIndex: number[] | undefined
-    ) => {
-      // data for submit
-      console.log(imageList, addUpdateIndex);
-      setImages(imageList as never[]);
-    };
-
   return (
     <Grid>
         <Grid.Column width={2}></Grid.Column>
@@ -195,11 +180,12 @@ const AddpropertyTypeForm = () => {
                         </Segment>
                                 
                     <>
-                            <Button 
+                    <Button 
                             className={classes.btn1}
                                 variant='contained'
                                 type='button'
                                 onClick={() => {
+                                    setLoading(true);
                                     let newVal = {
                                         ...propertyType,
                                         id: uuid(),
@@ -210,6 +196,9 @@ const AddpropertyTypeForm = () => {
                                     createPropertyType(newVal!);
                                 }}
                             >
+                                    <Dimmer active = {isLoading} inline='centered' inverted>
+                                        <Loader />
+                                    </Dimmer>
                                 SUBMIT
                             </Button>
                     </>

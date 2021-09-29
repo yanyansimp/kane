@@ -3,6 +3,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Domain;
+using Application.Interfaces;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -31,8 +33,10 @@ namespace Application.LandingPhotos
         public class Handler : IRequestHandler<Command>
         {
              private readonly DataContext _context;
-             public Handler(DataContext context)
+             private readonly IPhotoAccessor _photoAccessor;
+             public Handler(DataContext context, IPhotoAccessor photoAccessor)
             {
+                _photoAccessor = photoAccessor;
                 _context = context;
             }
 

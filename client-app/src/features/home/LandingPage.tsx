@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { combineValidators } from 'revalidate';
-import HeaderClass from './landingPageOwnerView/Header';
+import HeaderClass from './landingPageOwnerView/HeaderOverView/Header';
 import BodyClass from './landingPageOwnerView/Body';
-import UITemplate from './LandingView/UITemplate';
 import LandingPageOverView from './landingPageOwnerView/LandingPageOverView'
 import {
     Container,

@@ -3,9 +3,8 @@ import { render } from 'react-dom';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 import { Button, Card, Container, Divider, Header, Icon, Input, Menu, Statistic, Image, List, Table, Step } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import ModalEditForm from '../modalView/ModalEditForm';
 import ImageSlider from '../slidePhoto/ImageSlider';
-
+import ModalEditForm from './HeaderOverView/edit/ModalEditForm'
 
 const cardStyle = {
   padding: '1px',
@@ -75,16 +74,22 @@ const sliderImage ={
 const LandingPageOverView = () => {
   const rootStore = useContext(RootStoreContext);
   const {openModal} = rootStore.modalStore;
-  const {displayLandingPageHeader, displayLandingBody} = rootStore.homePageStore;
+  const {displayLandingPageHeader, displayLandingPageFooter, DeleteLandingPage} = rootStore.homePageStore;
   const [LandingPage, setLandingPage] = useState([])
+  const [footer, setfooter] = useState([])
+  const [isLoading, setLoading] = useState(false);
   const landfunc = (prop: any) => {
         setLandingPage(prop)
+      }
+  const footfunc = (prop: any) => {
+    setfooter(prop)
       }
       const delay = 4500;
     const [index2, setIndex] = useState(0);
     let timer: number;
   useEffect(() => {
         displayLandingPageHeader(landfunc)
+        displayLandingPageFooter(footfunc)
         timer = window.setTimeout(() => 
                 setIndex((prevIndex) => 
                   prevIndex === LandingPage.length -1 ? 0 : prevIndex + 1
@@ -92,7 +97,7 @@ const LandingPageOverView = () => {
                 delay
         );
         return() => {};
-      }, [ displayLandingPageHeader ]);
+      }, [ displayLandingPageFooter ]);
         function nextSlide(){
           setIndex(index2 === LandingPage.length - 1 ? 0 : index2 + 1);
           };
@@ -102,11 +107,12 @@ const LandingPageOverView = () => {
         if (!Array.isArray(LandingPage) || LandingPage.length <= 0) {
             return null;
           }
-  return(
+      
+   
+return(
     <Container style={{width:"450px"}}>
       <div
          className="slideshowSlider"
-      
       >
         {LandingPage.map((landingpage:any, index) =>{
               return(
@@ -120,11 +126,11 @@ const LandingPageOverView = () => {
                       backgroundImage: `url(${landingpage.url})`,
                       backgroundSize: "cover",
                     }}
-                   
                     >
                       <Button primary  onClick={() => openModal(<ModalEditForm name={landingpage}/>)} size="huge" inverted>
                         Edit
                      </Button>
+                     <Button loading={isLoading} onClick={(e) => { setLoading(true); DeleteLandingPage(landingpage.id)}} >Delete</Button>
                       <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
                       <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step>
                   </Card.Content>
@@ -141,8 +147,33 @@ const LandingPageOverView = () => {
             }}></div>
           ))}
       </div>
-       
+
+      <Header>Footer</Header>
+      {footer.map((footer:any)=>{
+           return(
+            <Card>
+               <Card.Content style={{
+                    height: "300px",
+                    width: "450px",
+                    backgroundImage: `url(${footer.url})`,
+                    backgroundSize: "cover",
+                                      }}>
+             <Button primary  onClick={() => openModal(<ModalEditForm name={footer}/>)} size="huge" inverted>
+                        Edit
+                     </Button>
+                     <Button loading={isLoading} onClick={(e) => { setLoading(true); DeleteLandingPage(footer.id)}} >Delete</Button>
+                    <Card.Description style={textBottom} >
+                            <h5 >{footer.name}</h5> 
+                            <h6>
+                                {footer.description}
+                            </h6>
+                      </Card.Description>
+                  </Card.Content>
+            </Card>
+           )
+      })}
     </Container>
+    
   )
 //   const rootStore = useContext(RootStoreContext);
 //   const {displayPropertyTypes} = rootStore.propertyTypeStore;

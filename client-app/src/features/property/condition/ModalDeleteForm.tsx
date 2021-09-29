@@ -13,18 +13,15 @@ import { useHistory } from 'react-router-dom'
     const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);
     const {DeleteProperty, loading} = rootStore.propertyStore;
-    
+    const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         setChildProperty(name)
         },[name])
 
-    let history = useHistory();
     function handleClick(e: any) {
-    DeleteProperty(name.id);
-    window.location.reload();
-    // e.target.reset();
-    // this.props.history.push('/property');
-    // history.push("/property");
+      setLoading(true);
+      DeleteProperty(name.id);
+      window.location.reload();
   } 
   
   return (
@@ -57,7 +54,7 @@ import { useHistory } from 'react-router-dom'
                   <Table.Cell>{name.description.substring(0, 10)+ '...'}</Table.Cell>
                   <Table.Cell>{name.location}</Table.Cell>
                   <Table.Cell> {name.status} </Table.Cell>
-                  <Table.Cell><Button onClick={handleClick} >Delete</Button></Table.Cell>
+                  <Table.Cell><Button loading={isLoading} onClick={handleClick} >Delete</Button></Table.Cell>
             </Table.Row>
           {/* ) */}
           {/* })} */}

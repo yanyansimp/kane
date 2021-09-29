@@ -1,9 +1,9 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Header, Grid, Button } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { RootStoreContext } from '../../../../app/stores/rootStore';
-import PhotoWidgetDropzone from '../../../../app/common/photoUpload/PhotoWidgetDropzone';
-import PhotoWidgetCropper from '../../../../app/common/photoUpload/PhotoWidgetCropper';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import PhotoWidgetDropzone from '../../../app/common/photoUpload/PhotoWidgetDropzone';
+import PhotoWidgetCropper from '../../../app/common/photoUpload/PhotoWidgetCropper';
 
 interface IProps {
   uploadPhoto: (file: Blob) => void;
@@ -14,7 +14,7 @@ const PhotoUpload = () => {
     // const [image, setImage] = useState<Blob | null>(null);
 
     const rootStore = useContext(RootStoreContext);
-    const {files, setFiles, setImage} = rootStore.homePageStore;
+    const {files, setFiles, setImage} = rootStore.propertyStore;
 
     useEffect(() => {
       return () => {
@@ -44,7 +44,7 @@ const PhotoUpload = () => {
                 <div
                   className="img-preview"
                   style={{
-                    height: '180px',
+                    height: '200px',
                     width: '200px',
                     overflow: 'hidden',
                     marginBottom: '3px'

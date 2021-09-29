@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -13,6 +14,7 @@ namespace Application.Properties
 {
     public class Create
     {
+        
         public class Command : IRequest
         {
             public Guid Id { get; set; }
@@ -24,6 +26,7 @@ namespace Application.Properties
             public Photo Image { get; set; }
             
         }
+       
        
     
 

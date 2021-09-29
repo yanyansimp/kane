@@ -22,12 +22,10 @@ namespace Application.Photos
         public class Handler : IRequestHandler<Command, Photo>
         {
             private readonly DataContext _context;
-            // private readonly IUserAccessor _userAccessor;
             private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context1, IPhotoAccessor photoAccessor) // , IUserAccessor userAccessor, 
+            public Handler(DataContext context, IPhotoAccessor photoAccessor) // , IUserAccessor userAccessor, 
             {
                 _photoAccessor = photoAccessor;
-                // _userAccessor = userAccessor;
             }
 
             public async Task<Photo> Handle(Command request,CancellationToken cancellationToken)
@@ -42,7 +40,7 @@ namespace Application.Photos
                 };
                 if (photo != null) return photo;
 
-                var p = await _context.Photos.FindAsync(photoUploadResult.PublicId);
+                await _context.Photos.FindAsync(photoUploadResult.PublicId);
 
                 throw new Exception("Problem saving changes");
             }

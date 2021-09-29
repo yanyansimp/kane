@@ -1,17 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, Grid, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
-import { combineValidators } from 'revalidate';
-import TextInput from '../../../app/common/form/TextInput';
-import { RootStore, RootStoreContext } from '../../../app/stores/rootStore';
-import PhotoUpload from './photoUpload/PhotoUpload';
+import { combineValidators, isRequired } from 'revalidate';
+import TextInput from '../../../../app/common/form/TextInput';
+import { RootStore, RootStoreContext } from '../../../../app/stores/rootStore';
+import PhotoUpload from '../photoUpload/Header/PhotoUpload';
 import { v4 as uuid } from 'uuid'; 
-const validate = combineValidators({})
+const validate = combineValidators({
+    name: isRequired('Header Name'),
+})
 
 const HeaderClass = () => {
-    const [loading, setLoading] = useState(false);
     const rootStore = useContext(RootStoreContext);
-    const { homepage,submitting, createLandingPage,EditLandingPage } = rootStore.homePageStore;
+    const { submitting, homepage, loading, createLandingPage } = rootStore.homePageStore;
     const handleFinalFormSubmit = (values: any) => {
       const { ...homepage } = values;
       let newhomepage = {
@@ -20,13 +21,12 @@ const HeaderClass = () => {
         isMain: 'Header'
       }
       createLandingPage(newhomepage);
-    //   EditLandingPage(newhomepage);
     };
     return (
         <Grid>
             <Grid.Column>
                 <Segment clearing>
-                    <h1><label>Upper Image </label></h1>
+                    <h1><label>Upper/Header Image </label></h1>
                     <FinalForm
                         validate={validate}
                         onSubmit={handleFinalFormSubmit}
@@ -34,7 +34,7 @@ const HeaderClass = () => {
                         <Form onSubmit={handleSubmit} loading={loading}>
                             <Field
                                 name="name"
-                                label="Header Name  "
+                                label="Header Name"
                                 placeholder="Name"
                                 value={homepage?.name}
                                 component={TextInput}
@@ -46,7 +46,6 @@ const HeaderClass = () => {
                                 value={homepage?.description}
                                 component={TextInput}
                             />
-                            
                             <Segment>
                                 <h3>Photo</h3>
                                 <PhotoUpload/>
@@ -56,7 +55,7 @@ const HeaderClass = () => {
                                 disabled={loading || invalid || pristine}
                                 floated="right"
                                 positive
-                                type="Submit"
+                                type="submit"
                                 content="Submit"
                                 />
                                 <Button

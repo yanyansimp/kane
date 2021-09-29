@@ -32,6 +32,7 @@ import Reservation from '../../features/reservations/Reservation';
 import LandingPage from '../../features/home/LandingPage';
 import HomePageSample from '../../features/home/HomePageSample'
 import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
+import Viewpropertyform from '../../features/property/Viewpropertyform';
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
@@ -102,6 +103,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   component={ReservationForm}
                 />
                 <Route exact path="/landingPage" component={LandingPage} />
+
+                <Route exact path="/propertyType/:id" component={Viewpropertyform} />
                 
                 <Route 
                 key={location.key} 

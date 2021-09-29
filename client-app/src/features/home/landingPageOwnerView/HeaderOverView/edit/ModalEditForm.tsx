@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Grid, Header, Image, Modal, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
-import TextInput from '../../../app/common/form/TextInput';
+import TextInput from '../../../../../app/common/form/TextInput';
 import { combineValidators } from 'revalidate';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import PhotoUpload from '../landingPageOwnerView/photoUpload/PhotoUploadEdit';
+import { RootStoreContext } from '../../../../../app/stores/rootStore';
+import PhotoUploadEdit from './PhotoUploadEdit'
 const validate = combineValidators({
   // firstName: isRequired('First Name'),
   // lastName: isRequired('Last Name'),
@@ -20,8 +20,6 @@ interface IfirstChildProps {
     name: any,
   }
 const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
-  console.log(name)
-  
   const [loading, setLoading] = useState(false);
   const rootStore = useContext(RootStoreContext);
   const { homepage,submitting, EditLandingPage } = rootStore.homePageStore;
@@ -34,6 +32,7 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
     }
     EditLandingPage(newhomepage);
   };
+  
   return (
     <Grid>
       <Grid>
@@ -62,7 +61,7 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
                 />
                 <Segment>
                     <h3>Photo</h3>
-                    <PhotoUpload/>
+                    <PhotoUploadEdit/>
                 </Segment>
                 <Button
                     loading={submitting}

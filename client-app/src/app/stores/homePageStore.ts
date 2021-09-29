@@ -90,23 +90,35 @@ export default class HomePageStore{
     @action createLandingPage = async (LandingPhoto: ILandingPhoto) => {
         this.submitting = true;
         try {
-            runInAction(() => {
-                this.status = 'Uploading Details...'
-            })
-            var returnimage = await agent.LandingPhotos.uploadPhoto(this.image!);
-            LandingPhoto.url = returnimage.url;
-            await agent.LandingPhotos.create(LandingPhoto);
-            toast.success('Property Successfully Added');
-            window.location.reload();
+            if (this.image != null){
+                var returnimage = await agent.LandingPhotos.uploadPhoto(this.image!);
+                LandingPhoto.url = returnimage.url;
+                await agent.LandingPhotos.create(LandingPhoto);
+                toast.success('Property Successfully Added');
+                runInAction(() => {
+                    this.status = 'Uploading Details...'
+                    this.submitting = false;
+                })
+                window.location.reload();
+            }else{
+                toast.error('Image was empty');
+            }
         } catch (error) {
             console.log(error)
+            runInAction(() => {
+                this.status = 'Uploading Details ...';
+                this.submitting = false;
+                toast.error('Problem submitting data');
+            });
         }
-    }
-    
+    };
+
     @action DeleteLandingPage = async (id: string) => {
         this.submitting = true;
         try {
             await agent.LandingPhotos.delete(id);
+            toast.success('one item deleted');
+            window.location.reload();
             runInAction('deleting property', () => {
               this.landingPageRegistry.delete(id);
               this.submitting = false;
@@ -121,8 +133,23 @@ export default class HomePageStore{
           }
     }
     @action EditLandingPage = async (landingPhoto: ILandingPhoto) => {
+        this.submitting = true;
             try{
-                await agent.LandingPhotos.update(landingPhoto);
+                if(this.image != null){
+                    var returnimage = await agent.LandingPhotos.uploadPhoto(this.image!);
+                    landingPhoto.url = returnimage.url;
+                    await agent.LandingPhotos.update(landingPhoto);
+                    toast.success('Header File has been edited');
+                } else{
+                    const Photo = await agent.LandingPhotos.list();
+                    Photo.forEach((prop)=>{
+                        if(landingPhoto.id === prop.id){
+                            landingPhoto.url = prop.url;
+                        };
+                    })
+                    await agent.LandingPhotos.update(landingPhoto);
+                    toast.success('Header2 File has been edited');
+                }
                 runInAction('editing landing page', () => {
                     this.landingPageRegistry.set(landingPhoto.id, landingPhoto);
                     this.landingPhoto = landingPhoto;
@@ -132,7 +159,9 @@ export default class HomePageStore{
                 runInAction('editing landing page error', () => {
                     this.loading = false;
                 })
+                toast.error('some unexpected error');
             }
+            // window.location.reload();
     }
 
 

@@ -1,27 +1,49 @@
-import { action, computed, observable, runInAction, extendObservable  } from "mobx";
+import { action, computed, observable, runInAction, reaction } from "mobx";
 import agent from "../api/agent";
 import { IPropertyType } from "../models/propertyType";
 import { IProperty } from "../models/Property";
 import { RootStore } from "./rootStore";
 import { history } from '../..';
 import { toast } from "react-toastify";
-
+const LIMIT = 3;
 
 
 export default class PropertyTypeStore {
     rootStore: RootStore;
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-    }
 
-    // @observable propertyTypeRegistry = new Map();
+        reaction(
+            () => this.predicate.keys(),
+            () => { 
+              this.page = 0;
+              this.propertyRegistry.clear();
+              this.loadPropertyTypes();
+            }
+          )
+    }
+    
+
+    @observable propertyRegistry = new Map();
     @observable propertyType: IPropertyType | null = null;
     @observable property: IProperty | null = null;
+    @observable loadingInitial = false;
     @observable loading = false;
+    @observable propertiesCount = 0;
     @observable propertyTypeRegistry: any = [];
     @observable submitting = false;
     @observable target = '';
     @observable status = '';
+    @observable page = 0;
+    @observable predicate = new Map();
+
+    @action setPredicate = (predicate: string, value: string | Date) => {
+        this.predicate.clear()
+        if (predicate !== 'all') {
+          this.predicate.set(predicate, value);
+        }
+      }
+    
     
      /// Image Upload
     @observable image: Blob | null = null;
@@ -36,19 +58,38 @@ export default class PropertyTypeStore {
         this.image = file;
     };
 
+  
+
+      @computed get totalPages() {
+        return Math.ceil(this.propertiesCount / LIMIT);
+      }
+      @action setPage = (page: number) => {
+        this.page = page;
+      }
+     
+ 
+
+   
+    
 
     @computed get propertyTypesByName() {
         return Array.from(this.propertyTypeRegistry.values()).sort();
     }
-
     @observable propertyTyCount: any = [];
+    
+
     @action displayPropertyTypes = async (callback :any) => {
+        this.loadingInitial = true;
         try {
             const propertyTypes = await agent.PropertyTypes.list();
             runInAction('loading Property TYpe', () => {
+                this.loadingInitial = false;
                 callback(propertyTypes)
             })
         }catch (error){
+            runInAction('load  Property TYpe error', () => {
+                this.loadingInitial = false;
+              });
             console.log(error)
         }
     }
@@ -189,27 +230,38 @@ export default class PropertyTypeStore {
 
     @action EditPropertyType = async (propertyType: IPropertyType) => {
         this.loading = true;
-        
         try{
-            // let index = this.propertyTypeRegistry.findIndex(({key: any}) => key === propertyType.id);
-            
-            await agent.PropertyTypes.update(propertyType);
-            // console.log(propertyType.id);
-            //  this.propertyTypeRegistry.findIndex((x:any) => x.key === propertyType.id);
-            // console.log(pT);
-
-            runInAction('editing property type', () => {
-                this.propertyTypeRegistry.set(propertyType.id, propertyType);
-                this.propertyType = propertyType;
-                this.loading = false;
-                
-            })
+                if (this.image != null){
+                    var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
+                    let newImage = {
+                        id: returnimage.id,
+                        url: returnimage.url,
+                        isMain: true,
+                        };
+                        propertyType.image = newImage;
+                        await agent.PropertyTypes.update(propertyType);
+                }else{
+                    const property = await agent.PropertyTypes.list();
+                    property.forEach((prop)=>{
+                        if(propertyType.id === prop.id){
+                            propertyType.image = prop.image;
+                        };
+                    })
+                    await agent.PropertyTypes.update(propertyType);
+                }
+                runInAction('editing property type', () => {
+                    this.propertyTypeRegistry.set(propertyType.id, propertyType);
+                    this.propertyType = propertyType;
+                    this.loading = false;
+                })
         } catch (error){
             runInAction('editing property error', () => {
                 this.loading = false;
             })
-            // console.log(error)
+            console.log(error)
         }
+        toast.success('property has been edited');
+        window.location.reload();
     }
 
     @action DeletePropertyType = async (id: string) => {
@@ -223,14 +275,14 @@ export default class PropertyTypeStore {
                 }
             })
              await agent.PropertyTypes.delete(id);
-             await agent.PropertyTypes.del(ImageId);
+             toast.success('Property Type was Deleted');
             runInAction('deleting property', () => {
               this.propertyTypeRegistry.delete(id);
               this.submitting = false;
               this.target = '';
-              window.location.reload();
-              toast.success('Property Type was Deleted');
             });
+            
+            
           } catch (error) {
             runInAction('delete property error', () => {
               this.submitting = false;
@@ -238,25 +290,8 @@ export default class PropertyTypeStore {
             });
             console.log(error);
           }
+          window.location.reload();
     }
-    // @action DeletePhoto = async (id: string) => {
-    //     this.submitting = true;
-    //     try {
-    //         await agent.PropertyTypes.delete(id);
-    //         runInAction('deleting property', () => {
-    //           this.propertyTypeRegistry.delete(id);
-    //           this.submitting = false;
-    //           this.target = '';
-    //         //   history.push('/property')
-    //         });
-    //       } catch (error) {
-    //         runInAction('delete property error', () => {
-    //           this.submitting = false;
-    //           this.target = '';
-    //         });
-    //         console.log(error);
-    //       }
-    // }
 
 
 

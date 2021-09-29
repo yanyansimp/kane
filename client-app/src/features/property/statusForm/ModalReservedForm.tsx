@@ -3,6 +3,9 @@ import orange from '@material-ui/core/colors/orange'
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Segment, Header, Image, Icon, Modal, Dropdown, Table, Label, Grid, Input } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore'
+import ModalEdit from '../condition/ModalEditForm'
+import ModalDelete from '../condition/ModalDeleteForm'
+import ModalView from '../condition/ModalViewForm'
 
 const searchBar = {
   top : '20px',
@@ -28,7 +31,7 @@ const searchBar = {
         setChildProperty(name)
         returnStatus(propFunc)
         },[name, returnStatus])
-        var i=0,j=0;
+        var i=0;
         var propertyTypeId:any = [];
         var n = [[''], ['']];
         var d = [[''], ['']];
@@ -57,7 +60,7 @@ const searchBar = {
           <Modal.Header>RESERVED</Modal.Header>
           <Modal.Content image>
             <Modal.Description>
-              <Header>{name[1]}</Header>
+              <Header>{name[1].substring(0,10)+'...'}</Header>
               <Table celled >
             <Table.Header>
               <Table.Row>
@@ -66,6 +69,7 @@ const searchBar = {
                 <Table.HeaderCell>DESCRIPTION</Table.HeaderCell>
                 <Table.HeaderCell>LOCATION</Table.HeaderCell>
                 <Table.HeaderCell>STATUS</Table.HeaderCell>
+                <Table.HeaderCell>EDIT/DELETE</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             
@@ -74,24 +78,27 @@ const searchBar = {
               .map((propertyType: any) =>{ 
                 if(propertyType.id === name[6]){
                   propertyTypeId = propertyType
-                  propertyTypeId.properties?.map((property: any)=>{
+                  propertyTypeId.properties?.map((property: any, index:any)=>{
                     if(property.status === 'Reserved'){
-                      n[i][j] = property.name;
-                      d[i][j] = property.description.substring(0,10)+'...';
-                      l[i][j] = property.location;
-                      s[i][j] = property.status;
-                      j++
+                      n[i][index] = property.name;
+                      d[i][index] = property.description.substring(0,10)+'...';
+                      l[i][index] = property.location;
+                      s[i][index] = property.status;
                     }})}})}
               {propertyTypeId.properties?.map((property:any, index:any) => {
-                 return(
-                  <Table.Row key={index}>
-                    {/* <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell> */}
-                    <Table.Cell>{n[i][index]}</Table.Cell>
-                    <Table.Cell>{d[i][index]}</Table.Cell>
-                    <Table.Cell>{l[i][index]}</Table.Cell>
-                    <Table.Cell>{s[i][index]}</Table.Cell>
-                  </Table.Row> 
-                )})}
+                if(property.status === "Reserved"){
+                  return(
+                    <Table.Row key={index}>
+                      {/* <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell> */}
+                      <Table.Cell>{n[i][index]}</Table.Cell>
+                      <Table.Cell>{d[i][index]}</Table.Cell>
+                      <Table.Cell>{l[i][index]}</Table.Cell>
+                      <Table.Cell>{s[i][index]}</Table.Cell>
+                      <Table.Cell><ModalView name={property} /><ModalEdit name={property}/> <ModalDelete name={property} /> </Table.Cell>
+                    </Table.Row> 
+                  )
+                }
+                })}
             </Table.Body>
           </Table>
             </Modal.Description>

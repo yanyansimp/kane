@@ -1,11 +1,15 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
-import { Search, Grid, Image, Input, Button, Tab, Table, Dropdown, Icon, Pagination } from 'semantic-ui-react'
+import { Search, Grid, Image, Input, Button, Tab, Table, Dropdown, Icon, Pagination, Divider, Segment, Card, Header} from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore'
-import {makeStyles} from '@material-ui/core'
+import {Link, makeStyles} from '@material-ui/core'
 import ModalEdit from './condition/ModalEditForm'
 import ModalDelete from './condition/ModalDeleteForm'
 import ModalView from './condition/ModalViewForm'
+import PropertyDashboard from './PropertyDashboard'
+import { useHistory } from "react-router-dom";
+import AddPropertyForm from './AddpropertyForm'
+import AddpropertyForm from './AddpropertyForm'
 
 const searchBar = {
   left: '450px',
@@ -14,23 +18,49 @@ const searchBar = {
 const pagination = {
   justifyContent: 'center',
 };
+
+const container = {
+  backgroundColor: 'transparent',
+  border: 'transparent',
+  display: 'grid',
+  position: 'relative',
+  zIndex: 5
+};
+
 const Viewpropertyform:React.FC = () => {
+  var url = window.location.pathname;
+  var id = url.substring(url.lastIndexOf('/') + 1);
   const [searchTerm, setSearchTerm] = useState("");
   const rootStore = useContext(RootStoreContext);
-  const {loadProperties, getProperties} = rootStore.propertyStore;
-  const [properties, setProperties] = useState([])
+  const {displayPropertyTypes} = rootStore.propertyTypeStore;
+  const [propertyTypes, setpropertyTypes] = useState([])
+  const [visible, setVisible] = useState(5);
+  const [step, setStep] = useState(false);
   const propFunc = (prop: any) => {
-    setProperties(prop)
+    setpropertyTypes(prop)
+  
   }
+  const showMoreItems = () => {
+    setVisible((prevValue) => prevValue + 5);
+  };
   const [property, setParentName] = useState<string>('');
   const updateName = (name: string):void => {
     setParentName(name)
   }
   useEffect(() => {
-    loadProperties()
-    getProperties(propFunc)
-  }, [loadProperties, getProperties]);
-    return (
+    displayPropertyTypes(propFunc)
+  }, [ displayPropertyTypes]);
+
+  const history = useHistory();
+  
+  const handleRoute = () =>{ 
+    history.push("/property");
+  }
+  const [showDriveAction, setShowDriveAction] = useState(false)
+
+
+    return showDriveAction ?
+    <AddPropertyForm/> : (
       <Grid>
         <Grid.Column width={6}>
           <Input
@@ -43,8 +73,20 @@ const Viewpropertyform:React.FC = () => {
           placeholder="search"
           icon='search'
         />
+
+                    <Button  floated="right"   onClick= {() => setShowDriveAction(true)}>
+                      <Icon name='plus' />
+                      Add Property
+                    </Button> 
+
+                    <Grid.Column width={16} >
+                    <Button primary onClick={handleRoute}>
+                         <Icon name='arrow left' />
+                            Back
+                    </Button> 
+            </Grid.Column>
       </Grid.Column>
-        <Grid.Column width={16}>
+        <Grid.Column width={12}>
         <Table celled >
         <Table.Header>
           <Table.Row>
@@ -57,38 +99,42 @@ const Viewpropertyform:React.FC = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {
-          properties
-          .filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
-          .map((property : any) => {
-            return(
-              <Table.Row key={property.id} height={2}>
-                <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell>
-                <Table.Cell>{property.name}</Table.Cell>
-                <Table.Cell>{property.description.substring(0, 10)+ '...'}</Table.Cell>
-                <Table.Cell>{property.location}</Table.Cell>
-                <Table.Cell>{property.status}</Table.Cell>
-                <Table.Cell><ModalView name={property} /><ModalEdit name={property}/> <ModalDelete name={property} /> </Table.Cell>
-              </Table.Row>
-            )
-          })
-          }
+        {propertyTypes.map((properties:any)=>{
+                 if(properties.id === id){
+                    return(
+                        <>
+                            {properties.properties?.slice(0,visible)
+                            .filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
+                            .map((property:any, index:any) => {
+                                    return(
+                                      <Table.Row key={property.id} height={2}>
+                                          <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell>
+                                          <Table.Cell>{property.name}</Table.Cell>
+                                          <Table.Cell>{property.description.substring(0, 10)+ '...'}</Table.Cell>
+                                          <Table.Cell>{property.location}</Table.Cell>
+                                          <Table.Cell>{property.status}</Table.Cell>
+                                          <Table.Cell><ModalView name={property} /><ModalEdit name={property}/> <ModalDelete name={property} /> </Table.Cell>
+                                    </Table.Row>
+                                    )})}
+                        </>
+                    )
+                 }
+                 
+             })}
+        
+          <Divider hidden/>
+            <Segment basic textAlign={"center"}>
+                <Button  primary onClick={showMoreItems}  style={{textAlign: "center"}}>Load More...</Button>
+            </Segment>
+            <Divider hidden/>
         </Table.Body>
       </Table>
         </Grid.Column>
-        {/* <Grid.Column style={pagination}>
-        <Pagination
-              
-              defaultActivePage={5}
-              ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
-              firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-              lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-              prevItem={{ content: <Icon name='angle left' />, icon: true }}
-              nextItem={{ content: <Icon name='angle right' />, icon: true }}
-              totalPages={50}
-            />
-        </Grid.Column> */}
+        <Grid.Column with={4} style={container}>
+           <PropertyDashboard id={id}/>
+       </Grid.Column>
       </Grid>
+      
       
     );
 }

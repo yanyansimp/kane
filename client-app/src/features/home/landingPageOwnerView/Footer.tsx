@@ -4,7 +4,7 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators } from 'revalidate';
 import TextInput from '../../../app/common/form/TextInput';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import PhotoUpload from './photoUpload/PhotoUploadFooter';
+import PhotoUpload from './photoUpload/Footer/PhotoUploadFooter';
 import { v4 as uuid } from 'uuid'; 
 const validate = combineValidators({})
 

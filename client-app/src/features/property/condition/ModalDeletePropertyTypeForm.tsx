@@ -13,15 +13,16 @@ import { useHistory } from 'react-router-dom'
     const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);
     const {DeletePropertyType, loading} = rootStore.propertyTypeStore;
+    const [isLoading, setLoading] = useState(false);
     
     useEffect(() => {
         setChildProperty(name)
         },[name])
 
-    let history = useHistory();
     function handleClick() {
+      setLoading(true);
       DeletePropertyType(name[6]);
-    history.push("/dashboard");
+      
   } 
   
   return (
@@ -50,9 +51,9 @@ import { useHistory } from 'react-router-dom'
             {/* return (  */}
             <Table.Row key={name[6]}>
                   <Table.Cell>{name[0]}</Table.Cell>
-                  <Table.Cell>{name[1]}</Table.Cell>
+                  <Table.Cell>{name[1].substring(0, 10)+ '...'}</Table.Cell>
                   <Table.Cell> {name[7]} </Table.Cell>
-                  <Table.Cell><Button onClick={handleClick} >Delete</Button></Table.Cell>
+                  <Table.Cell><Button loading={isLoading} onClick={handleClick} >Delete</Button></Table.Cell>
             </Table.Row>
           {/* ) */}
           {/* })} */}

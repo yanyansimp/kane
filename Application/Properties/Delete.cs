@@ -1,9 +1,12 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Application.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Properties
@@ -17,8 +20,10 @@ namespace Application.Properties
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IPhotoAccessor _photoAccessor;
+            public Handler(DataContext context, IPhotoAccessor photoAccessor)
             {
+                _photoAccessor = photoAccessor;
                 _context = context;
             }
 
@@ -28,9 +33,13 @@ namespace Application.Properties
                 // handler logic
                 var property = await _context.Properties.FindAsync(request.Id);
 
+                var image = await _context.Photos.FindAsync(property.Image.Id);
+
                 if(property == null)
                     throw new RestException(HttpStatusCode.NotFound, new {property = "Not Found"});
+                var result = _photoAccessor.DeletePhoto(property.Image.Id);
 
+                _context.Remove(image);
                 _context.Remove(property);
                 
                 var success = await _context.SaveChangesAsync() > 0;

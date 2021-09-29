@@ -77,7 +77,7 @@ const PropertyTypes = {
   delete: (id: string) => requests.del(`/propertyTypes/${id}`),
   uploadPhoto: (photo: Blob ): Promise<IPhoto> =>
     requests.postForm(`/photos/addPhoto`, photo),
-  del: (id: string) => requests.del(`/photos/${id}`),
+  
 };
 
 const Properties = {
