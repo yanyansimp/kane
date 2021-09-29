@@ -1,5 +1,6 @@
 import React from 'react'
 import { Header, Table, Image, Label, Button } from 'semantic-ui-react';
+import { IUser } from '../../../app/models/user';
 
 const dummyData = [
   {
@@ -32,10 +33,10 @@ const dummyData = [
   },
 ];
 
-const UserListItem: React.FC = () => {
+const UserListItem: React.FC<{ user: IUser}> = ({ user }) => {
     return (
         <Table.Row>
-                {/* <Table.Cell>
+                <Table.Cell>
                     <Header as="h4" image>
                         <Image src="assets/images/lena.png" rounded size="medium" />
                     </Header>
@@ -54,9 +55,9 @@ const UserListItem: React.FC = () => {
                     <Button circular icon="id badge outline" />
                     <Button circular icon="pencil" />
                     <Button circular icon="trash alternate outline" />
-                </Table.Cell> */}
+                </Table.Cell>
         </Table.Row>
     );
 }
 
-export default UserListItem
+export default UserListItem;

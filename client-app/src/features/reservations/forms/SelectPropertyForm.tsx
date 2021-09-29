@@ -16,6 +16,7 @@ const SelectPropertyForm = () => {
     getPropertiesByAvailable,
     propertyRegistry,
   } = rootStore.propertyTypeStore;
+
   const {
     loadingInitial,
     loadProperties,
@@ -31,7 +32,7 @@ const SelectPropertyForm = () => {
   return (
     <Segment>
       <h2>Choose Property</h2>
-      <Form.Group fluid="true">
+      <Form.Group>
         <Field
           width={8}
           date="true"

@@ -152,6 +152,25 @@ export default class PropertyStore {
     window.location.reload();
   };
 
+  @action DeleteProperty = async (id: string) => {
+    this.submitting = true;
+    try {
+      await agent.Properties.delete(id);
+      runInAction('deleting property', () => {
+        this.propertyRegistry.delete(id);
+        this.submitting = false;
+        this.target = '';
+        //   history.push('/property')
+      });
+    } catch (error) {
+      runInAction('delete property error', () => {
+        this.submitting = false;
+        this.target = '';
+      });
+      console.log(error);
+    }
+  };
+
   @action returnAvailable = async (callback: any) => {
     try {
       const properties = await agent.Properties.list();

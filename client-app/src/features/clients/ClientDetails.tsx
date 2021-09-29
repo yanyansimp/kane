@@ -100,46 +100,6 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
           />
         </Segment>
         <Segment basic>
-          {/* <List horizontal>
-            <List.Item>
-              <Header as="h5">#3</Header>
-            </List.Item>
-            <List.Item>
-              <Image avatar src="/assets/user.png" />
-              <List.Content>
-                <List.Header>Christian Rocha</List.Header>
-                Sales manager
-              </List.Content>
-            </List.Item>
-            <List.Item>
-              <Image avatar src="/assets/user.png" />
-              <List.Content>
-                <List.Header>Matthew Dela Cruz</List.Header>
-                Sales Agent
-              </List.Content>
-            </List.Item>
-          </List>
-
-          <List horizontal>
-            <List.Item>
-              <Header as="h5">#3</Header>
-            </List.Item>
-            <List.Item>
-              <Image avatar src="/assets/user.png" />
-              <List.Content>
-                <List.Header>Christian Rocha</List.Header>
-                Sales manager
-              </List.Content>
-            </List.Item>
-            <List.Item>
-              <Image avatar src="/assets/user.png" />
-              <List.Content>
-                <List.Header>Matthew Dela Cruz</List.Header>
-                Sales Agent
-              </List.Content>
-            </List.Item>
-          </List> */}
-
           <Header as="h5">
             Documents:
             <Label color="yellow" size="medium" circular>
@@ -216,7 +176,12 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
                   </Header>
                 </Grid.Column>
                 <Grid.Column width="4">
-                  <Button floated="right" size="tiny">
+                  <Button 
+                    floated="right" 
+                    size="tiny" 
+                    as={Link} 
+                    to={`/client/${client.id}/transaction/${transaction.id}`}
+                  >
                     View
                   </Button>
                 </Grid.Column>

@@ -40,15 +40,14 @@ const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
       <Table.Cell>{toMoney(transaction.contractPrice)}</Table.Cell>
       <Table.Cell>{toMoney(transaction.balance)}</Table.Cell>
       <Table.Cell>
-        {/* <Label color={setStatusColor('Completed')} rounded="true">
-          {'Completed'}
+        {/* <Label color={setStatusColor('Lacking')} circular>
+          {'Lacking'}
         </Label> */}
       </Table.Cell>
       <Table.Cell>
         <Label
           color={setStatusColor(transaction.status)}
-          rounded="true"
-          textAlign="center"
+          circular
         >
           {transaction.status}
         </Label>

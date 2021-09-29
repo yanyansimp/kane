@@ -19,6 +19,7 @@ namespace Domain
         // Navigation Properties
         public virtual Property Property { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
+        
         public virtual ICollection<Document> Documents { get; set; }
 
         public Guid SalesManagerId { get; set; }

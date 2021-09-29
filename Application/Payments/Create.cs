@@ -9,6 +9,7 @@ using MediatR;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Application.Errors;
 
 
 namespace Application.Payments

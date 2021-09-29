@@ -209,17 +209,17 @@ namespace API
             app.UseCors("CorsPolicy");
 
             // Development
-            // app.UseMvc();
+            app.UseMvc();
             //
 
             // Production
-            app.UseMvc(routes => 
-            {
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new {controller = "Fallback", action = "Index"}
-                );
-            });
+            // app.UseMvc(routes => 
+            // {
+            //     routes.MapSpaFallbackRoute(
+            //         name: "spa-fallback",
+            //         defaults: new {controller = "Fallback", action = "Index"}
+            //     );
+            // });
             //
             
         }

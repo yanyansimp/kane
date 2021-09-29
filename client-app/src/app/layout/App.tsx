@@ -31,6 +31,7 @@ import LandingPage from '../../features/home/LandingPage';
 import HomePageSample from '../../features/home/HomePageSample'
 import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
 import EditClientForm from '../../features/clients/forms/EditClientForm';
+import ReservationDetails from '../../features/reservations/details/ReservationDetails';
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
@@ -77,6 +78,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
                 <PrivateRoute path="/activities/:id" component={ActivityDetails} />
                 <PrivateRoute path="/clients/:id" component={ClientDetails} />
+                
+                <PrivateRoute
+                  key={location.key}
+                  path="/client/:clientId/transaction/:transactionId" 
+                  component={ReservationDetails} 
+                />
 
                 <PrivateRoute
                   key={location.key}

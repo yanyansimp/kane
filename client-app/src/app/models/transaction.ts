@@ -3,6 +3,8 @@ import { IProperty } from "./Property";
 
 export interface ITransaction {
     id: string;
+    propertyTypeName: string;
+    clientName: string;
     sequenceNo: string;
     contractPrice: number;
     monthlyAmortization: number;
@@ -13,6 +15,21 @@ export interface ITransaction {
     property?: IProperty | null;
     documents?: IDocument[] | null;
     payments?: IPayment[] | null;
+
+    salesManager?: ISalesManager | null;
+    salesAgent?: ISalesAgent | null;
+}
+
+export interface ISalesManager {
+  id: string;
+  name: string;
+  image: string;
+}
+
+export interface ISalesAgent {
+  id: string;
+  name: string;
+  image: string;
 }
 
 export interface IDocument {

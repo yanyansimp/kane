@@ -128,6 +128,8 @@ const Clients = {
 const Transactions = {
   create: (transaction: ITransactionValues) =>
     requests.post('/transactions', transaction),
+  details: (clientId: string, transactionId: string) =>
+    requests.get(`/transactions/${clientId}/${transactionId}`),
 };
 
 

@@ -5,7 +5,8 @@ import { history } from '../..';
 import agent from '../api/agent';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
-import { addZeroDate, setClientProps } from '../common/util/util';
+import { addZeroDate, setClientProps, setTansactionProps } from '../common/util/util';
+import { ITransaction } from '../models/transaction';
 
 export default class ReservationStore {
   rootStore: RootStore;
@@ -14,6 +15,7 @@ export default class ReservationStore {
   }
 
   @observable client: IClient | null = null;
+  @observable transaction: ITransaction | null = null;
   @observable reservationRegistry: IClient[] | null = [];
   @observable step = 4;
   @observable newReservationView = false;
@@ -48,33 +50,37 @@ export default class ReservationStore {
 
   @computed get getPaymentDues() {
     return toJS(this.paymentDues);
-  }
+  };
 
   getClient = (id: string) => {
     return this.reservationRegistry?.find(c => c.id === id);
-  }
+  };
 
+  getTransaction = (clientId: string, transId: string) => {
+    const client = this.getClient(clientId);
+
+    return client?.transactions.find((t) => t.id === transId);
+  };
 
   @action loadClient = async (id: string) => {
+    this.loadingInitial = true;
+
     let client = this.getClient(id);
 
     if (client) {
-      // console.log(client);
       this.client = setClientProps(client);
       return toJS(client);
     } else {
-      this.loadingInitial = true;
       try {
         client = await agent.Clients.details(id);
         runInAction('Getting client', () => {
-          console.log(client);
           this.client = setClientProps(client!);
-          // this.reservationRegistry?.push(client!);
+          console.log(this.client);
           this.loadingInitial = false;
         });
         return client;
       } catch (error) {
-         runInAction('get activity error', () => {
+         runInAction('get client error', () => {
            this.loadingInitial = false;
          });
         console.log(error);
@@ -100,7 +106,7 @@ export default class ReservationStore {
         this.submitting = false;
       });
       toast.error('Problem submitting data');
-      console.log(error.response);
+      console.log(error);
     }
   };
 
@@ -135,6 +141,35 @@ export default class ReservationStore {
         console.log(error);
       }
   }
+
+  @action loadReservation = async (clientId: string, transId: string) => {
+    this.loadingInitial = false;
+
+    try {
+      let transaction = this.getTransaction(clientId, transId);
+
+      if (transaction) {
+        console.log(transaction);
+        this.transaction = transaction;
+        this.loadingInitial = false;
+        return toJS(transaction);
+      } else {
+        transaction = await agent.Transactions.details(clientId, transId);
+        runInAction(() => {
+          this.transaction = setTansactionProps(transaction!);
+          this.loadingInitial = false;
+        });
+        console.log(transaction);
+        return transaction;
+      }
+    } catch (error) {
+       runInAction(() => {
+         this.loadingInitial = false;
+       });
+       console.log(error);
+    }
+
+  };
 
   @action loadReservations = async () => {
     this.loadingInitial = true;
@@ -181,15 +216,15 @@ export default class ReservationStore {
         client.businesses.push(business);
       }
 
-      // console.log(client);
+      console.log(client);
       await agent.Clients.create(client);
 
       runInAction(() => {
         this.loadReservations();
         this.submitting = false;
       });
-      history.push('/reservation');
-      toast.success('Successfully saved');
+      // history.push('/reservation');
+      // toast.success('Successfully saved');
     } catch (error) {
       runInAction(() => {
         this.submitting = false;
@@ -199,3 +234,4 @@ export default class ReservationStore {
     }
   };
 }
+

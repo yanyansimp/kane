@@ -1,6 +1,7 @@
 import { IUser } from "../../models/user";
 import { IActivity, IAttendee } from "../../models/activity";
 import { IClient } from "../../models/client";
+import { ITransaction } from "../../models/transaction";
 
 export const toMoney = (m: any) => {
     return m?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -52,6 +53,12 @@ export const setClientProps = (client: IClient) => {
   }
   
   return client;
+}
+
+export const setTansactionProps = (transaction: ITransaction) => {
+  transaction.createdAt = new Date(transaction.createdAt!);
+  
+  return transaction;
 }
 
 export const setActivityProps = (activity: IActivity, user: IUser) => {

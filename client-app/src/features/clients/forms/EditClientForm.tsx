@@ -51,9 +51,9 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
           initialValues={client}
           onSubmit={handleFinalFormSubmit}
           render={({ handleSubmit, invalid, pristine }) => (
-            <Form onSubmit={handleSubmit} loading={loading}>
+            <Form onSubmit={handleSubmit}>
               {/* Start Personal Info  */}
-              <Segment>
+              <Segment loading={loading}>
                 <h2>Personal Information</h2>
                 <Form.Group>
                   <Field

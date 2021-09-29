@@ -18,7 +18,7 @@ const UserList = () => {
           </Table.Header>
 
           <Table.Body>
-            <UserListItem />
+            {/* <UserListItem /> */}
           </Table.Body>
         </Table>
       </Segment>

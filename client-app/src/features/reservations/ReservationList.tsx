@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
-import { Table, Segment, Loader, Transition } from 'semantic-ui-react';
+import { Table, Segment, Loader, Transition, Input } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ReservationListItem from './ReservationListItem';
 

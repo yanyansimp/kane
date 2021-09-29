@@ -24,7 +24,7 @@ namespace Application.Photos
             private readonly DataContext _context;
             // private readonly IUserAccessor _userAccessor;
             private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context1, IPhotoAccessor photoAccessor) // , IUserAccessor userAccessor, 
+            public Handler(DataContext context, IPhotoAccessor photoAccessor) // , IUserAccessor userAccessor, 
             {
                 _photoAccessor = photoAccessor;
                 // _userAccessor = userAccessor;
@@ -34,12 +34,12 @@ namespace Application.Photos
             {
                 var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-
                 var photo = new Photo
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId
                 };
+
                 if (photo != null) return photo;
 
                 var p = await _context.Photos.FindAsync(photoUploadResult.PublicId);

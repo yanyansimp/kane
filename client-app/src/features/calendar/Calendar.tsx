@@ -8,7 +8,7 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 const Calendar = () => {
 
   const rootStore = useContext(RootStoreContext);
-  const { loadPaymentDues, getPaymentDues } = rootStore.reservationStore;
+  const { loadPaymentDues, getPaymentDues, loadingInitial } = rootStore.reservationStore;
 
    useEffect(() => {
      loadPaymentDues();
@@ -18,11 +18,11 @@ const Calendar = () => {
       <Grid>
         <Grid.Column width={16}>
           <Segment>
-            
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
               events={getPaymentDues}
+              loading={() => loadingInitial}
             />
           </Segment>
         </Grid.Column>
