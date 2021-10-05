@@ -13,6 +13,7 @@ export default class UserStore {
   }
 
   @observable user: IUser | null = null;
+  @observable userRegistry: IUser[] | null = null;
   @observable submitting = false;
   @observable target = '';
   @observable loading = false;
@@ -124,6 +125,28 @@ export default class UserStore {
         // console.log(this.user);
       });
     } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action loadUsers = async () => {
+    this.loadingInitial = true;
+    try {
+      const users = await agent.User.list();
+      runInAction('loading users', () => {
+        this.userRegistry = [];
+        users.forEach(user => {
+          if (user.role?.toLowerCase() !== "admin" || user.role?.toLowerCase() !== "super admin" || user.role?.toLowerCase() !== "superadmin") {
+            this.userRegistry?.push(user);
+          }
+        });
+        this.loadingInitial = false;
+        console.log(toJS(this.userRegistry));
+      });
+    } catch (error) {
+      runInAction('load users error', () => {
+        this.loadingInitial = false;
+      });
       console.log(error);
     }
   };

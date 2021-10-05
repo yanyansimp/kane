@@ -48,6 +48,25 @@ namespace Persistence
                 .WithMany(u => u.UserActivities)
                 .HasForeignKey(a => a.ActivityId);
 
+            //
+            
+
+            // builder.Entity<AppUser>(b =>
+            // {
+            //     b.HasMany(e => e.UserRoles)
+            //         .WithOne(e => e.AppUser)
+            //         .HasForeignKey(ur => ur.UserId)
+            //         .IsRequired();
+            // });
+
+            // builder.Entity<Role>(b =>
+            // {
+            //     b.HasMany(e => e.UserRoles)
+            //         .WithOne(e => e.Role)
+            //         .HasForeignKey(ur => ur.RoleId)
+            //         .IsRequired();
+            // });
+
             // builder.Entity<Payment>()
             //     .HasKey(p => new { p.Id, p.SequenceNo });
 

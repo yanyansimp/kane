@@ -195,6 +195,7 @@ export default class ReservationStore {
       runInAction('load client reservations error', () => {
         this.loadingInitial = false;
       });
+      console.log(error);
     }
   }
 

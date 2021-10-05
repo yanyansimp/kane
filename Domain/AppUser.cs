@@ -20,10 +20,14 @@ namespace Domain
 
         // Navigation Properties
         public virtual ICollection<Transaction> Transactions { get; set; }
-        public virtual ICollection<Payment> Payments { get; set;}
+        public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
-        
+
+        // public virtual ICollection<UserRole> UserRoles { get; set; }
+
+        // public virtual RoleManager<Role> Role { get => role; set => role = value; }
+
         public virtual ICollection<UserActivity> UserActivities { get; set; }
-        
+
     }
 }

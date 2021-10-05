@@ -59,13 +59,13 @@ const Viewpropertyform:React.FC = () => {
         <Table.Body>
           {
           properties
-          .filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
+          .filter((property : any) => property.name?.toLowerCase().includes(searchTerm.toLowerCase()) || property.description?.toLowerCase().includes(searchTerm.toLowerCase()) || property.location?.toLowerCase().includes(searchTerm.toLowerCase()) || property.status?.toLowerCase().includes(searchTerm.toLowerCase()) )
           .map((property : any) => {
             return(
               <Table.Row key={property.id} height={2}>
                 <Table.Cell><Image size="tiny" src={property.image.url} /></Table.Cell>
                 <Table.Cell>{property.name}</Table.Cell>
-                <Table.Cell>{property.description.substring(0, 10)+ '...'}</Table.Cell>
+                <Table.Cell>{property.description?.substring(0, 10)+ '...'}</Table.Cell>
                 <Table.Cell>{property.location}</Table.Cell>
                 <Table.Cell>{property.status}</Table.Cell>
                 <Table.Cell><ModalView name={property} /><ModalEdit name={property}/> <ModalDelete name={property} /> </Table.Cell>

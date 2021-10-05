@@ -66,13 +66,13 @@ namespace Persistence
                         UserName = "admin",
                         Email = "admin@test.com"
                     },
-                    // new AppUser
-                    // {
-                    //     Id = "b76373d6-8081-4eff-957d-86c4572ac65d",
-                    //     DisplayName = "Tom",
-                    //     UserName = "tom",
-                    //     Email = "tom@test.com"
-                    // },
+                    new AppUser
+                    {
+                        Id = "b76373d6-8081-4eff-957d-86c4572ac65d",
+                        DisplayName = "Tom",
+                        UserName = "tom",
+                        Email = "tom@test.com"
+                    }
                 };
 
                 foreach (var user in users)

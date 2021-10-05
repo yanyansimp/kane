@@ -22,11 +22,14 @@ namespace Application.User
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly UserManager<AppUser> _userManager;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper, 
+                UserManager<AppUser> userManager)
             {
                 _mapper = mapper;
                 _context = context;
+                _userManager = userManager;
             }
 
             public async Task<List<AppUserDto>> Handle(Query request,
@@ -35,6 +38,15 @@ namespace Application.User
                 // var users = await _context.Users
                 //     .Include(x => x.UserActivities)
                 //     .ToListAsync();
+
+                // var u = await _userManager.Users
+                //     .Include(x => x.UserRoles)
+                //     .ThenInclude(x => x.Role)
+                //     .ToListAsync();
+                
+                // var ur = await _context.Users.UserRoles.
+
+                var userRoles = await _context.UserRoles.ToListAsync();
 
                 var users = await _context.Users
                     .ToListAsync();
