@@ -55,7 +55,7 @@ const LandingPageOfPropertyType = () => {
                             textAlign: "center",
                             Height: "100%",
                             Width: "100%",
-                            backgroundImage: `url(${properties.image.url})`,
+                            backgroundImage: `url(${properties.image?.url !=null ? properties.image?.url : '/assets/placeholder.png'})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center',
                         }}>
@@ -77,7 +77,7 @@ const LandingPageOfPropertyType = () => {
                                 if(property.status === "Available"){
                                     return(
                                         <Card raised link style={PropertiesBoby} onClick={() => openModal(<ModalViewForm name={property}  />)}>
-                                            <Image src={property.image.url} wrapped ui={false} />
+                                            <Image src={property.image?.url !=null ? property.image?.url !=null : '/assets/placeholder.png'} wrapped ui={false} />
                                             <Card.Content>
                                                 <Card.Header>{property.name}</Card.Header>
                                                 <Card.Meta>

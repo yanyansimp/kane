@@ -50,7 +50,7 @@ import { useHistory } from 'react-router-dom'
           {/* {properties.map((property : any) => { */}
             {/* return (  */}
             <Table.Row key={name.id}>
-                  <Table.Cell><Image size="tiny" src={name.image.url} /></Table.Cell>
+                  <Table.Cell><Image size="tiny" src={name.image?.id != null ? name.image?.url : '/assets/placeholder.png'} /></Table.Cell>
                   <Table.Cell>{name.description.substring(0, 10)+ '...'}</Table.Cell>
                   <Table.Cell>{name.location}</Table.Cell>
                   <Table.Cell> {name.status} </Table.Cell>

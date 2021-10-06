@@ -63,7 +63,7 @@ const HomePageSample = () => {
                 {propertyTypes.slice(0,visible).map((properties : any, index:any) => {  
                     return(
                     <Card raised link  style={cardStyle} href={`/properties/${properties.id}`}  key={properties.id} > 
-                     <Image src={properties.image?.url} wrapped ui={false} />
+                     <Image src={properties.image?.id != null ? properties.image?.url : '/assets/placeholder.png'} wrapped ui={false} />
                         <Card.Content>
                             <Card.Header>{properties.name}</Card.Header>
                             <Card.Meta>

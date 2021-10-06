@@ -204,23 +204,22 @@ export default class PropertyTypeStore {
             runInAction(() => {
                 this.status = 'Uploading Details ...';
             });
-            let propId = propertyType.id
-        var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
-           let newImage = {
-                id: returnimage.id,
-                url: returnimage.url,
-                isMain: true,
-                propertyTypeId: propertyType.id
-           };
-                propertyType.image = newImage;
-             if (newImage  !== null) {
+        if(this.image !== null){
+            var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
+            let newImage = {
+                 id: returnimage.id,
+                 url: returnimage.url,
+                 isMain: true,
+                 propertyTypeId: propertyType.id
+            };
+            propertyType.image = newImage;
                 runInAction(()=>{
                     this.status = 'Uploading Image ...';
                 });
                 await agent.PropertyTypes.create(propertyType);
-             }else {
-                 console.log("Image was Empty")
-             }
+            }else{
+                await agent.PropertyTypes.create(propertyType);
+            }
              toast.success('Property Type Successfully Added');
              window.location.reload();
         }catch(error){

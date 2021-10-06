@@ -193,7 +193,7 @@ const AddPropertyForm = () => {
                 </div>       
                     <>
                             <Button 
-                                className={classes.btn}
+                                className={classes.btnUplaodRemove}
                                 variant='contained'
                                 type='button'
                                 onClick={() => {

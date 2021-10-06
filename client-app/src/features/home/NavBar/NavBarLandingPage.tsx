@@ -42,13 +42,15 @@ const NavMenu: React.FC = () => {
                                             )
                                         })}
                                 </Dropdown.Menu>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item>sample</Dropdown.Item>
+                                        <Dropdown.Item>sample</Dropdown.Item>
+                                        <Dropdown.Item>sample</Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item>sample</Dropdown.Item>
+                                        <Dropdown.Item>
+                                
                             </Dropdown.Item>
-                            <Dropdown.Item>sample</Dropdown.Item>
-                            <Dropdown.Item>sample</Dropdown.Item>
-                            <Dropdown.Item>sample</Dropdown.Item>
-                            <Dropdown.Divider />
-                            <Dropdown.Item>sample</Dropdown.Item>
-                            <Dropdown.Item>sample</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Responsive>

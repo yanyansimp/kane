@@ -88,12 +88,10 @@ export default class PropertyStore {
                     isMain: true,
                     };
                     property.image = newImage;
+                    await agent.Properties.create(property);
+            }else{
+                await agent.Properties.create(property);
             }
-           await agent.Properties.create(property);
-           runInAction(() => {
-            this.status = 'Uploading Details ...';
-            this.submitting = false;
-        });
            toast.success('Property Successfully Added');
            window.location.reload();
         } catch (error) {

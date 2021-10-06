@@ -16,7 +16,7 @@ const ModalExampleContentImage:  React.FC<IfirstChildProps> = ({name}) => {
     >
       <Modal.Header>Upload image</Modal.Header>
       <Modal.Content image>
-        <Image size='medium' src={name.image.url} wrapped />
+        <Image size='medium' src={name.image?.id != null ? name.image?.url : '/assets/placeholder.png'}  wrapped />
         <Modal.Description>
             <Header>{name.name}</Header>
             <p>{name.description}</p>

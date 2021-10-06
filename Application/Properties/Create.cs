@@ -57,11 +57,11 @@ namespace Application.Properties
                     Name = request.Name,
                     Description = request.Description,
                     Location = request.Location,
-                    Image = new Photo {
+                    Image = request.Image != null ? new Photo {
                         Id =  request.Image.Id,
                         Url = request.Image.Url,
                         IsMain = true
-                    },
+                    } : null,
                     Status = request.Status,
                 };
 
