@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Form, Grid } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { Form as FinalForm, Field } from 'react-final-form';
@@ -10,10 +10,19 @@ import SelectPropertyForm from './SelectPropertyForm';
 import StepGuide from './StepGuide';
 import WorkForm from './WorkFormPersonal';
 import WorkFormPersonal from './WorkFormPersonal';
+import { RouteComponentProps } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 
-const ReservationForm = () => {
+interface DetailParams {
+  id: string;
+}
+
+const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
+  match,
+  history
+}) => {
   const rootStore = useContext(RootStoreContext);
-  const { step, nextStep, prevStep } = rootStore.reservationStore;
+  const { step, nextStep, prevStep, createReservation, submitting, loading } = rootStore.reservationStore;
 
   const renderForm = () => {
     switch (step) {
@@ -30,22 +39,44 @@ const ReservationForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (match.params.id) {
+      
+    }
+  }, [])
+
   const handleFinalFormSubmit = (values: any) => {
-    console.log(values);
+    const { ...client } = values;
+
+    if (!client.id) {
+      let newClient = {
+        ...client,
+      };
+      createReservation(newClient);
+    } else {
+      // Edit Client
+    }
   };
 
   return (
     <Grid>
       <Grid.Column width={16}>
-        <StepGuide />
+        {/* <StepGuide /> */}
+        <h2>New Reservation</h2>
       </Grid.Column>
 
       <Grid.Column width={16}>
         <FinalForm
           onSubmit={handleFinalFormSubmit}
-          render={() => (
-            <Form>
-              {renderForm()}
+          render={({ handleSubmit, invalid, pristine }) => (
+            <Form onSubmit={handleSubmit}>
+
+              <SelectPropertyForm />
+              <PersonalInfoForm />
+              <CoBorrowerAtty />
+              <WorkFormPersonal />
+              
+              {/* {renderForm()}
 
               {step > 1 && (
                 <Button
@@ -61,13 +92,27 @@ const ReservationForm = () => {
                 type={step === 5 ? 'submit' : 'button'}
                 secondary
                 onClick={nextStep}
+              /> */}
+              <Button
+                loading={submitting}
+                disabled={loading || invalid || pristine}
+                floated="right"
+                positive
+                type="submit"
+                content="Submit"
+              />
+              <Button
+                onClick={() => history.push('/reservation')}
+                disabled={loading}
+                floated="right"
+                type="button"
+                content="Cancel"
               />
             </Form>
           )}
         />
       </Grid.Column>
 
-      <Grid.Column width={16}></Grid.Column>
     </Grid>
   );
 };

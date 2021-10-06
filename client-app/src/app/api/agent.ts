@@ -8,11 +8,12 @@ import { IPropertyType } from '../models/propertyType';
 import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
 import { ITransactionType, ITransactionTypeFormValues } from '../models/transactionType';
-import { IPayment } from '../models/payment';
+import { IPayment, IPaymentFormValues } from '../models/payment';
 import { IClient } from '../models/client';
+import { ITransaction, ITransactionValues } from '../models/transaction';
 import { ILandingPhoto } from '../models/landingPhoto'
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use((config) => {
   const token = window.localStorage.getItem('jwt');
@@ -66,8 +67,8 @@ const TransactionTypes ={
 };
 
 const Payments = {
-  create: (payment: IPayment) => requests.post('/payments', payment),
-}
+  create: (payment: IPaymentFormValues) => requests.post('/payments', payment),
+};
 
 const PropertyTypes = {
   list: (): Promise<IPropertyType[]> => requests.get('/propertyTypes'),
@@ -116,13 +117,24 @@ const Role = {
   create: (role: IRole) => requests.post('/roles', role)
 };
 
-const Clients= {
+const Clients = {
   list: (): Promise<IClient[]> => requests.get('/clients'),
-  create: (client: IClient) => requests.post('/clients', client)
+  details: (id: string) => requests.get(`/clients/${id}`),
+  create: (client: IClient) => requests.post('/clients', client),
+  update: (client: IClient) => 
+    requests.put(`/clients/${client.id}`, client),
+};
+
+const Transactions = {
+  create: (transaction: ITransactionValues) =>
+    requests.post('/transactions', transaction),
+  details: (clientId: string, transactionId: string) =>
+    requests.get(`/transactions/${clientId}/${transactionId}`),
 };
 
 
 const User = {
+  list: (): Promise<IUser[]> => requests.get('/user/list'),
   current: (): Promise<IUser> => requests.get('/user'),
   login: (user: IUserFormValues): Promise<IUser> =>
     requests.post('/user/login', user),
@@ -143,6 +155,7 @@ export default {
   Properties,
   Role,
   TransactionTypes,
+  Transactions,
   Payments,
   Clients,
   LandingPhotos

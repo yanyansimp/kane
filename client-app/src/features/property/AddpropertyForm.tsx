@@ -223,6 +223,6 @@ const AddPropertyForm = () => {
         
     )
 }
-export default observer(AddPropertyForm)
+export default observer(AddPropertyForm);
 
 

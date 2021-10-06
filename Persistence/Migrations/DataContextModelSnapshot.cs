@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -14,7 +15,9 @@ namespace Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
@@ -105,7 +108,8 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -147,23 +151,67 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<DateTime?>("AtBirthDate");
+
+                    b.Property<string>("AtFirstName");
+
+                    b.Property<string>("AtGender");
+
+                    b.Property<string>("AtLastName");
+
+                    b.Property<string>("AtMiddleName");
+
+                    b.Property<string>("AtNumber");
+
+                    b.Property<string>("AtSuffix");
+
+                    b.Property<string>("AtTIN");
+
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("CivilStatus");
+
+                    b.Property<DateTime?>("CoBirthDate");
+
+                    b.Property<string>("CoFirstName");
+
+                    b.Property<string>("CoGender");
+
+                    b.Property<string>("CoLastName");
+
+                    b.Property<string>("CoMiddleName");
+
+                    b.Property<string>("CoNumber");
+
+                    b.Property<string>("CoSuffix");
+
+                    b.Property<string>("CoTIN");
+
+                    b.Property<string>("CompanyLocation");
+
+                    b.Property<string>("CompanyName");
 
                     b.Property<string>("ContactNumber");
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("DateEmployed");
+
                     b.Property<DateTime?>("DeletedAt");
 
                     b.Property<string>("EducationalAttn");
+
+                    b.Property<string>("Employment");
+
+                    b.Property<string>("EmploymentType");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("Gender");
 
                     b.Property<string>("HomeNumber");
+
+                    b.Property<string>("Industry");
 
                     b.Property<string>("LastName");
 
@@ -179,15 +227,37 @@ namespace Persistence.Migrations
 
                     b.Property<string>("OfficeNumber");
 
+                    b.Property<string>("Position");
+
+                    b.Property<string>("Profession");
+
                     b.Property<string>("Religion");
 
                     b.Property<string>("School");
+
+                    b.Property<int?>("SequenceNo");
+
+                    b.Property<DateTime?>("SpouseBirthDate");
+
+                    b.Property<string>("SpouseFirstName");
+
+                    b.Property<string>("SpouseGender");
+
+                    b.Property<string>("SpouseLastName");
+
+                    b.Property<string>("SpouseMiddleName");
+
+                    b.Property<string>("SpouseNumber");
+
+                    b.Property<string>("SpouseTIN");
 
                     b.Property<string>("Suffix");
 
                     b.Property<string>("TIN");
 
                     b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("ZipCode");
 
                     b.HasKey("Id");
 
@@ -262,6 +332,8 @@ namespace Persistence.Migrations
                     b.Property<string>("ModeOfPayment");
 
                     b.Property<string>("ORNumber");
+
+                    b.Property<int?>("SequenceNo");
 
                     b.Property<Guid?>("TransactionId");
 
@@ -379,6 +451,8 @@ namespace Persistence.Migrations
 
                     b.Property<Guid>("SalesManagerId");
 
+                    b.Property<int>("SequenceNo");
+
                     b.Property<string>("Status");
 
                     b.Property<float>("Terms");
@@ -438,7 +512,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Value", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
 
@@ -482,7 +557,8 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -490,7 +566,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -509,7 +586,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 

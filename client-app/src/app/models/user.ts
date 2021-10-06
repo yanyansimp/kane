@@ -9,7 +9,7 @@ export interface IUser {
   middleName: string;
   suffix: string;
   birthDate?: Date;
-  contactNumber: string;
+  phoneNumber: string;
   address: string;
   displayName: string;
   username: string;
@@ -17,6 +17,7 @@ export interface IUser {
   image?: string;
   role: string;
   roleClaims: string[];
+  lockoutEnd?: Date; 
 }
 
 export interface IUserFormValues extends Partial<IUser> {}
@@ -30,9 +31,10 @@ export class UserFormValues implements IUserFormValues {
   middleName: string = '';
   suffix: string = '';
   birthDate?: Date = undefined;
-  contactNumber: string = '';
+  phoneNumber: string = '';
   address: string = '';
   role: string = '';
+  lockoutEnd?: Date = undefined;
 
   constructor(init?: IUserFormValues) {
     Object.assign(this, init);
@@ -47,7 +49,7 @@ export interface IUserFormValues {
   middleName: string;
   suffix: string;
   birthDate?: Date;
-  contactNumber: string;
+  phoneNumber: string;
   address: string;
   role: string;
   displayName?: string;

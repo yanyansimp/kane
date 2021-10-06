@@ -2,11 +2,14 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Application.Errors;
 
 
 namespace Application.Payments
@@ -16,6 +19,7 @@ namespace Application.Payments
         public class Command : IRequest
         {
             public Guid TransactionId { get; set; }
+            public int TransactionSequenceNo { get; set; }
             public Guid Id { get; set; }
             public string ORNumber { get; set; }
             public float Amount { get; set; }
@@ -46,44 +50,68 @@ namespace Application.Payments
             }
         }
 
-         public class Handler : IRequestHandler<Command>
-         {
-                private readonly DataContext _context;
-                // private readonly IUserAccessor _userAccessor;
+        public class Handler : IRequestHandler<Command>
+        {
+            private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
 
-                public Handler(DataContext context) //, IUserAccessor userAccessor)
-                {
-                    // _userAccessor = userAccessor;
-                    _context = context;
-                }
+            public Handler(DataContext context, IUserAccessor userAccessor)
+            {
+                _userAccessor = userAccessor;
+                _context = context;
+            }
 
-                public async Task<Unit> Handle(Command request,
+            public async Task<Unit> Handle(Command request,
                 CancellationToken cancellationToken)
             {
-                var transaction = await _context.Transactions.FindAsync(request.TransactionId);
+                
+                var user = await _context.Users.SingleOrDefaultAsync(x => 
+                    x.UserName == _userAccessor.GetCurrentUsername());
+
+                if (user == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {User = "Not Found"});
+
+                var transaction = await _context.Transactions
+                    .SingleOrDefaultAsync(t => t.Id == request.Id || t.SequenceNo == request.TransactionSequenceNo);
 
                 if (transaction == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Transaction = "Not Found"});
 
+                    // throw new RestException(HttpStatusCode.NotFound, new {Transaction = "Not Found"});
+                
+                var payments = await _context.Payments.ToListAsync();
+
+                // var sequenceNo = lastPayment != null ? lastPayment.SequenceNo : 0;
+                var sequenceNo = payments.Max(p => p.SequenceNo) < 1 ? 1 : payments.Max(p => p.SequenceNo) + 1;
+
                 var payment = new Payment
                 {
                     Id = request.Id,
+                    SequenceNo = sequenceNo,
                     ORNumber = request.ORNumber,
                     ModeOfPayment = request.ModeOfPayment,
                     DateOfPayment = request.DateOfPayment,
-                    CheckNo = request.CheckNo,
-                    BankName = request.BankName,
-                    Branch = request.Branch,
+                    CheckNo = request.ModeOfPayment == "Cheque" ? request.CheckNo : "",
+                    BankName = request.ModeOfPayment == "Cheque" ? request.BankName : "",
+                    Branch = request.ModeOfPayment == "Cheque" ? request.Branch : "",
                     InPaymentOf = request.InPaymentOf,
                     Amount = request.Amount,
-                    // Transaction = transaction,
-                    // AppUser = received,
                     CreatedAt = DateTime.Now
                 };
 
+                float totalAmount = 0.0f;
+
+                foreach (var pyment in transaction.Payments)
+                {
+                    totalAmount += pyment.Amount;
+                }
+
+                if ((totalAmount + request.Amount) == transaction.ContractPrice)
+                    transaction.Status = "Completed";
+
                 transaction.Payments.Add(payment);
 
-                // _context.Payments.Add(payment);
+                user.Payments.Add(payment);
 
                 var success = await _context.SaveChangesAsync() > 0;
 
@@ -91,7 +119,6 @@ namespace Application.Payments
 
                 throw new Exception("Problem saving changes");
             }
-
-         }
+        }
     }
 }

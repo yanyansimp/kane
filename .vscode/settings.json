@@ -2,5 +2,34 @@
     "cSpell.words": [
         "Jamies",
         "Wembly"
-    ]
+    ],
+    "deploy.reloaded": {
+        "packages": [
+            {
+                "name": "Version 1.0.0",
+                "description": "Package version 1.0.0",
+
+                "files": [
+                    "API/publish/**"
+                ]
+            }
+        ],
+
+        "targets": [
+            {
+                "type": "sftp",
+                "name": "Linux",
+                "description": "SFTP Folder",
+
+                "host": "167.99.62.41", "port": 22,
+                "user": "root", "password": "yourpassword",
+
+                "dir": "/var/kane",
+                "mappings": {
+                    "api/publish/**": "/"
+                }
+            }
+        ]
+    }   
+    
 }

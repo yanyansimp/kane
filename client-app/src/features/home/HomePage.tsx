@@ -34,8 +34,8 @@ const HomePage = () => {
               inverted
               content={`Welcome back ${user.displayName}`}
             />
-            <Button as={Link} to="/activities" size="huge" inverted>
-              Go to activities!
+            <Button as={Link} to="/dashboard" size="huge" inverted>
+              Go to dashboard!
             </Button>
           </Fragment>
         ) : (
@@ -46,9 +46,10 @@ const HomePage = () => {
             <Button onClick={() => openModal(<LoginForm />)} size="huge" inverted>
               Login
             </Button>
-            <Button onClick={() => openModal(<RegisterForm />)} size="huge" inverted>
+            {/* Add for homepage */}
+            {/* <Button onClick={() => openModal(<RegisterForm />)} size="huge" inverted>
               Register
-            </Button>
+            </Button> */}
           </Fragment>
         )}
       </Container>

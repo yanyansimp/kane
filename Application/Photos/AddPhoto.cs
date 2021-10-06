@@ -32,12 +32,12 @@ namespace Application.Photos
             {
                 var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-
                 var photo = new Photo
                 {
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId
                 };
+
                 if (photo != null) return photo;
 
                 await _context.Photos.FindAsync(photoUploadResult.PublicId);

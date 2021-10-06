@@ -1,27 +1,67 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Segment, Form } from 'semantic-ui-react';
 import SelectInput from '../../../app/common/form/SelectInput';
 import TextInput from '../../../app/common/form/TextInput';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { OnChange } from 'react-final-form-listeners';
+import DateInput from '../../../app/common/form/DateInput';
 
 const SelectPropertyForm = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {
+    loadPropertyTypes,
+    propertyTypeRegistry,
+    getPropertiesByAvailable,
+    propertyRegistry,
+  } = rootStore.propertyTypeStore;
+
+  const {
+    loadingInitial,
+    loadProperties,
+    // propertyRegistry,
+    // getPropertiesByAvailable,
+  } = rootStore.propertyStore;
+
+   useEffect(() => {
+     loadPropertyTypes();
+     loadProperties();
+   }, [loadPropertyTypes, loadProperties]);
+
   return (
     <Segment>
       <h2>Choose Property</h2>
-      <Form.Group fluid>
+      <Form.Group>
         <Field
           width={8}
-          label="Property Type"
-          name="propertyType"
-          placeholder="Property Type"
-          component={SelectInput}
+          date="true"
+          label="Date of Transaction"
+          name="createdAt"
+          placeholder="MM/DD/YYYY"
+          component={DateInput}
         />
         <Field
           width={8}
-          label="Property"
-          name="property"
-          placeholder="property"
+          label="Property Type"
+          loading={loadingInitial}
+          name="propertyTypeId"
+          placeholder="Property Type"
           component={SelectInput}
+          options={propertyTypeRegistry}
+        />
+        <OnChange name="propertyTypeId">
+          {(value: any, previous: any) => {
+            getPropertiesByAvailable(value);
+          }}
+        </OnChange>
+        <Field
+          width={8}
+          label="Property"
+          name="propertyId"
+          placeholder="Property"
+          component={SelectInput}
+          options={propertyRegistry}
         />
       </Form.Group>
       <Form.Group fluid>
@@ -54,24 +94,24 @@ const SelectPropertyForm = () => {
           component={TextInput}
         />
       </Form.Group>
-      <Form.Group fluid>
+      {/* <Form.Group fluid>
         <Field
           width={8}
           label="Sales Manager"
-          name="salesManager"
+          name="salesManagerId"
           placeholder="Sales Manager"
           component={SelectInput}
         />
         <Field
           width={8}
           label="Sales Agent"
-          name="salesAgent"
+          name="salesAgentId"
           placeholder="Sales Agent"
           component={SelectInput}
         />
-      </Form.Group>
+      </Form.Group> */}
     </Segment>
   );
 };
 
-export default SelectPropertyForm;
+export default observer(SelectPropertyForm);

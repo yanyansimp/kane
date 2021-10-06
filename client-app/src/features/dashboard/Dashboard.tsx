@@ -62,7 +62,7 @@ export const Dashboard: React.FC = () => {
           </Card>
 
           {/* Recent Payments */}
-          <Card
+          {/* <Card
             style={{
               padding: '15px 15px 0 15px',
               width: '535px',
@@ -141,11 +141,11 @@ export const Dashboard: React.FC = () => {
                 </Table.Body>
               </Table>
             </Card.Content>
-          </Card>
+          </Card> */}
           {/* End Recent Payments */}
 
           {/* Recent Logged Users */}
-          <Card
+          {/* <Card
             style={{
               padding: '15px 15px 0 15px',
               width: '535px',
@@ -195,7 +195,7 @@ export const Dashboard: React.FC = () => {
                 </Table.Body>
               </Table>
             </Card.Content>
-          </Card>
+          </Card> */}
           {/* End Recent Payments */}
         </Card.Group>
       </Grid.Column>

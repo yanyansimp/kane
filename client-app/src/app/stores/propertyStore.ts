@@ -8,74 +8,83 @@ import { Loader } from "semantic-ui-react";
 
 
 export default class PropertyStore {
-    rootStore: RootStore;
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+
+  // @observable propertyRegistry = new Map();
+  @observable property: IProperty | null = null;
+  @observable propertyRegistry: any = [];
+  @observable loading = false;
+  @observable loadingInitial = false;
+
+  @observable target = '';
+  @observable submitting = false;
+  @observable propertyTypeAvailableId: any = [];
+  @observable status = '';
+
+  /// Image Upload
+  @observable image: Blob | null = null;
+  @observable files: any[] = [];
+  @observable uploadingPhoto = false;
+
+  @action setFiles = (files: object[]) => {
+    // console.log(files)
+    this.files = files;
+  };
+
+  @action setImage = (file: Blob) => {
+    // console.log(file)
+    this.image = file;
+  };
+
+  @action propertyTypeAvailable(data: any) {
+    runInAction('loading Property Type Id', () => {
+      this.propertyRegistry.push({
+        key: data,
+        text: data,
+        value: data,
+      });
+    });
+  }
+
+  @computed get propertiesByName() {
+    return Array.from(this.propertyRegistry.values()).sort();
+  }
+
+  @action getProperties = async (callback: any) => {
+    try {
+      const properties = await agent.Properties.list();
+      callback(properties);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    // @observable propertyRegistry = new Map();
-    @observable property: IProperty | null = null;
-    @observable propertyRegistry: any = [];
-    @observable loading = false;
-    @observable target = '';
-    @observable submitting = false;
-    @observable propertyTypeAvailableId: any = [];
-    @observable status = '';
-
-
-      /// Image Upload
-    @observable image: Blob | null = null;
-    @observable files: any[] = [];
-    @observable uploadingPhoto = false;
-
-    @action setFiles = (files: object[]) => {
-        // console.log(files)
-        this.files = files;
-      };
-    
-    @action setImage = (file: Blob) => {
-        // console.log(file)
-        this.image = file;
-    };
-    
-    @computed get propertiesByName() {
-        return Array.from(this.propertyRegistry.values()).sort();
+  @action loadProperties = async () => {
+    this.loadingInitial = true;
+    try {
+      const properties = await agent.Properties.list();
+      runInAction('loading properties', () => {
+        this.propertyRegistry = [];
+        properties.forEach((property) => {
+          this.propertyRegistry.push({
+            key: property.id,
+            text: property.name,
+            value: property.id,
+          });
+        });
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction('error loading properties', () => {
+        this.loadingInitial = false;
+      });
+      console.log(error);
     }
-    @action propertyTypeAvailable(data:any){
-        runInAction('loading Property Type Id',() =>{
-            this.propertyRegistry.push({
-                key:data,
-                text: data,
-                value: data
-            });
+  };
 
-        })
-    }
-    @action getProperties = async (callback: any) => {
-        try {
-            const properties = await agent.Properties.list();
-            callback(properties)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    @action loadProperties = async () => { 
-        try {
-            const properties = await agent.Properties.list();
-            runInAction('loading property types', () => {
-                properties.forEach((property) => {
-                    this.propertyRegistry.push({
-                        key: property.name,
-                        text: property.name,
-                        value: property.id
-                    });
-                })
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     @action createProperty = async (property: IProperty) => {
         this.submitting = true;
@@ -143,6 +152,7 @@ export default class PropertyStore {
            
             window.location.reload();
     }
+  
 
     @action DeleteProperty = async (id: string) => {
         this.submitting = true;
@@ -159,20 +169,76 @@ export default class PropertyStore {
               this.target = '';
             });
             console.log(error);
-          }
-    }
-
-    @action returnStatus = async (callback: any) => {
-        try {
-            const propertyTypes = await agent.PropertyTypes.list();
-            runInAction('loading Property TYpe', () => {
-                callback(propertyTypes)
-            })
-        } catch (error) {
-            console.log(error)
         }
     }
-    
 
+
+  @action returnAvailable = async (callback: any) => {
+    try {
+      const properties = await agent.Properties.list();
+      runInAction('loading property types', () => {
+        var propertyAvailable = new Array(0);
+        var i = 0;
+        properties.forEach((property) => {
+          i++;
+          if (property.status === 'Available') {
+            propertyAvailable[i] = property;
+          }
+        });
+        callback(propertyAvailable);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action returnReserved = async (callback: any) => {
+    try {
+      const properties = await agent.Properties.list();
+      runInAction('loading property types', () => {
+        var propertyAvailable = new Array(0);
+        var i = 0;
+        properties.forEach((property) => {
+          i++;
+          if (property.status === 'Reserved') {
+            propertyAvailable[i] = property;
+          }
+        });
+        callback(propertyAvailable);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  @action returnStatus = async (callback: any) => {
+    try {
+      const propertyTypes = await agent.PropertyTypes.list();
+      runInAction('loading Property TYpe', () => {
+        callback(propertyTypes);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action returnOccupied = async (callback: any) => {
+    try {
+      const properties = await agent.Properties.list();
+      runInAction('loading property types', () => {
+        var propertyAvailable = new Array(0);
+        var i = 0;
+        properties.forEach((property) => {
+          i++;
+          if (property.status === 'Occupied') {
+            propertyAvailable[i] = property;
+          }
+        });
+        callback(propertyAvailable);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 

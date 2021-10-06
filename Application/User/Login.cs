@@ -60,6 +60,11 @@ namespace Application.User
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
+
+                // Add system lock after office hours
+                
+                //
+                
                 if (result.Succeeded)
                 {
                     return new User

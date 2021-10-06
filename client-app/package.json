@@ -37,6 +37,7 @@
     "react-dom": "^16.12.0",
     "react-dropzone": "^10.1.5",
     "react-final-form": "^6.3.0",
+    "react-final-form-listeners": "^1.0.3",
     "react-hook-form": "^7.9.0",
     "react-icons": "^4.2.0",
     "react-images-uploading": "^3.1.2",
@@ -53,6 +54,7 @@
     "react-widgets-date-fns": "^4.0.26",
     "reactjs-popup": "^2.0.4",
     "revalidate": "^1.2.0",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "typescript": "^3.7.5",
     "uuid": "^7.0.2"
@@ -60,6 +62,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "move build ../API/wwwroot",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -82,6 +85,7 @@
     "@types/google-map-react": "^2.1.2",
     "@types/lodash": "^4.14.172",
     "@types/react-calendar": "^3.4.0",
-    "@types/react-datepicker": "^3.1.8"
+    "@types/react-datepicker": "^3.1.8",
+    "@types/react-final-form-listeners": "^1.0.0"
   }
 }

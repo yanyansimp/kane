@@ -24,7 +24,7 @@ export default class PropertyTypeStore {
     }
     
 
-    @observable propertyRegistry = new Map();
+    @observable propertyRegistry:  any = [];
     @observable propertyType: IPropertyType | null = null;
     @observable property: IProperty | null = null;
     @observable loadingInitial = false;
@@ -58,18 +58,13 @@ export default class PropertyTypeStore {
         this.image = file;
     };
 
-  
-
       @computed get totalPages() {
         return Math.ceil(this.propertiesCount / LIMIT);
       }
       @action setPage = (page: number) => {
         this.page = page;
       }
-     
  
-
-   
     
 
     @computed get propertyTypesByName() {
@@ -204,22 +199,22 @@ export default class PropertyTypeStore {
             runInAction(() => {
                 this.status = 'Uploading Details ...';
             });
-        if(this.image !== null){
+        if(this.image !==null){
             var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
             let newImage = {
-                 id: returnimage.id,
-                 url: returnimage.url,
-                 isMain: true,
-                 propertyTypeId: propertyType.id
-            };
-            propertyType.image = newImage;
-                runInAction(()=>{
-                    this.status = 'Uploading Image ...';
-                });
+                    id: returnimage.id,
+                    url: returnimage.url,
+                    isMain: true,
+                    propertyTypeId: propertyType.id
+                };
+                propertyType.image = newImage;
                 await agent.PropertyTypes.create(propertyType);
             }else{
                 await agent.PropertyTypes.create(propertyType);
             }
+                runInAction(()=>{
+                    this.status = 'Uploading Image ...';
+                });
              toast.success('Property Type Successfully Added');
              window.location.reload();
         }catch(error){
@@ -292,7 +287,32 @@ export default class PropertyTypeStore {
           window.location.reload();
     }
 
-
+    // Ibalhin ni sa ubos para dili mag conflict
+  @action getPropertiesByAvailable = async (id: string) => {
+    this.loading = true;
+    try {
+        const propertyTypes = await agent.PropertyTypes.list();
+        runInAction(() => {
+            var propertyType = propertyTypes.find(p => p.id === id);
+            propertyType?.properties?.sort((a,b) => (a.name > b.name) ? 1 : -1);
+            propertyType?.properties?.map((property) => {
+                if (property.status === 'Available') {
+                  this.propertyRegistry.push({
+                    key: property.id,
+                    text: property.name,
+                    value: property.id,
+                  });
+                }
+              });
+            this.loading = false;
+        });
+    } catch (error) {
+        runInAction(() => {
+            this.loading = false;
+        })
+    }
+  };
+  //
 
 }
 

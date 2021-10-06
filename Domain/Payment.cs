@@ -6,6 +6,7 @@ namespace Domain
     public class Payment
     {
         public Guid Id { get; set; }
+        public int? SequenceNo { get; set; }
         public string ORNumber { get; set; }
         public float Amount { get; set; }
         public string ModeOfPayment { get; set; }

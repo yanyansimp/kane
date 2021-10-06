@@ -23,7 +23,7 @@ export const SideBar = () => {
           Reservation
         </span>
       </Menu.Item>
-      <Menu.Item  as={NavLink} to="/payments">
+      <Menu.Item  as={NavLink} to="/payment">
         <span>
           <Icon name="credit card outline" size="large" />
           Payment
@@ -41,12 +41,12 @@ export const SideBar = () => {
           User
         </span>
       </Menu.Item>
-      <Menu.Item>
+      {/* <Menu.Item>
         <span>
           <Icon name="newspaper outline" size="large" />
           Report
         </span>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 };

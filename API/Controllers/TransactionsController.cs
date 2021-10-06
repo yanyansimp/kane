@@ -11,6 +11,14 @@ namespace API.Controllers
 {
     public class TransactionsController : BaseController
     {
+
+
+        [HttpGet("{clientId}/{transactionId}")]
+        public async Task<ActionResult<TransactionDto>> Details(Guid clientId, Guid transactionId)
+        {
+            return await Mediator.Send(new Details.Query{CliedId = clientId, TransactionId = transactionId});
+        }
+
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {

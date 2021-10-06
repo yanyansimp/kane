@@ -1,18 +1,16 @@
-using System.Threading.Tasks;
-using Domain;
-using Microsoft.AspNetCore.Mvc;
-using Application.Payments;
-using Microsoft.AspNetCore.Authorization;
-using MediatR;
 using System;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Application.Payments;
+using Domain;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [AllowAnonymous]
     public class PaymentsController : BaseController
     {
-        
         [HttpPost]
         public async Task<ActionResult<Unit>> Create(Create.Command command)
         {

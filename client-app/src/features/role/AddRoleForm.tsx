@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { v4 as uuid } from 'uuid';
 import React, { useContext, useEffect } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { combineValidators, isRequired } from 'revalidate';
 import {
   Grid,
@@ -124,6 +124,14 @@ const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   type="submit"
                   content="Submit"
                   onClick={handleFinalFormSubmit}
+                />
+                <Button
+                  disabled={loading}
+                  as={Link}
+                  floated="right"
+                  type="button"
+                  content="Cancel"
+                  to={'/user'}
                 />
               </Form>
             )}
