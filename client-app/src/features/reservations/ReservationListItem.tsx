@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Label, Button, Transition } from 'semantic-ui-react';
 import { setStatusColor, toMoney } from '../../app/common/util/util';
@@ -6,6 +6,7 @@ import { IClient } from '../../app/models/client';
 
 const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
   const transaction = client.transactions[0];
+  // const transactions = client.transactions;
 
   return (
     <Table.Row>

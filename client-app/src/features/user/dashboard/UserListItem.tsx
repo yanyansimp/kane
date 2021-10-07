@@ -55,7 +55,7 @@ const UserListItem: React.FC<{ user: IUser}> = ({ user }) => {
         </Table.Cell>
         <Table.Cell>{user.phoneNumber}</Table.Cell>
         <Table.Cell>{user.email}</Table.Cell>
-        <Table.Cell>Admin</Table.Cell>
+        <Table.Cell>{user.role}</Table.Cell>
         <Table.Cell>
           {!user.lockoutEnd && (
             <Label color={'green'} rounded>

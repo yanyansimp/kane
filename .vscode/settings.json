@@ -21,10 +21,10 @@
                 "name": "Linux",
                 "description": "SFTP Folder",
 
-                "host": "167.99.62.41", "port": 22,
-                "user": "root", "password": "yourpassword",
+                "host": "89.40.12.250", "port": 22,
+                "user": "root", "password": "jeaEymn2QV1Z",
 
-                "dir": "/var/kane",
+                "dir": "/var/kanerealtyph",
                 "mappings": {
                     "api/publish/**": "/"
                 }

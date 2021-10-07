@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
@@ -10,16 +9,14 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211001124625_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20211007063106_Added")]
+    partial class Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
@@ -41,6 +38,24 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("Domain.Amenity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<Guid?>("PropertyTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PropertyTypeId");
+
+                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("Domain.AppUser", b =>
@@ -110,8 +125,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -271,11 +285,11 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("ClientId");
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<Guid?>("TransactionId");
 
                     b.Property<string>("Type");
 
@@ -285,7 +299,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Documents");
                 });
@@ -459,8 +473,6 @@ namespace Persistence.Migrations
 
                     b.Property<float>("Terms");
 
-                    b.Property<Guid?>("TransactionTypeId");
-
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -470,8 +482,6 @@ namespace Persistence.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("PropertyId");
-
-                    b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Transactions");
                 });
@@ -514,8 +524,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Value", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
@@ -559,8 +568,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -568,8 +576,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -588,8 +595,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -651,6 +657,13 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Amenity", b =>
+                {
+                    b.HasOne("Domain.PropertyType")
+                        .WithMany("Amenities")
+                        .HasForeignKey("PropertyTypeId");
+                });
+
             modelBuilder.Entity("Domain.Business", b =>
                 {
                     b.HasOne("Domain.Client")
@@ -660,9 +673,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Document", b =>
                 {
-                    b.HasOne("Domain.Transaction")
+                    b.HasOne("Domain.Client")
                         .WithMany("Documents")
-                        .HasForeignKey("TransactionId");
+                        .HasForeignKey("ClientId");
                 });
 
             modelBuilder.Entity("Domain.Payment", b =>
@@ -718,10 +731,6 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Property", "Property")
                         .WithMany()
                         .HasForeignKey("PropertyId");
-
-                    b.HasOne("Domain.TransactionType")
-                        .WithMany("Transactions")
-                        .HasForeignKey("TransactionTypeId");
                 });
 
             modelBuilder.Entity("Domain.UserActivity", b =>

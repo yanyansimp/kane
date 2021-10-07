@@ -76,6 +76,7 @@ namespace Domain
         // Navigation Properties
         public virtual ICollection<Business> Businesses { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
 
     }
 }

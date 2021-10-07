@@ -12,9 +12,14 @@ namespace Application.User
             CreateMap<AppUser, AppUserDto>()
                 // .ForMember(d => d.Role, o => o.MapFrom(s => s.Role.Name))
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Photos.FirstOrDefault(x => x.IsMain).Url));
+            
+            // CreateMap<UserRole, RoleDto>()
+            //     .ForMember(d => d.Name, o => o.MapFrom(s => s.Role.Name));
             // CreateMap<Activity, ActivityDto>()
             //     .ForMember();
 
+
+            // CreateMap<Activity, ActivityDto>();
             // CreateMap<UserActivity, AttendeeDto>()
             //     .ForMember(d => d.Username, o => o.MapFrom(s =>
             //         s.Appuser.UserName))

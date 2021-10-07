@@ -6,11 +6,13 @@ import UserListItem from './UserListItem';
 
 const UserList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadUsers, userRegistry } = rootStore.userStore;
+  const { loadUsers, loadSalesManagersAgents, userRegistry } =
+    rootStore.userStore;
 
   useEffect(() => {
     loadUsers();
-  }, [loadUsers]);
+    loadSalesManagersAgents();
+  }, [loadUsers, loadSalesManagersAgents]);
 
     return (
       <Segment>

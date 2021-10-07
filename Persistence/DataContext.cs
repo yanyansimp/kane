@@ -23,6 +23,7 @@ namespace Persistence
         public DbSet<Payment> Payments { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<LandingPhoto> LandingPhotos { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -49,7 +50,17 @@ namespace Persistence
                 .HasForeignKey(a => a.ActivityId);
 
             //
-            
+
+            // builder.Entity<UserRole>()
+            //     .HasOne(u => u.AppUser)
+            //     .WithMany(r => r.UserRoles)
+            //     .HasForeignKey(u => u.UserId);
+
+            // builder.Entity<UserRole>()
+            //     .HasOne(r => r.Role)
+            //     .WithMany(u => u.UserRoles)
+            //     .HasForeignKey(r => r.RoleId);
+
 
             // builder.Entity<AppUser>(b =>
             // {

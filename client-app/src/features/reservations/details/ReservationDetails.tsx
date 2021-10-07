@@ -67,7 +67,9 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
                   </Button.Group>
                   <Item.Header>
                     <Header as="h2">{transaction?.propertyTypeName}</Header>
-                    <Header as="h1">{transaction?.property?.name}</Header>
+                    <Header as="h1">
+                      {`#${transaction?.sequenceNo} - ${transaction?.property?.name}`}
+                    </Header>
                   </Item.Header>
 
                   <Divider clearing />
@@ -79,7 +81,8 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
                     <Header as="h4">
                       {/* {client?.civilStatus} */}
                       Date of Transaction:{' '}
-                      {!transaction?.createdAt && (transaction?.createdAt?.toDateString())}
+                      {transaction?.createdAt &&
+                        transaction?.createdAt?.toDateString()}
                       {/* {() => console.log(transaction?.createdAt)} */}
                       {/* {format(
                         new Date(transaction?.createdAt!),
@@ -125,18 +128,18 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
             </Header>
             <List>
               <List.Item>
-                <Image avatar src="/assets/user.png" />
+                <Image avatar src={transaction?.salesManager?.image || "/assets/user.png"} />
                 <List.Content>
-                  <List.Header>Christian Rocha</List.Header>
+                  <List.Header>{transaction?.salesManager?.name || "None"}</List.Header>
                   Sales Manager
                 </List.Content>
               </List.Item>
             </List>
             <List horizontal>
               <List.Item>
-                <Image avatar src="/assets/user.png" />
+                <Image avatar src={transaction?.salesAgent?.image || "/assets/user.png"} />
                 <List.Content>
-                  <List.Header>Matthew Dela Cruz</List.Header>
+                  <List.Header>{transaction?.salesAgent?.name || "None"}</List.Header>
                   Sales Agent
                 </List.Content>
               </List.Item>
@@ -147,7 +150,7 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
         <Grid.Column width="10">
           <Segment padded>
             <Header as="h2">Payments</Header>
-            <Input action={{ icon: 'search' }} placeholder="Search..." />
+            {/* <Input action={{ icon: 'search' }} placeholder="Search..." /> */}
 
             <Table selectable basic="very">
               <Table.Header>

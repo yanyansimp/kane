@@ -24,10 +24,17 @@ const SelectPropertyForm = () => {
     // getPropertiesByAvailable,
   } = rootStore.propertyStore;
 
+  const {
+    loadSalesManagersAgents,
+    salesManagerRegistry,
+    salesAgentRegistry
+  } = rootStore.userStore;
+
    useEffect(() => {
      loadPropertyTypes();
      loadProperties();
-   }, [loadPropertyTypes, loadProperties]);
+     loadSalesManagersAgents();
+   }, [loadPropertyTypes, loadProperties, loadSalesManagersAgents]);
 
   return (
     <Segment>
@@ -94,13 +101,14 @@ const SelectPropertyForm = () => {
           component={TextInput}
         />
       </Form.Group>
-      {/* <Form.Group fluid>
+      <Form.Group fluid>
         <Field
           width={8}
           label="Sales Manager"
           name="salesManagerId"
           placeholder="Sales Manager"
           component={SelectInput}
+          options={salesManagerRegistry}
         />
         <Field
           width={8}
@@ -108,8 +116,9 @@ const SelectPropertyForm = () => {
           name="salesAgentId"
           placeholder="Sales Agent"
           component={SelectInput}
+          options={salesAgentRegistry}
         />
-      </Form.Group> */}
+      </Form.Group>
     </Segment>
   );
 };

@@ -28,6 +28,7 @@ namespace Application.User
             public string DisplayName { get; set; }
             public string UserName { get; set; }
             public string Email { get; set; }
+            public string PhoneNumber { get; set; }
             public string Password { get; set; }
             public string Role { get; set; }
         }
@@ -75,6 +76,7 @@ namespace Application.User
                     BirthDate = request.BirthDate,
                     DisplayName = string.Format("{0} {1}", request.LastName, request.FirstName),
                     Email = request.Email,
+                    PhoneNumber = request.PhoneNumber,
                     UserName = request.Email,
                 };
 

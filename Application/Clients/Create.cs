@@ -184,15 +184,17 @@ namespace Application.Clients
 
                 if (property.Status == "Available")
                 {
-                    var transactions = await _context.Transactions.ToListAsync();
+                    var transactions = await _context.Transactions
+                        .AsNoTracking()
+                        .ToListAsync();
 
                     // var lastTransaction = await _context.Transactions.LastOrDefaultAsync();
-                    // var sequenceNo = lastTransaction != null ? lastTransaction.SequenceNo : 0;
+                    var seqNo = transactions.Count == 0 ? 1 : transactions.Max(t => t.SequenceNo) + 1;
 
                     var transaction = new Transaction
                     {
                         Id = Guid.NewGuid(),
-                        SequenceNo = transactions.Max(t => t.SequenceNo) < 1 ? 1 : transactions.Max(t => t.SequenceNo) + 1,
+                        SequenceNo = seqNo,
                         ContractPrice = request.ContractPrice,
                         MonthlyAmortization = request.MonthlyAmortization,
                         Terms = request.Terms,

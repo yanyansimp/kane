@@ -20,8 +20,6 @@ namespace Domain
         public virtual Property Property { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         
-        public virtual ICollection<Document> Documents { get; set; }
-
         public Guid SalesManagerId { get; set; }
         public Guid SalesAgentId { get; set; }
 

@@ -58,8 +58,8 @@ namespace API
             services.AddDbContext<DataContext>(opt => 
             {
                 opt.UseLazyLoadingProxies();
-                // opt.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+                // opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             ConfigureServices(services);
@@ -210,17 +210,17 @@ namespace API
             app.UseCors("CorsPolicy");
 
             // Development
-            app.UseMvc();
+            // app.UseMvc();
             //
 
             // Production
-            // app.UseMvc(routes => 
-            // {
-            //     routes.MapSpaFallbackRoute(
-            //         name: "spa-fallback",
-            //         defaults: new {controller = "Fallback", action = "Index"}
-            //     );
-            // });
+            app.UseMvc(routes => 
+            {
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new {controller = "Fallback", action = "Index"}
+                );
+            });
             //
             
         }

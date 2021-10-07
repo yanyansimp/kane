@@ -24,7 +24,6 @@ export default class PropertyTypeStore {
   }
 
   @observable propertyRegistry: any = [];
-//   @observable propertyRegistry = new Map();
   @observable propertyType: IPropertyType | null = null;
   @observable property: IProperty | null = null;
   @observable loadingInitial = false;
@@ -72,15 +71,16 @@ export default class PropertyTypeStore {
         const propertyTypes = await agent.PropertyTypes.list();
         runInAction(() => {
             var propertyType = propertyTypes.find(p => p.id === id);
-            propertyType?.properties?.map(property => {
+            propertyType?.properties?.sort((a,b) => (a.name > b.name) ? 1 : -1);
+            propertyType?.properties?.map((property) => {
                 if (property.status === 'Available') {
-                    this.propertyRegistry.push({
-                        key: property.id,
-                        text: property.name,
-                        value: property.id
-                    });
+                  this.propertyRegistry.push({
+                    key: property.id,
+                    text: property.name,
+                    value: property.id,
+                  });
                 }
-            });
+              });
             this.loading = false;
         });
     } catch (error) {

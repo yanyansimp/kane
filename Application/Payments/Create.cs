@@ -82,7 +82,7 @@ namespace Application.Payments
                 var payments = await _context.Payments.ToListAsync();
 
                 // var sequenceNo = lastPayment != null ? lastPayment.SequenceNo : 0;
-                var sequenceNo = payments.Max(p => p.SequenceNo) < 1 ? 1 : payments.Max(p => p.SequenceNo) + 1;
+                var sequenceNo = payments.Count == 0 ? 1 : payments.Max(p => p.SequenceNo) + 1;
 
                 var payment = new Payment
                 {

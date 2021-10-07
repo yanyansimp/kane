@@ -65,27 +65,43 @@ export default class ReservationStore {
   @action loadClient = async (id: string) => {
     this.loadingInitial = true;
 
-    let client = this.getClient(id);
+    // let client = this.getClient(id);
 
-    if (client) {
-      this.client = setClientProps(client);
-      return toJS(client);
-    } else {
-      try {
-        client = await agent.Clients.details(id);
-        runInAction('Getting client', () => {
-          this.client = setClientProps(client!);
-          console.log(this.client);
+    // if (client) {
+    //   this.client = setClientProps(client);
+    //   return toJS(client);
+    // } else {
+    //   try {
+    //     client = await agent.Clients.details(id);
+    //     runInAction('Getting client', () => {
+    //       this.client = setClientProps(client!);
+    //       console.log(this.client);
+    //       this.loadingInitial = false;
+    //     });
+    //     return client;
+    //   } catch (error) {
+    //      runInAction('get client error', () => {
+    //        this.loadingInitial = false;
+    //      });
+    //     console.log(error);
+    //   }
+    // }
+
+    try {
+      const client = await agent.Clients.details(id);
+      runInAction('Getting client', () => {
+        this.client = setClientProps(client!);
+        console.log(this.client);
+        this.loadingInitial = false;
+      });
+      return client;
+    } catch (error) {
+        runInAction('get client error', () => {
           this.loadingInitial = false;
         });
-        return client;
-      } catch (error) {
-         runInAction('get client error', () => {
-           this.loadingInitial = false;
-         });
-        console.log(error);
-      }
+      console.log(error);
     }
+
   };
 
   @action editClient = async (client: IClient) => {
@@ -145,30 +161,43 @@ export default class ReservationStore {
   @action loadReservation = async (clientId: string, transId: string) => {
     this.loadingInitial = false;
 
+    // try {
+    //   let transaction = this.getTransaction(clientId, transId);
+
+    //   if (transaction) {
+    //     console.log(transaction);
+    //     this.transaction = transaction;
+    //     this.loadingInitial = false;
+    //     return toJS(transaction);
+    //   } else {
+    //     transaction = await agent.Transactions.details(clientId, transId);
+    //     runInAction(() => {
+    //       this.transaction = setTansactionProps(transaction!);
+    //       this.loadingInitial = false;
+    //     });
+    //     console.log(transaction);
+    //     return transaction;
+    //   }
+    // } catch (error) {
+    //    runInAction(() => {
+    //      this.loadingInitial = false;
+    //    });
+    //    console.log(error);
+    // }
     try {
-      let transaction = this.getTransaction(clientId, transId);
-
-      if (transaction) {
-        console.log(transaction);
-        this.transaction = transaction;
+      const transaction = await agent.Transactions.details(clientId, transId);
+      runInAction(() => {
+        this.transaction = setTansactionProps(transaction!);
         this.loadingInitial = false;
-        return toJS(transaction);
-      } else {
-        transaction = await agent.Transactions.details(clientId, transId);
-        runInAction(() => {
-          this.transaction = setTansactionProps(transaction!);
-          this.loadingInitial = false;
-        });
-        console.log(transaction);
-        return transaction;
-      }
+      });
+      console.log(transaction);
+      return transaction;
     } catch (error) {
-       runInAction(() => {
-         this.loadingInitial = false;
-       });
-       console.log(error);
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
+      console.log(error);
     }
-
   };
 
   @action loadReservations = async () => {
@@ -224,8 +253,8 @@ export default class ReservationStore {
         this.loadReservations();
         this.submitting = false;
       });
-      // history.push('/reservation');
-      // toast.success('Successfully saved');
+      history.push('/reservation');
+      toast.success('Successfully saved');
     } catch (error) {
       runInAction(() => {
         this.submitting = false;

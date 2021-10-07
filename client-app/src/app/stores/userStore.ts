@@ -19,6 +19,9 @@ export default class UserStore {
   @observable loading = false;
   @observable loadingInitial = false;
 
+  @observable salesManagerRegistry: any[] = [];
+  @observable salesAgentRegistry: any[] = [];
+
   @observable role: IRole | null = null;
   @observable roleRegistry: any = [];
   @observable roleClaims: string[] | any = [];
@@ -112,7 +115,7 @@ export default class UserStore {
     } catch (error) {
       runInAction(() => {
         this.submitting = false;
-      })
+      });
       toast.error(error);
     }
   };
@@ -121,7 +124,7 @@ export default class UserStore {
     try {
       const user = await agent.User.current();
       runInAction(() => {
-        this.user = user
+        this.user = user;
         // console.log(this.user);
       });
     } catch (error) {
@@ -135,13 +138,13 @@ export default class UserStore {
       const users = await agent.User.list();
       runInAction('loading users', () => {
         this.userRegistry = [];
-        users.forEach(user => {
-          if (user.role?.toLowerCase() !== "admin" || user.role?.toLowerCase() !== "super admin" || user.role?.toLowerCase() !== "superadmin") {
+        users.forEach((user) => {
+          if (!(user.role?.toLowerCase() === 'admin' || user.role?.toLowerCase() === 'super admin')) {
             this.userRegistry?.push(user);
           }
         });
         this.loadingInitial = false;
-        console.log(toJS(this.userRegistry));
+        // console.log(toJS(this.userRegistry));
       });
     } catch (error) {
       runInAction('load users error', () => {
@@ -151,6 +154,63 @@ export default class UserStore {
     }
   };
 
+  loadSalesManagers = (users: any[]) => {
+    try {
+      runInAction(() => {
+        this.salesManagerRegistry = [];
+        users.forEach((user) => {
+          if ((user.role?.toLowerCase() === 'sales manager' || user.role?.toLowerCase() === 'salesmanager')) {
+            this.salesManagerRegistry?.push({
+              key: user.id,
+              text: `${user.lastName}, ${user.firstName} ${user.middleName?.charAt(0,1)}`,
+              value: user.id,
+            });
+          }
+        });
+        // console.log(users);
+        // console.log(toJS(this.salesManagerRegistry));
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  loadSalesAgents = (users: any[]) => {
+    try {
+      runInAction(() => {
+        this.salesAgentRegistry = [];
+        users.forEach((user) => {
+          if ((user.role?.toLowerCase() === 'sales manager' || user.role?.toLowerCase() === 'salesmanager' || user.role?.toLowerCase() === 'sales agent' || user.role?.toLowerCase() === 'salesagent')) {
+            this.salesAgentRegistry?.push({
+              key: user.id,
+              text: `${user.lastName}, ${user.firstName} ${user.middleName?.charAt(0,1)}`,
+              value: user.id
+            });
+          }
+        });
+        // console.log(users);
+        // console.log(toJS(this.salesAgentRegistry));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  @action loadSalesManagersAgents = async () => {
+    this.loadingInitial = true;
+    try {
+      if (this.userRegistry !== null) {
+        this.loadSalesManagers(this.userRegistry!);
+        this.loadSalesAgents(this.userRegistry!);
+      } else {
+        await this.loadUsers();
+        this.loadSalesManagers(this.userRegistry!);
+        this.loadSalesAgents(this.userRegistry!);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   @action logout = () => {
     this.rootStore.commonStore.setToken(null);

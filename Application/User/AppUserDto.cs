@@ -22,6 +22,9 @@ namespace Application.User
         public string Image { get; set; }
         public string Role { get; set; }
 
+        // [JsonProperty("roles")]
+        // public ICollection<RoleDto> UserRoles { get; set; }
+
         // public virtual ICollection<Transaction> Transactions { get; set; }
         // public virtual ICollection<Payment> Payments { get; set;}
         // public virtual ICollection<Photo> Photos { get; set; }

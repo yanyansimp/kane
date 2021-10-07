@@ -42,6 +42,7 @@ namespace Application.Clients
                     // .OrderByDescending(x => x.Transactions.FirstOrDefault().SequenceNo)
                     .OrderByDescending(x => x.Transactions.Select(t => t.SequenceNo).FirstOrDefault())
                     // .Take(10)
+                    // .AsNoTracking()
                     .AsQueryable();
                     // .Reverse();
 

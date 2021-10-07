@@ -33,13 +33,13 @@ namespace Application.Transactions
 
                 var salesManager = await _context.Users.FirstOrDefaultAsync(sm => sm.Id == transaction.SalesManagerId.ToString("D"));
 
-                var salesAgent = await _context.Users.FirstOrDefaultAsync(sa => sa.Id == transaction.SalesManagerId.ToString("D"));
+                var salesAgent = await _context.Users.FirstOrDefaultAsync(sa => sa.Id == transaction.SalesAgentId.ToString("D"));
 
                 var transactionDto = new TransactionDto
                 {
                     Id = transaction.Id,
-                    PropertyTypeName = "Regatta East Valley",
-                    ClientName = $"{client.FirstName} {client.MiddleName.Substring(0, 1)}. {client.LastName} {client.Suffix}",
+                    PropertyTypeName = "", // To be Added
+                    ClientName = $"{client.FirstName} {client.LastName} {client.Suffix}",
                     SequenceNo = transaction.SequenceNo,
                     ContractPrice = transaction.ContractPrice,
                     Balance = transaction.ContractPrice - transaction.Payments.Select(p => p.Amount).Sum(),
@@ -53,13 +53,13 @@ namespace Application.Transactions
 
                     SalesManager = salesManager != null ? new SalesManagerDto {
                         Id = salesManager.Id,
-                        Name =  $"{salesManager.FirstName} {salesManager.MiddleName.Substring(0, 1)}. {salesManager.LastName} {salesManager.Suffix}",
+                        Name =  $"{salesManager.FirstName} {salesManager.LastName} {salesManager.Suffix}",
                         Image = salesManager.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     } : null,
 
                     SalesAgent = salesAgent != null ? new SalesAgentDto {
                         Id = salesAgent.Id,
-                        Name =  $"{salesAgent.FirstName} {salesAgent.MiddleName.Substring(0, 1)}. {salesAgent.LastName} {salesAgent.Suffix}",
+                        Name =  $"{salesAgent.FirstName} {salesAgent.LastName} {salesAgent.Suffix}",
                         Image = salesAgent.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     } : null
                 };
