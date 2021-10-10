@@ -1,9 +1,13 @@
+import { observer } from 'mobx-react-lite';
 import React, { Component, useContext, useEffect, useState } from 'react'
 import { render } from 'react-dom';
+import { Field } from 'react-final-form';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
-import { Button, Card, Container, Divider, Header, Icon, Input, Menu, Statistic, Image, List, Table, Step } from 'semantic-ui-react'
+import { Button, Card, Container, Divider, Header, Icon, Input, Menu, Statistic, Image, List, Table, Step, Dropdown } from 'semantic-ui-react'
+import SelectInput from '../../../app/common/form/SelectInput';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ImageSlider from '../slidePhoto/ImageSlider';
+import ModalEditAmenities from './Amenities/Common/ModalEditAmenities';
 import ModalEditForm from './HeaderOverView/edit/ModalEditForm'
 
 const cardStyle = {
@@ -75,21 +79,36 @@ const LandingPageOverView = () => {
   const rootStore = useContext(RootStoreContext);
   const {openModal} = rootStore.modalStore;
   const {displayLandingPageHeader, displayLandingPageFooter, DeleteLandingPage} = rootStore.homePageStore;
+  const {loadAmenities, DeleteAmenities} = rootStore.amenitiesStore;
+  const { loadPropertyTypes, propertyTypeRegistry, displayPropertyTypes} = rootStore.propertyTypeStore;
   const [LandingPage, setLandingPage] = useState([])
   const [footer, setfooter] = useState([])
+  const [Amenities, setrAmenities] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [propertyTypes, setpropertyTypes] = useState([])
+  const [propid, setPropid ] = useState([]);
+  
   const landfunc = (prop: any) => {
         setLandingPage(prop)
       }
   const footfunc = (prop: any) => {
     setfooter(prop)
       }
-      const delay = 4500;
-    const [index2, setIndex] = useState(0);
-    let timer: number;
+  const amenfunc = (prop: any) => {
+    setrAmenities(prop)
+      }
+  const propFunc = (prop: any) => {
+    setpropertyTypes(prop)
+      }
+  const delay = 4500;
+  const [index2, setIndex] = useState(0);
+  let timer: number;
   useEffect(() => {
         displayLandingPageHeader(landfunc)
         displayLandingPageFooter(footfunc)
+        displayPropertyTypes(propFunc)
+        loadAmenities(amenfunc)
+        loadPropertyTypes();
         timer = window.setTimeout(() => 
                 setIndex((prevIndex) => 
                   prevIndex === LandingPage.length -1 ? 0 : prevIndex + 1
@@ -97,7 +116,10 @@ const LandingPageOverView = () => {
                 delay
         );
         return() => {};
-      }, [ displayLandingPageFooter ]);
+      }, [ displayLandingPageHeader, 
+        displayLandingPageFooter, 
+        loadAmenities, 
+        loadPropertyTypes]);
         function nextSlide(){
           setIndex(index2 === LandingPage.length - 1 ? 0 : index2 + 1);
           };
@@ -107,8 +129,10 @@ const LandingPageOverView = () => {
         if (!Array.isArray(LandingPage) || LandingPage.length <= 0) {
             return null;
           }
-      
-   
+    
+    const handleDropDownSelectPropertyType = (event:any, data:any) => {
+      setPropid(data.value)
+    };
 return(
     <Container style={{width:"450px"}}>
       <div
@@ -131,6 +155,8 @@ return(
                         Edit
                      </Button>
                      <Button loading={isLoading} onClick={(e) => { setLoading(true); DeleteLandingPage(landingpage.id)}} >Delete</Button>
+                     <Header size='tiny' style={{ color: "Orange", textAlign: "center"}}>{landingpage.description} </Header>
+                      <Header size='tiny' style={{ color: "Orange", textAlign: "center"}}>{landingpage.name} </Header>
                       <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
                       <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step>
                   </Card.Content>
@@ -147,6 +173,49 @@ return(
             }}></div>
           ))}
       </div>
+
+      <Table celled >
+        <Table.Header>
+          <Table.Row>
+          <Table.HeaderCell>AMENIITIES</Table.HeaderCell>
+          <Table.HeaderCell>
+            <Dropdown 
+                          placeholder='Select Property'
+                          variant='outlined'
+                          fluid
+                          selection
+                          onChange={handleDropDownSelectPropertyType}
+                          options={propertyTypeRegistry}
+                      />
+          </Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+       {propertyTypes.map((properties:any) => {
+          if(properties.id === propid){
+            return(
+              <ul>
+                {properties.amenities?.map((amenities:any) => {
+                  return(
+                    <Table.Row>
+                      <li>
+                      <Table.Cell>{amenities.name}</Table.Cell>
+                      <Table.Cell>{amenities.description}</Table.Cell>
+                      <Table.Cell>
+                          <Button circular icon onClick={() => openModal(<ModalEditAmenities name={amenities}/>)} ><Icon name='pencil' /></Button>
+                          <Button circular icon onClick={() =>  DeleteAmenities(amenities.id)} ><Icon name='trash alternate outline' /></Button>
+                      </Table.Cell>
+                      </li>
+                    </Table.Row>
+                  )
+                  
+                })}
+              </ul>
+            )
+          }
+       })}
+        </Table.Body>
+      </Table>
 
       <Header>Footer</Header>
       {footer.map((footer:any)=>{
@@ -175,142 +244,13 @@ return(
     </Container>
     
   )
-//   const rootStore = useContext(RootStoreContext);
-//   const {displayPropertyTypes} = rootStore.propertyTypeStore;
-//   const [propertyTypes, setpropertyTypes] = useState([])
-//   const {displayLandingPageHeader, displayLandingBody} = rootStore.homePageStore;
-//   const [LandingPage, setLandingPage] = useState([])
-//   const [SlidePhoto, setSlidePhoto] = useState([])
-//   const propFunc = (prop: any) => {
-//     setpropertyTypes(prop)
-//   }
-//   const landfunc = (prop: any) => {
-//     setLandingPage(prop)
-//   }
-//   const slidefunc = (prop: any) => {
-//     setSlidePhoto(prop)
-// }
-//   useEffect(() => {
-//     displayPropertyTypes(propFunc)
-//     displayLandingPageHeader(landfunc)
-//     displayLandingBody(slidefunc)
-//   }, [displayPropertyTypes, displayLandingPageHeader, displayLandingBody]);
-
-//   const [current, setCurrent] = useState(0)
-//     const length = SlidePhoto.length;
-//     const nextSlide = () => {
-//         setCurrent(current === length - 1 ? 0 : current + 1);
-//       };
-//     const prevSlide = () => {
-//         setCurrent(current === 0 ? length - 1 : current - 1);
-//     };
-//     if (!Array.isArray(SlidePhoto) || SlidePhoto.length <= 0) {
-//         return null;
-//       }
-//     return (
-//       <Card style={{  width:"450px"}}>
-//         {LandingPage.map((landingpage: any) => {
-//             return(
-//               <Card.Content
-//               style={{
-//                 height: "300px",
-//                 width:"450px",
-//                 backgroundImage: `url(${landingpage.url})`, 
-//                 backgroundSize: "cover",
-//               }}
-//             >
-//             </Card.Content>
-//             )
-//         })} 
-
-//             <Divider hidden/>
-//             <Divider hidden/>
-         
-//           <Card.Group>
-//           {propertyTypes.map((properties : any, index:any) => {  // {`/properties/${properties.id}`}, key={properties.id}, "{"/edit/${id}"}",  {'/properties/' + properties.id}
-//                     return(
-//                     <Card style={cardStyle} raised link  inverted> 
-//                      <Image src={properties.image.url} wrapped ui={false} />
-//                         <Card.Content>
-//                             <Card.Header>{properties.name}</Card.Header>
-//                             <Card.Meta>
-//                                 <span className='date'>{properties.location}</span>
-//                             </Card.Meta>
-//                             <Card.Description>
-//                                 {properties.description.substring(0, 10)+ '...'}
-//                             </Card.Description>
-//                         </Card.Content>
-//                     </Card>
-//                     )
-//                 })}
-//             </Card.Group>
-         
-        
-//             <Card.Group>
-//             <Container style={slider}>
-//                 <Step style={leftArrow}><FaArrowAltCircleLeft  onClick={prevSlide}/></Step>
-//                 <Step style={rightArrow}><FaArrowAltCircleRight  onClick={nextSlide}/></Step>
-//               {SlidePhoto.map((slide:any, index:any) =>{
-//                   if(slide.isMain === "Body"){
-//                       return (
-                        
-//                           <div className={index === current ? 'slideImage activeImage' : 'slideImage'}
-//                           key={index}
-//                           >
-//                             {index === current && (
-//                                 <>
-//                                 <Divider hidden/>
-//                                 <Divider hidden/>
-//                                 <Button primary  onClick={() => openModal(<ModalEditForm name={slide}/>)} size="huge" inverted>
-//                                       Edit
-//                                 </Button>
-//                                 <Image src={slide.url} alt="travel image" style={image} />
-//                                 <Header as="h1" style={{ color: "black", textAlign: 'center',}}>{slide.name}</Header> 
-//                                 <Header as="h3" style={{ color: "black", textAlign: 'center',}}> {slide.description}</Header>
-                                
-//                                 </>
-//                             )}
-//                           </div>
-//                       )}})}
-//             </Container>
-               
-//             </Card.Group>
-
-//              {LandingPage.map((ladingpage:any) => {
-//                if (ladingpage.isMain === 'Footer'){
-//                  return(
-//                   <Card style={imageFooter}  >
-//                   <Card.Content style={{
-//                     backgroundImage: `url(/assets/categoryImages/Lumina.jpg)`,
-//                     backgroundSize: "cover",
-//                                       }}>
-//                     <Card.Description style={textBottom} >
-//                             <h5 style={{bottom:' 10px'}}>{ladingpage.name}</h5> 
-//                             <h6>
-//                                 {ladingpage.description}
-//                             </h6>
-//                       </Card.Description>
-//                   </Card.Content>
-//                 </Card>
-//                  )
-//                }
-//              })}
-          
 
 
-
-//           <Divider hidden/>
-//           <List bulleted horizontal>
-//             <List.Item as='a'>About Us</List.Item>
-//             <List.Item as='a'>Sitemap</List.Item>
-//             <List.Item as='a'>Contact</List.Item>
-//             <List.Item as='a'>About Us</List.Item>
-//             <List.Item as='a'>Sitemap</List.Item>
-//             <List.Item as='a'>Contact</List.Item>
-//           </List>
-//       </Card>
-//     )
   }
 
-export default LandingPageOverView
+export default observer(LandingPageOverView)
+
+
+
+
 

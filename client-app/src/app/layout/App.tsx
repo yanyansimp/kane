@@ -54,8 +54,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <Fragment>
       <ModalContainer />
-      <Route exact path="/" component={HomePage} />
-      {/* <Route exact path="/" component={HomePageSample} /> */}
+      {/* <Route exact path="/" component={HomePage} /> */}
+      <Route exact path="/" component={HomePageSample} />
       
       <ToastContainer position="bottom-right" />
       <Route

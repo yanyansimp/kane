@@ -12,6 +12,7 @@ import { IPayment, IPaymentFormValues } from '../models/payment';
 import { IClient } from '../models/client';
 import { ITransaction, ITransactionValues } from '../models/transaction';
 import { ILandingPhoto } from '../models/landingPhoto'
+import { IAmenities } from '../models/amenities';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -101,6 +102,8 @@ const LandingPhotos = {
     requests.postForm(`/photos/addPhoto`, photo),
 }
 
+
+
 const Activities = {
   list: (): Promise<IActivity[]> => requests.get('/activities'),
   details: (id: string) => requests.get(`/activities/${id}`),
@@ -146,6 +149,15 @@ const Profiles = {
   get: (username: string): Promise<IProfile> => requests.get(`/profiles/${username}`)
 }
 
+const Amenities = {
+  list: (): Promise<IAmenities[]> => requests.get('/amenities'),
+  create: (values: IAmenities) => requests.post('/amenities', values),
+  update: (values: IAmenities) => 
+    requests.put(`/amenities/${values.id}`,values),
+  delete: (id: string) => requests.del(`/amenities/${id}`),
+}
+
+
 
 export default {
   Activities,
@@ -158,5 +170,6 @@ export default {
   Transactions,
   Payments,
   Clients,
-  LandingPhotos
+  LandingPhotos,
+  Amenities
 };

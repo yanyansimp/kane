@@ -38,7 +38,6 @@ const Viewpropertyform:React.FC = () => {
   const [step, setStep] = useState(false);
   const propFunc = (prop: any) => {
     setpropertyTypes(prop)
-  
   }
   const showMoreItems = () => {
     setVisible((prevValue) => prevValue + 5);

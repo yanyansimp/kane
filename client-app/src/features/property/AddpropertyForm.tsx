@@ -140,7 +140,6 @@ const AddPropertyForm = () => {
                         selection
                         onChange={handleDropDownSelectPropertyType}
                         options={propertyTypeRegistry}
-                                              
                     />
                    
                 </div>

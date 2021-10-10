@@ -13,6 +13,7 @@ import {
   } from 'semantic-ui-react';
 import FooterClass from './landingPageOwnerView/Footer';
 import HomePageSample from './HomePageSample';
+import Amenities from './landingPageOwnerView/Amenities/Amenities';
   const validate = combineValidators({})
   
   const container = {
@@ -36,6 +37,7 @@ const LandingPage = () => {
         <Grid.Column width={9}>
         <h2>Home Page Activities</h2>
         <HeaderClass/>
+        <Amenities/>
         <BodyClass/>
         <FooterClass/>
         </Grid.Column>

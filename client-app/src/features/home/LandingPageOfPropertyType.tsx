@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Card, Divider, Grid, Header, Icon, Image, List, Segment } from 'semantic-ui-react'
+import { Button, Card, Divider, Grid, Header, Icon, Image, Label, List, Segment } from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore';
 import NavBarLandingPage from './NavBar/NavBarLandingPage';
 import ModalViewForm from './modalView/ModalViewForm';
@@ -62,22 +62,49 @@ const LandingPageOfPropertyType = () => {
                            
                         </Card.Content>
                         <NavBarLandingPage/>
-                        <Header.Subheader style={HeadText}>
-                                    <Header>{properties.name}</Header>
+                            <Header.Subheader>
+                            <Divider hidden/>
+                            <Divider hidden/>
+                                    <List>
+                                        <List.Item>
+                                        <Header as="h5"> {properties.name}</Header>
+                                        </List.Item>
+                                    </List>
                                     <Divider hidden/>
                                     <Divider hidden/>
                                     <Divider hidden/>
-                                    <Divider hidden/>
-                                    <Header as="h5">DESCRIPTION</Header>
-                                    <Header as="h5" >{properties.description}</Header>
+                                    <List>
+                                        <List.Item>
+                                        <Header as="h5">DESCRIPTION</Header>
+                                        <List.List>
+                                            <List.Item>{properties.description}</List.Item>
+                                        </List.List>
+                                        </List.Item>
+                                    </List>
                             </Header.Subheader>
+                            <Header as="h5">AMENITIES</Header>
+                                {properties.amenities?.map((amenitiy:any) => {
+                                    return(
+                                        <List bulleted>
+                                            <List.Item>
+                                            {amenitiy.name}
+                                            <List.List>
+                                                <List.Item>{amenitiy.description}</List.Item>
+                                            </List.List>
+                                            </List.Item>
+                                        </List>
+                                    )
+                                    
+                                })}
+
                         <Header.Content >
+                        
                             <Card.Group>
                             {properties.properties?.slice(0,visible).map((property:any, index:any) => {
                                 if(property.status === "Available"){
                                     return(
                                         <Card raised link style={PropertiesBoby} onClick={() => openModal(<ModalViewForm name={property}  />)}>
-                                            <Image src={property.image?.url !=null ? property.image?.url !=null : '/assets/placeholder.png'} wrapped ui={false} />
+                                            <Image src={property.image?.id !=null ? property.image?.url  : '/assets/placeholder.png'} wrapped ui={false} />
                                             <Card.Content>
                                                 <Card.Header>{property.name}</Card.Header>
                                                 <Card.Meta>

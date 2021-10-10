@@ -24,6 +24,7 @@ namespace Persistence
         public DbSet<Payment> Payments { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<LandingPhoto> LandingPhotos { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -34,23 +34,35 @@ const NavMenu: React.FC = () => {
                         <Dropdown.Menu position='left'>
                             <Dropdown.Item>
                                 <Icon name='dropdown' />
-                                <span className='text'>OUR BRAND</span>
-                                <Dropdown.Menu>
-                                    {propertyTypes.map((properties:any) => {
-                                            return(
-                                                <Dropdown.Item href={`/properties/${properties.id}`}>{properties.name}</Dropdown.Item>
-                                            )
-                                        })}
-                                </Dropdown.Menu>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item>sample</Dropdown.Item>
-                                        <Dropdown.Item>sample</Dropdown.Item>
-                                        <Dropdown.Item>sample</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item>sample</Dropdown.Item>
-                                        <Dropdown.Item>
-                                
+                                    <span className='text'>OUR BRAND</span>
+                                        <Dropdown.Menu>
+                                            {propertyTypes.map((properties:any) => {
+                                                    return(
+                                                        <Dropdown.Item href={`/properties/${properties.id}`}>{properties.name}</Dropdown.Item>
+                                                    )
+                                                })}
+                                        </Dropdown.Menu>
                             </Dropdown.Item>
+                            <Dropdown.Item>ABOUT US</Dropdown.Item>
+                            <Dropdown.Item>CONTACT US</Dropdown.Item>
+                            <Dropdown.Divider />
+                            {isLoggedIn && user ? (
+                            <Dropdown.Item>
+                                    <Image
+                                    as={Link}
+                                    to="/dashboard"
+                                    avatar
+                                    size="mini"
+                                    src={user.image || '/assets/user.png'}
+                                    />
+                            </Dropdown.Item>
+                                ) : (
+                                <Dropdown.Item
+                                    onClick={() => openModal(<LoginForm />)} size="tiny" inverted
+                                >
+                                    LOGIN
+                                </Dropdown.Item>
+                                )}
                         </Dropdown.Menu>
                     </Dropdown>
                 </Responsive>
