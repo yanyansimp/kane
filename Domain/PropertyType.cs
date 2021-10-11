@@ -14,7 +14,7 @@ namespace Domain
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<Amenity> Amenities { get; set; }
+        // public virtual ICollection<Amenity> Amenities { get; set; }
 
         // Navigation Properties
         public virtual ICollection<Property> Properties { get; set; }

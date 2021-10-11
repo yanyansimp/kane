@@ -17,7 +17,7 @@ namespace Application.Amenities
         
         public class Command : IRequest
         {
-            public string Id { get; set; }
+            public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public Guid PropertyTypeId { get; set; }

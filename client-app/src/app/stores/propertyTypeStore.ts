@@ -279,6 +279,7 @@ export default class PropertyTypeStore {
     try {
       const propertyTypes = await agent.PropertyTypes.list();
       runInAction(() => {
+        this.propertyRegistry = [];
         var propertyType = propertyTypes.find((p) => p.id === id);
         propertyType?.properties?.sort((a, b) => (a.name > b.name ? 1 : -1));
         propertyType?.properties?.map((property) => {
