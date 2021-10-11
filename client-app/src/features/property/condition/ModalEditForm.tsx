@@ -216,7 +216,7 @@ const optionsArray = [
                                 </Button>
                                 {imageList.map((image, index) => (
                                 <div className="image-item">
-                                    <img src={image.dataURL} alt="" width="500" />
+                                    <img src={image.dataURL || "/assets/placeholder.png"} alt="" width="500" />
                                     <div className="image-item__btn-wrapper">
                                         <Button className={classes.btnUplaodRemove} onClick={() => onImageUpdate(index)}>Update</Button>
                                         <Button className={classes.btnUplaodRemove} onClick={() => onImageRemove(index)}>Remove</Button>

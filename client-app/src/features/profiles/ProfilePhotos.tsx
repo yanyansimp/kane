@@ -28,7 +28,7 @@ const ProfilePhotos = () => {
                         <Card.Group itemsPerRow={5}>
                         {profile && profile.photos.map((photo) => (
                             <Card key={photo.id}>
-                                <Image src={photo.url} />
+                                <Image src={photo.url || "/assets/placeholder.png"} />
                                 {isCurrentUser && 
                                     <Button.Group fluid widths={2}> 
                                         <Button basic positive content='Main' />

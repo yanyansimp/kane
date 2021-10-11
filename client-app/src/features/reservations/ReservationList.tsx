@@ -27,7 +27,7 @@ const ReservationList = () => {
             <Table.HeaderCell>Terms</Table.HeaderCell>
             <Table.HeaderCell>Contact Price</Table.HeaderCell>
             <Table.HeaderCell>Balance</Table.HeaderCell>
-            <Table.HeaderCell>Documents</Table.HeaderCell>
+            {/* <Table.HeaderCell>Documents</Table.HeaderCell> */}
             <Table.HeaderCell>Tran. Status</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
             <Loader active={loadingInitial} inline size="tiny" />

@@ -49,6 +49,7 @@ export default class UserStore {
       const roles = await agent.Role.list();
       runInAction('loading roles', () => {
         this.roleRegistry = [];
+        console.log(roles);
         roles.forEach((role) => {
           this.roleRegistry.push({
             key: role.id,

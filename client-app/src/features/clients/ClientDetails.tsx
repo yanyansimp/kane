@@ -50,14 +50,14 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
                     icon="ellipsis vertical"
                   >
                     <Dropdown.Menu>
-                      <Dropdown.Item text="View Full Details" icon="user" />
+                      {/* <Dropdown.Item text="View Full Details" icon="user" /> */}
                       <Dropdown.Item
                         as={Link}
                         to={`/editClient/${client?.id}`}
                         text="Edit"
                         icon="edit outline"
                       />
-                      <Dropdown.Item text="Delete" icon="user delete" />
+                      <Dropdown.Item text="Delete" icon="user delete" disabled/>
                     </Dropdown.Menu>
                   </Dropdown>
                 </Button.Group>
@@ -92,14 +92,14 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       <Grid.Column width="6">
         <Segment clearing basic>
           <Button floated="right" size="small" icon="print" content="Print" />
-          <Button
+          {/* <Button
             floated="right"
             size="small"
             icon="home"
             content="Add Property"
-          />
+          /> */}
         </Segment>
-        <Segment basic>
+        {/* <Segment basic>
           <Header as="h5">
             Documents:
             <Label color="yellow" size="medium" circular>
@@ -150,7 +150,7 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
               </List.Content>
             </List.Item>
           </List>
-        </Segment>
+        </Segment> */}
       </Grid.Column>
 
       <Grid.Column width="10">

@@ -77,7 +77,7 @@ namespace Application.User
                     DisplayName = string.Format("{0} {1}", request.LastName, request.FirstName),
                     Email = request.Email,
                     PhoneNumber = request.PhoneNumber,
-                    UserName = request.Email,
+                    UserName = $"{request.FirstName.Substring(0,1)}.{request.LastName}",
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);

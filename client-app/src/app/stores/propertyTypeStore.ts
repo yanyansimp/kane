@@ -81,6 +81,7 @@ export default class PropertyTypeStore {
                   });
                 }
               });
+            // this.propertyRegistry.sort((a: any, b: any) => (a.text > b.text) ? 1 : -1);
             this.loading = false;
         });
     } catch (error) {

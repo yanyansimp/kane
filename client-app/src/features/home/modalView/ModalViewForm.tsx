@@ -14,7 +14,7 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
   return (
     <Grid width={9}>
       <Grid.Column  style={propType}>
-        <Image size='medium' src={name.image.url} wrapped />
+        <Image size='medium' src={name.image.url || "/assets/placeholder.png"} wrapped />
         <Header>{name.name}</Header>
         <Header.Subheader>
         {name.location}

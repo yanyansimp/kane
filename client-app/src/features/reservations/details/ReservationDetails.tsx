@@ -60,8 +60,9 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
                           //   to={`/editClient/${client?.id}`}
                           text="Edit"
                           icon="edit outline"
+                          disabled
                         />
-                        <Dropdown.Item text="Delete" icon="times" />
+                        <Dropdown.Item text="Delete" icon="times" disabled/>
                       </Dropdown.Menu>
                     </Dropdown>
                   </Button.Group>
