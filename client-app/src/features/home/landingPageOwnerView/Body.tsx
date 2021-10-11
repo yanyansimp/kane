@@ -12,6 +12,7 @@ const BodyClass = () => {
     const [loading, setLoading] = useState(false);
     const rootStore = useContext(RootStoreContext);
     const { homepage,submitting, createLandingPage,EditLandingPage } = rootStore.homePageStore;
+    
     const handleFinalFormSubmit = (values: any) => {
       const { ...homepage } = values;
       let newhomepage = {

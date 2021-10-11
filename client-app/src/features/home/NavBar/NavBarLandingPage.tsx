@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Menu, Responsive, Dropdown, DropdownMenu, Button, Image, Popup, Grid, Header } from 'semantic-ui-react';
+import { Menu, Responsive, Dropdown, DropdownMenu, Button, Image, Popup, Grid, Header, Icon } from 'semantic-ui-react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import LoginForm from '../../user/LoginForm';
+
+const menu = {
+    background: 'grey',
+    color:'white',
+    '&:hover':{
+        color:'red'
+    }
+}
 
 const NavMenu: React.FC = () => {
     const [activeItem, setActiveItem] = useState('Laptop Item')
@@ -16,36 +24,69 @@ const NavMenu: React.FC = () => {
         setpropertyTypes(prop)
     }
     useEffect(() => {
-        // displayPropertyTypes(propFunc)
-    }, []);
-
-
+        displayPropertyTypes(propFunc)
+    }, [displayPropertyTypes ]);
     return (
         <div>
             <Menu inverted horizontal fixed="top"  > 
-                <Responsive as={NavLink} minWidth={790 } exact to="/">
+            <Responsive as ={Menu.Menu} maxWidth={789} >
+                    <Dropdown item icon='bars' simple >
+                        <Dropdown.Menu position='left'>
+                            <Dropdown.Item>
+                                <Icon name='dropdown' />
+                                    <span className='text'>OUR BRAND</span>
+                                        <Dropdown.Menu>
+                                            {propertyTypes.map((properties:any) => {
+                                                    return(
+                                                        <Dropdown.Item href={`/properties/${properties.id}`}>{properties.name}</Dropdown.Item>
+                                                    )
+                                                })}
+                                        </Dropdown.Menu>
+                            </Dropdown.Item>
+                            <Dropdown.Item>ABOUT US</Dropdown.Item>
+                            <Dropdown.Item>CONTACT US</Dropdown.Item>
+                            <Dropdown.Divider />
+                            {isLoggedIn && user ? (
+                            <Dropdown.Item>
+                                    <Image
+                                    as={Link}
+                                    to="/dashboard"
+                                    avatar
+                                    size="mini"
+                                    src={user.image || '/assets/user.png'}
+                                    />
+                            </Dropdown.Item>
+                                ) : (
+                                <Dropdown.Item
+                                    onClick={() => openModal(<LoginForm />)} size="tiny" inverted
+                                >
+                                    LOGIN
+                                </Dropdown.Item>
+                                )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Responsive>
+                <Responsive as={NavLink}  exact to="/">
                 <Image
                     src="/assets/logo/LogoBlackGold.svg"
                     alt="logo"
                     style={{ width: '150px' }}
                 />
                 </Responsive>
-                <Responsive  as={Menu.Item} minWidth={790}>
-                    <Popup trigger={<Button primary>OUR BRAND</Button>} hoverable basic>
-                            <Grid columns={1} style={{width:"150px"}}>
-                                {propertyTypes.map((properties:any, index:any) =>{
-                                   return(
-                                    <><Grid.Column textAlign='left'>
-                                           <Button  href={`/properties/${properties.id}`} style={{width:"120px"}} primary>{properties.name}</Button>
-                                       </Grid.Column>
-                                    </>
-                                   )
+                <Responsive as={Menu.Item} minWidth={790}
+                    style={{color:'white'}}
+                    active={activeItem === 'Kane Realty'}
+                    >
+                     <Dropdown  item icon ='' text='OUR BRAND' >
+                         <Dropdown.Menu style={{color:'white'}} >
+                                {propertyTypes.map((properties:any) => {
+                                    return(
+                                        <Dropdown.Item href={`/properties/${properties.id}`}>{properties.name}</Dropdown.Item>
+                                    )
                                 })}
-                                
-                            </Grid>
-                    </Popup>
+                         </Dropdown.Menu>
+                     </Dropdown>
                 </Responsive>
-                
 
                 <Responsive as={Menu.Item} minWidth={790}
                     style={{color:'white'}}
@@ -62,61 +103,26 @@ const NavMenu: React.FC = () => {
                     name='CONTACT US'
                     active={activeItem === 'Kane Realty'}
                 />
-                <Menu.Menu position = 'right'>
+                    <Menu.Menu position='right'>
+                            {isLoggedIn && user ? (
+                            <Responsive as = {Menu.Item} minWidth={790}  >
+                                    <Image
+                                    as={Link}
+                                    to="/dashboard"
+                                    avatar
+                                    size="mini"
+                                    src={user.image || '/assets/user.png'}
+                                    />
+                            </Responsive>
+                                ) : (
+                                <Responsive as = {Menu.Item} minWidth={790}
+                                    style={{color:'white'}}
+                                    name='LOGIN'
+                                    onClick={() => openModal(<LoginForm />)} size="huge" inverted
+                                />
+                                )}
+                    </Menu.Menu>
                 
-                {isLoggedIn && user ? (
-                <Responsive as = {Menu.Item} minWidth={790}>
-                        <Image
-                        as={Link}
-                        to="/dashboard"
-                        avatar
-                        size="mini"
-                        spaced="right"
-                        src={user.image || '/assets/user.png'}
-                        />
-                </Responsive>
-                    ) : (
-                    <Responsive as = {Menu.Item} minWidth={790}
-                        style={{color:'white'}}
-                        name='LOGIN'
-                        onClick={() => openModal(<LoginForm />)} size="huge" inverted
-                    />
-
-                    )}
-
-                </Menu.Menu>
-                <Responsive as ={Menu.Menu} maxWidth={789}  position='right'>
-                    <Dropdown
-                        item
-                        icon ='bars'
-                        >
-                        <Dropdown.Menu>
-                        <Image
-                        src="/assets/logo/LogoBlackGold.svg"
-                        alt="logo"
-                        style={{ width: '150px' }}
-                    />
-                            <Dropdown.Item>
-                                <Popup trigger={<Button primary>OUR BRAND</Button>} hoverable inverted basic position='left center'>
-                                <Grid columns={1} style={{width:"150px"}}>
-                                    {propertyTypes.map((properties:any, index:any) =>{
-                                        return(
-                                            <><Grid.Column textAlign='left'>
-                                                <Button  href={`/properties/${properties.id}`} style={{width:"120px"}} primary>{properties.name}</Button>
-                                            </Grid.Column>
-                                            </>
-                                        )
-                                        })}
-                                        
-                                    </Grid>
-                                </Popup>
-                            </Dropdown.Item>
-                            <Dropdown.Item text='Kane Realty'/>
-                            <Dropdown.Item text='Kane Realty'/>
-                            <Dropdown.Item text='Sign Out'/>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Responsive>
             </Menu>
         </div>
     )

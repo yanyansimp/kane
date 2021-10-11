@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { combineValidators } from 'revalidate';
-import HeaderClass from './landingPageOwnerView/Header';
+import HeaderClass from './landingPageOwnerView/HeaderOverView/Header';
 import BodyClass from './landingPageOwnerView/Body';
-import UITemplate from './LandingView/UITemplate';
 import LandingPageOverView from './landingPageOwnerView/LandingPageOverView'
 import {
     Container,
@@ -14,6 +13,7 @@ import {
   } from 'semantic-ui-react';
 import FooterClass from './landingPageOwnerView/Footer';
 import HomePageSample from './HomePageSample';
+import Amenities from './landingPageOwnerView/Amenities/Amenities';
   const validate = combineValidators({})
   
   const container = {
@@ -37,6 +37,7 @@ const LandingPage = () => {
         <Grid.Column width={9}>
         <h2>Home Page Activities</h2>
         <HeaderClass/>
+        <Amenities/>
         <BodyClass/>
         <FooterClass/>
         </Grid.Column>

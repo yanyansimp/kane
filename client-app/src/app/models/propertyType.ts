@@ -1,4 +1,5 @@
 import { IProperty } from "./Property";
+import { IAmenities } from "./amenities";
 
 export interface IPropertyType {
     id: string;
@@ -7,6 +8,7 @@ export interface IPropertyType {
     location: string;
     image?: Image;
     properties?: IProperty[] | null;
+    amenities?: IAmenities[] | null;
 }
 
 export interface IPropertyTypeFormValues extends Partial<IPropertyType> {}
@@ -17,6 +19,7 @@ export class PropertyTypeFormValues implements IPropertyTypeFormValues {
   description: string = '';
   location: string = '';
   properties?: IProperty[] = undefined;
+  amenities?: IAmenities[] = undefined;
 }
 
 export interface Image {

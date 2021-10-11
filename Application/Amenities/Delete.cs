@@ -9,21 +9,19 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Properties
+namespace Application.Amenities
 {
     public class Delete
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public string Id { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            public Handler(DataContext context)
             {
-                _photoAccessor = photoAccessor;
                 _context = context;
             }
 
@@ -31,16 +29,14 @@ namespace Application.Properties
                 CancellationToken cancellationToken)
             {
                 // handler logic
-                var property = await _context.Properties.FindAsync(request.Id);
+                var amenity = await _context.Amenities.FindAsync(request.Id);
 
-                var image = await _context.Photos.FindAsync(property.Image.Id);
 
-                if(property == null)
-                    throw new RestException(HttpStatusCode.NotFound, new {property = "Not Found"});
-                var result = _photoAccessor.DeletePhoto(property.Image.Id);
+                if(amenity == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {amenity = "Not Found"});
 
-                _context.Remove(image);
-                _context.Remove(property);
+
+                _context.Remove(amenity);
                 
                 var success = await _context.SaveChangesAsync() > 0;
 

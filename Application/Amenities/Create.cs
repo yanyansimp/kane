@@ -10,20 +10,17 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Properties
+namespace Application.Amenities
 {
     public class Create
     {
         
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public string Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public string Location { get; set; }
-            public string Status { get; set; }
             public Guid PropertyTypeId { get; set; }
-            public Photo Image { get; set; }
             
         }
        
@@ -35,9 +32,6 @@ namespace Application.Properties
         public CommandValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Description).NotEmpty();
-            RuleFor(x => x.Location).NotEmpty();
-            RuleFor(x => x.Status).NotEmpty();
             RuleFor(x => x.PropertyTypeId).NotEmpty();
         }
     }
@@ -51,18 +45,11 @@ namespace Application.Properties
         public async Task<Unit> Handle(Command request,
             CancellationToken cancellationToken)
             {
-                var property = new Property
+                var amenity = new Amenity
                 {
                     Id = request.Id,
                     Name = request.Name,
                     Description = request.Description,
-                    Location = request.Location,
-                    Image = request.Image != null ? new Photo {
-                        Id =  request.Image.Id,
-                        Url = request.Image.Url,
-                        IsMain = true
-                    } : null,
-                    Status = request.Status,
                 };
 
                 // Find PropertyType that the Property belongs 
@@ -73,7 +60,7 @@ namespace Application.Properties
                     throw new RestException(HttpStatusCode.NotFound, new {PrpertyType = "Not Found"});
 
                 // If PropertyType is not null/empty, add the Property to the PropertyType
-                propertyType.Properties.Add(property);
+                propertyType.Amenities.Add(amenity);
 
                 var success = await _context.SaveChangesAsync() > 0;
 

@@ -1,43 +1,16 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { Button, Card, Container, Dropdown, Header, Menu, Segment,Image, Divider, Icon, Embed } from 'semantic-ui-react';
+import React, {useContext, useEffect, useState } from 'react'
+import { Card, Header,Segment,Image, Divider, Button, Grid} from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import LoginForm from '../user/LoginForm';
-import RegisterForm from '../user/RegisterForm';
-import ModalView from './modalView/ModalViewForm'
-import LandingPageOfProperties from './LandingPageOfPropertyType';
-import ModalViewform from '../property/condition/ModalViewForm'
 import NavBarLandingPage from './NavBar/NavBarLandingPage';
-import ImageSlider from './slidePhoto/ImageSlider';
-import PriceRange from './PriceRange/PriceRange'
 import HeaderSlider from './slidePhoto/HeaderSlider';
 import ContactInformation from './Form/ContactInformation';
-
- 
-
 const cardStyle = {
     padding: '0px',
     borderRadius: '10px',
-    width: '320px',
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  };
-  const cardFormLogReg = {
-    height: '200px',
-    width: '420px',
-    bottom: '-100px',
-    left:'800px',
-  };
- 
-  const propType = {
-    fontFamily: 'Times New Roman', 
-    color: "black", 
-    textAlign: 'left',
-    margintop: '-200px',
-  }
-const imageBody = {
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    width: '340px',
+    display: 'block',
+  marginLeft: 'auto',
+  marginRight: 'auto',
   };
   const imageFooter = {
     height: '600px',
@@ -50,23 +23,14 @@ const imageBody = {
     width: '50%',
     bottom:' 60px',
   }
-const HeadText = {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    textAlign: 'center',
-   
-}
-
-
 const HomePageSample = () => {
     const rootStore = useContext(RootStoreContext);
-    const { isLoggedIn, user } = rootStore.userStore;
-    const {openModal} = rootStore.modalStore;
     const {displayPropertyTypes} = rootStore.propertyTypeStore;
     const [propertyTypes, setpropertyTypes] = useState([])
     const {displayLandingPageHeader, displayLandingPageFooter} = rootStore.homePageStore;
     const [LandingPage, setLandingPage] = useState([])
     const [Footer, setFooter] = useState([])
+    const [visible, setVisible] = useState(3);
     const propFunc = (prop: any) => {
         setpropertyTypes(prop)
     }
@@ -75,28 +39,31 @@ const HomePageSample = () => {
     }
     const footerfunc = (prop: any) => {
       setFooter(prop)
-  }
+    }
+    const showMoreItems = () => {
+      setVisible((prevValue) => prevValue + 3);
+    };
     useEffect(() => {
         displayPropertyTypes(propFunc)
         displayLandingPageHeader(landfunc)
         displayLandingPageFooter(footerfunc)
-    }, [displayPropertyTypes, displayLandingPageHeader]);
+    }, [displayPropertyTypes, displayLandingPageHeader, displayLandingPageFooter]);
     
-
     return (
         <Segment > 
-                                    <NavBarLandingPage/>
-                                    <HeaderSlider/>
+                  <NavBarLandingPage/>
+                  <HeaderSlider/>
             {/* <PriceRange/> */}
             <Divider hidden/>
             <Divider hidden/>
             <Divider hidden/>
             <Divider hidden/>
-            <Card.Group>
-                {propertyTypes.map((properties : any, index:any) => {  
+           
+              <Card.Group>
+                {propertyTypes.slice(0,visible).map((properties : any, index:any) => {  
                     return(
-                    <Card style={cardStyle} raised link href={`/properties/${properties.id}`}  key={properties.id} inverted> 
-                     <Image src={properties.image?.url} wrapped ui={false} />
+                    <Card raised link  style={cardStyle} href={`/properties/${properties.id}`}  key={properties.id} > 
+                     <Image src={properties.image?.id != null ? properties.image?.url : '/assets/placeholder.png'} wrapped ui={false} />
                         <Card.Content>
                             <Card.Header>{properties.name}</Card.Header>
                             <Card.Meta>
@@ -109,7 +76,15 @@ const HomePageSample = () => {
                     </Card>
                     )
                 })}
+               
             </Card.Group>
+          
+            <Divider hidden/>
+            <Divider hidden/>
+            <Divider hidden/>
+            <Segment basic textAlign={"center"}>
+                <Button  primary onClick={showMoreItems}  style={{textAlign: "center"}}>Load More...</Button>
+            </Segment>
             <Divider hidden/>
             <Divider hidden/>
             <Divider hidden/>

@@ -1,45 +1,48 @@
-import React, {useState} from 'react'
-import {makeStyles} from '@material-ui/core/styles'
-import { Grid, Image, Input, Button, Tab, Table } from 'semantic-ui-react'
+import React, { useContext, useEffect, useState } from 'react'
+import { render } from 'react-dom';
+import { Button, Card, Grid,Icon, Input} from 'semantic-ui-react'
+import { RootStoreContext } from '../../app/stores/rootStore';
 import AddPropertyForm from './AddpropertyForm'
-import Viewpropertyform from './Viewpropertyform'
-import PropertyDashboard from './PropertyDashboard'
+import PropertyTable from './PropertyTable';
 
-const container = {
-  // top: '-250px',
-  backgroundColor: 'transparent',
-  border: 'transparent',
-  display: 'grid',
-  // right: '-820px',
-  position: 'relative',
-  zIndex: 5
+const cardStyle = {
+  padding: '15px',
+  borderRadius: '20px',
+  width: '260px',
+};
+const searchBar = {
+  left: '450px',
+  width: '100%'
 };
 
-const panes = [
-  // { menuItem: 'PROPERTY DASHBOARD', render: () => <Tab.Pane style={container}><PropertyDashboardForm/></Tab.Pane> },
-  { menuItem: 'PROPERTIES INFO', render: () => <Tab.Pane><TableDisabled/> </Tab.Pane> },
-  { menuItem: 'ADD PROPERTY', render: () => <Tab.Pane><FormForProperty/></Tab.Pane> },
-]
 const PropertyForm = () => {
+  const rootStore = useContext(RootStoreContext);
+  const {getpPropertyTypes} = rootStore.propertyTypeStore;
+  const [propertyTypes, setPropertyTypes] = useState([])
+  const [step, setStep] = useState(0);
+  const propFunc = (prop: any) => {
+      setPropertyTypes(prop)
+  }
+  useEffect(() => {
+      getpPropertyTypes(propFunc)
+  }, [getpPropertyTypes]);
+ 
   return (
-
     <Grid>
-      <Grid.Column width={12}>
-          <h1>Property Form</h1>
-          <Tab menu={{ fluid: true, Horizontal:true, tabular: 'right' }} panes={panes} />
-      </Grid.Column>
-      <Grid.Column with={4} style={container}>
-          <PropertyDashboard/>
-      </Grid.Column>
-    </Grid>
-  );
+        <h2>PROPERTY INFO</h2>
+        <Grid.Column width={16}>
+        <Button  floated="right" onClick={() => setStep(1)}>
+          <Icon name='plus' />
+          Add Property
+        </Button> 
+        </Grid.Column>
+        {step == 0 &&  <PropertyTable/>}
+        {step == 1 && <AddPropertyForm/>}
+      </Grid>
+      
+  )
 }
-const TableDisabled = () => (
-  <Viewpropertyform/>
-)
-// // TAB 2 ADD PROPERTIES
-const FormForProperty = () => (
-  <AddPropertyForm/>
-)
 
 export default PropertyForm
+
+

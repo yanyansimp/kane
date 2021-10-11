@@ -51,13 +51,11 @@ namespace Application.PropertyTypes
                     Name = request.Name,
                     Description = request.Description,
                     Location = request.Location,
-                    Image = new Photo {
-                        Id =  request.Image.Id,
+                    Image = request.Image != null ? new Photo {
+                        Id =  request.Image.Id ,
                         Url = request.Image.Url,
                         IsMain = true,
-                        
-                        
-                    },
+                    } : null,
                     CreatedAt = DateTime.Now
                 };
                 

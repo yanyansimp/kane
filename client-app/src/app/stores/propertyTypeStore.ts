@@ -1,12 +1,11 @@
-import { action, computed, observable, runInAction, reaction } from "mobx";
-import agent from "../api/agent";
-import { IPropertyType } from "../models/propertyType";
-import { IProperty } from "../models/Property";
-import { RootStore } from "./rootStore";
+import { action, computed, observable, runInAction, reaction } from 'mobx';
+import agent from '../api/agent';
+import { IPropertyType } from '../models/propertyType';
+import { IProperty } from '../models/Property';
+import { RootStore } from './rootStore';
 import { history } from '../..';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 const LIMIT = 3;
-
 
 export default class PropertyTypeStore {
   rootStore: RootStore;
@@ -59,43 +58,13 @@ export default class PropertyTypeStore {
   @computed get totalPages() {
     return Math.ceil(this.propertiesCount / LIMIT);
   }
-
   @action setPage = (page: number) => {
     this.page = page;
   };
-  
-  // Ibalhin ni sa ubos para dili mag conflict
-  @action getPropertiesByAvailable = async (id: string) => {
-    this.loading = true;
-    try {
-        const propertyTypes = await agent.PropertyTypes.list();
-        runInAction(() => {
-            var propertyType = propertyTypes.find(p => p.id === id);
-            propertyType?.properties?.sort((a,b) => (a.name > b.name) ? 1 : -1);
-            propertyType?.properties?.map((property) => {
-                if (property.status === 'Available') {
-                  this.propertyRegistry.push({
-                    key: property.id,
-                    text: property.name,
-                    value: property.id,
-                  });
-                }
-              });
-            // this.propertyRegistry.sort((a: any, b: any) => (a.text > b.text) ? 1 : -1);
-            this.loading = false;
-        });
-    } catch (error) {
-        runInAction(() => {
-            this.loading = false;
-        })
-    }
-  };
-  //
 
   @computed get propertyTypesByName() {
     return Array.from(this.propertyTypeRegistry.values()).sort();
   }
-
   @observable propertyTyCount: any = [];
 
   @action displayPropertyTypes = async (callback: any) => {
@@ -113,7 +82,6 @@ export default class PropertyTypeStore {
       console.log(error);
     }
   };
-
   @action getpPropertyTypes = async (callback: any) => {
     try {
       const propertyTypes = await agent.PropertyTypes.list();
@@ -219,23 +187,22 @@ export default class PropertyTypeStore {
       runInAction(() => {
         this.status = 'Uploading Details ...';
       });
-      let propId = propertyType.id;
-      var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
-      let newImage = {
-        id: returnimage.id,
-        url: returnimage.url,
-        isMain: true,
-        propertyTypeId: propertyType.id,
-      };
-      propertyType.image = newImage;
-      if (newImage !== null) {
-        runInAction(() => {
-          this.status = 'Uploading Image ...';
-        });
+      if (this.image !== null) {
+        var returnimage = await agent.PropertyTypes.uploadPhoto(this.image!);
+        let newImage = {
+          id: returnimage.id,
+          url: returnimage.url,
+          isMain: true,
+          propertyTypeId: propertyType.id,
+        };
+        propertyType.image = newImage;
         await agent.PropertyTypes.create(propertyType);
       } else {
-        console.log('Image was Empty');
+        await agent.PropertyTypes.create(propertyType);
       }
+      runInAction(() => {
+        this.status = 'Uploading Image ...';
+      });
       toast.success('Property Type Successfully Added');
       window.location.reload();
     } catch (error) {
@@ -305,4 +272,31 @@ export default class PropertyTypeStore {
     }
     window.location.reload();
   };
+
+  // Ibalhin ni sa ubos para dili mag conflict
+  @action getPropertiesByAvailable = async (id: string) => {
+    this.loading = true;
+    try {
+      const propertyTypes = await agent.PropertyTypes.list();
+      runInAction(() => {
+        var propertyType = propertyTypes.find((p) => p.id === id);
+        propertyType?.properties?.sort((a, b) => (a.name > b.name ? 1 : -1));
+        propertyType?.properties?.map((property) => {
+          if (property.status === 'Available') {
+            this.propertyRegistry.push({
+              key: property.id,
+              text: property.name,
+              value: property.id,
+            });
+          }
+        });
+        this.loading = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+  //
 }

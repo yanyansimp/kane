@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Header, Image, Icon, Modal, Dropdown } from 'semantic-ui-react'
+import { Button, Header, Image, Icon, Modal, Dropdown, Segment, Loader } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType} from "react-images-uploading";
+import PhotoUploadPropEdit from '../photoUpload/PhotoUploadPropEdit';
 import { useHistory } from 'react-router-dom'
 import{
     Typography,
@@ -109,21 +110,13 @@ const optionsArray = [
     const [open, setOpen] = React.useState(false)
     const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);
-    const {EditProperty, loading} = rootStore.propertyStore;
+    const {EditProperty} = rootStore.propertyStore;
     const [propName, setpropName] = useState(name.name)
     const [propDescription, setpropDescription] = useState(name.description)
     const [propLocation, setpropLocation] = useState(name.location)
     const [propStatus, setpropStatus] = useState(name.status)
     const classes = useStyles()
-    const [images, setImages] = React.useState([]);
-    const maxNumber = 69;
-    const onChange = (
-        imageList: ImageListType,
-        addUpdateIndex: number[] | undefined
-      ) => {
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList as never[]);
-      };
+    const [isLoading, setLoading] = useState(false);
 
     const handleDropDownSelectStatus = (event:any, data:any) => {
         name.status = data.value;
@@ -132,8 +125,6 @@ const optionsArray = [
     useEffect(() => {
         setChildProperty(name)
         },[name])
- let history = useHistory();
-  
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -185,48 +176,14 @@ const optionsArray = [
                             onChange={handleDropDownSelectStatus} 
                             options={optionsArray}
                         />
+                        <Segment>
+                            <h3>Photo</h3>
+                            <PhotoUploadPropEdit />
+                        </Segment>
                         
                 </div>
 {/* UPLOAD IMAGE */}
-                <div>
-                        
-                         <ImageUploading
-                            value={images}
-                            onChange={onChange}
-                            maxNumber={maxNumber}
-                        >
-                            {({
-                            imageList,
-                            onImageUpload,
-                            onImageUpdate,
-                            onImageRemove,
-                            isDragging,
-                            dragProps
-                            }) => (
-                            // write your building UI
-                            <div className="upload__image-wrapper">
-                                <Button 
-                                className={classes.uploadbutton} 
-                                style={isDragging ? { color: "red" } : undefined}
-                                onClick={onImageUpload}
-                               
-                                >
-                               UPLOAD IMAGE OF PROPERTY
-                               
-                                </Button>
-                                {imageList.map((image, index) => (
-                                <div className="image-item">
-                                    <img src={image.dataURL || "/assets/placeholder.png"} alt="" width="500" />
-                                    <div className="image-item__btn-wrapper">
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageUpdate(index)}>Update</Button>
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageRemove(index)}>Remove</Button>
-                                    </div>
-                                </div>
-                                ))}
-                            </div>
-                            )}
-                        </ImageUploading>   
-                </div>       
+                    
                 </form>
             </div>
         </Modal.Description>
@@ -236,10 +193,12 @@ const optionsArray = [
         <Icon name='remove' /> Cancel
         </Button>
         <Button 
-            type='submit'
+            loading={isLoading}
+            type='button'
             color='green' 
-            inverted onClick={() => {
-                setOpen(false)
+            inverted 
+            onClick={() => {
+                setLoading(true);
                 let editVal = {
                     id: name.id,
                     name: propName,
@@ -249,7 +208,7 @@ const optionsArray = [
                     propertyTypeId: name.propertyTypeId
                 };
                 EditProperty(editVal);
-                window.location.reload();
+                setOpen(true)
             }}
             >
             <Icon name='checkmark' /> Submit

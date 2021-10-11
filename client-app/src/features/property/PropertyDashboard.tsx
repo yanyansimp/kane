@@ -6,11 +6,8 @@ import { RootStoreContext } from '../../app/stores/rootStore'
 import Available from './statusForm/ModalAvailableForm'
 import Occupied from './statusForm/ModalOccupiedForm'
 import Reserved from './statusForm/ModalReservedForm'
-import ModalEdit from './condition/ModalEditForm'
 import ModalEditPropertyType from './condition/ModalEditPropertyTypeForm'
 import ModalDeletePropertyType from './condition/ModalDeletePropertyTypeForm'
-
-
 
 
 const useStyles = makeStyles({
@@ -28,12 +25,6 @@ const useStyles = makeStyles({
         position: 'relative',
         right: '-180px',
         top: '-146px',
-    },
-    nameStyle: {
-        // position: 'relative',
-        // justifyContent: 'center',
-        // right: '-1px',
-        // top: '-200px',
     },
     EditPropertyType: {
         position: 'relative',
@@ -94,8 +85,10 @@ const buttonStyle = {
     position: 'relative',
     right: '40px'
   };  
-
-const PropertyDashboard: React.FC = () => {
+interface IfirstChildProps {
+    id: string,
+  }
+const PropertyDashboard: React.FC<IfirstChildProps> = ({id}) => {
     const classes = useStyles()
     const rootStore = useContext(RootStoreContext);
     const {getpPropertyTypes} = rootStore.propertyTypeStore;
@@ -115,35 +108,41 @@ const PropertyDashboard: React.FC = () => {
     return (
         <Grid>
             <Grid.Column width={16}>
-                {propertyTypes.map((propertyType, index) => {
-                    return ( 
-                        <Card.Group key={index}>
-                        <Card style={cardStyle} raised link>
-                            <Card.Content>
-                                <Card.Header>
-                                    <Header size="large">{propertyType[0]}</Header>
-                                </Card.Header>
-
-                                    <Card.Description  style={buttonStyle}>
-                                    <div className={classes.buttonAvailableStyle}><Available  name={propertyType} /></div> 
-                                    </Card.Description>
-
-                                    <Card.Description  style={buttonStyle}>
-                                    <div className={classes.buttonReservedStyle}><Reserved name={propertyType}/></div> 
-                                    </Card.Description>
-
-                                    <Card.Description  style={buttonStyle}>
-                                    <div className={classes.buttonOccupiedStyle}><Occupied  name={propertyType}/></div>
-                                    </Card.Description>
-                                    
-                            </Card.Content>
-                            <Card.Content >
-                            <Icon name="arrow up" /> {propertyType[2]}
-                            <div className={classes.EditPropertyType}> <ModalEditPropertyType name={propertyType}/></div>
-                            </Card.Content>
-                        </Card>
-                        </Card.Group>
-                    )})}
+                {propertyTypes.map((propertyType:any, index) => {
+                    console.log(propertyType)
+                    if(propertyType[6] === id){
+                        
+                        return ( 
+                            <Card.Group key={index}>
+                            <Card style={cardStyle} raised link>
+                                <Card.Content>
+                                    <Card.Header>
+                                        <Header size="large">{propertyType[0]}</Header>
+                                    </Card.Header>
+    
+                                        <Card.Description  style={buttonStyle}>
+                                        <div className={classes.buttonAvailableStyle}><Available  name={propertyType} /></div> 
+                                        </Card.Description>
+    
+                                        <Card.Description  style={buttonStyle}>
+                                        <div className={classes.buttonReservedStyle}><Reserved name={propertyType}/></div> 
+                                        </Card.Description>
+    
+                                        <Card.Description  style={buttonStyle}>
+                                        <div className={classes.buttonOccupiedStyle}><Occupied  name={propertyType}/></div>
+                                        </Card.Description>
+                                        
+                                </Card.Content>
+                                <Card.Content >
+                                <Icon name="arrow up" /> {propertyType[2]}
+                                <div className={classes.EditPropertyType}> <ModalEditPropertyType name={propertyType}/></div>
+                                </Card.Content>
+                            </Card>
+                            </Card.Group>
+                        )
+                    }
+                    
+                    })}
             </Grid.Column>
         </Grid>
     )

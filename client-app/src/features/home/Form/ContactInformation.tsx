@@ -18,13 +18,13 @@ const ContactInformation = () => (
     <List.Item as='a'>
             <Icon name='phone' />
         <List.Content>
-            <List.Header>(+632) 315-3232352</List.Header>
+            <List.Header>(+63) 909 272 6371</List.Header>
         </List.Content>
     </List.Item>
     <List.Item as='a'>
             <Icon name='mail' />
         <List.Content>
-            <List.Header>KaneRealty@gmail.com</List.Header>
+            <List.Header><a href="hhttps://www.facebook.com/kanerealtyofficial">@kanerealtyofficial</a></List.Header>
         </List.Content>
     </List.Item>
         

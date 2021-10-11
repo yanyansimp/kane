@@ -1,18 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Header, Image, Icon, Modal, Dropdown } from 'semantic-ui-react'
+import { Button, Header, Image, Icon, Modal,Segment } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageUploading, { ImageListType} from "react-images-uploading";
 import { useHistory } from 'react-router-dom'
+import PhotoUploadPropTypeEdit from '../photoUpload/PhotoUploadPropTypeEdit';
 import{
-    Typography,
-    Checkbox,
     TextField,
-    OutlinedInput,
-    FormControl,
-    InputLabel,
-    InputAdornment,
-    IconButton
 } from '@material-ui/core'
 const useStyles = makeStyles({
     mainContainer: {
@@ -109,27 +103,17 @@ const optionsArray = [
     const [open, setOpen] = React.useState(false)
     const [ChildProperty, setChildProperty] =  useState([name])
     const rootStore = useContext(RootStoreContext);
-    const {EditPropertyType, loading} = rootStore.propertyTypeStore
+    const {EditPropertyType} = rootStore.propertyTypeStore
     const [propId, setpropId] = useState(name[6])
     const [propName, setpropName] = useState(name[0])
     const [propDescription, setpropDescription] = useState(name[1])
     const [propLocation, setpropLocation] = useState(name[7])
-    const [images, setImages] = React.useState([]);
-    const maxNumber = 69;
-    const onChange = (
-        imageList: ImageListType,
-        addUpdateIndex: number[] | undefined
-      ) => {
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList as never[]);
-      };
+    const [isLoading, setLoading] = useState(false);
 
 
     useEffect(() => {
         setChildProperty(name)
         },[name])
- let history = useHistory();
-//   console.log(propName)
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -177,45 +161,10 @@ const optionsArray = [
                         
                 </div>
 {/* UPLOAD IMAGE */}
-                <div>
-                        
-                         <ImageUploading
-                            value={images}
-                            onChange={onChange}
-                            maxNumber={maxNumber}
-                        >
-                            {({
-                            imageList,
-                            onImageUpload,
-                            onImageUpdate,
-                            onImageRemove,
-                            isDragging,
-                            dragProps
-                            }) => (
-                            // write your building UI
-                            <div className="upload__image-wrapper">
-                                <Button 
-                                className={classes.uploadbutton} 
-                                style={isDragging ? { color: "red" } : undefined}
-                                onClick={onImageUpload}
-                               
-                                >
-                               UPLOAD IMAGE OF PROPERTY
-                               
-                                </Button>
-                                {imageList.map((image, index) => (
-                                <div className="image-item">
-                                    <img src={image.dataURL} alt="" width="500" />
-                                    <div className="image-item__btn-wrapper">
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageUpdate(index)}>Update</Button>
-                                        <Button className={classes.btnUplaodRemove} onClick={() => onImageRemove(index)}>Remove</Button>
-                                    </div>
-                                </div>
-                                ))}
-                            </div>
-                            )}
-                        </ImageUploading>   
-                </div>       
+                        <Segment>
+                            <h3>Photo</h3>
+                            <PhotoUploadPropTypeEdit />
+                        </Segment>     
                 </form>
             </div>
         </Modal.Description>
@@ -225,10 +174,11 @@ const optionsArray = [
         <Icon name='remove' /> Cancel
         </Button>
         <Button 
-            type='submit'
+            loading={isLoading}
+            type='button'
             color='green' 
             inverted onClick={() => {
-                setOpen(false)
+                setLoading(true);
                 let editVal = {
                     id: propId,
                     name: propName,
@@ -236,7 +186,8 @@ const optionsArray = [
                     location: propLocation,
                 };
                 EditPropertyType(editVal);
-                window.location.reload();
+                setOpen(true)
+                
             }}
             >
             <Icon name='checkmark' /> Submit

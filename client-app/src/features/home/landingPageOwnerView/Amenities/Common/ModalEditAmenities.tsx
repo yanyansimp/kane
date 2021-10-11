@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, Grid, Header, Image, Modal, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
-import TextInput from '../../../app/common/form/TextInput';
 import { combineValidators } from 'revalidate';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import PhotoUpload from '../landingPageOwnerView/photoUpload/PhotoUploadEdit';
+import { RootStoreContext } from '../../../../../app/stores/rootStore';
+import TextInput from '../../../../../app/common/form/TextInput';
+import { observer } from 'mobx-react-lite';
 const validate = combineValidators({
   // firstName: isRequired('First Name'),
   // lastName: isRequired('Last Name'),
@@ -19,51 +19,49 @@ const propType = {
 interface IfirstChildProps {
     name: any,
   }
-const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
-  console.log(name)
-  
-  const [loading, setLoading] = useState(false);
+const ModalView:  React.FC<IfirstChildProps> = ({name}) => {
   const rootStore = useContext(RootStoreContext);
-  const { homepage,submitting, EditLandingPage } = rootStore.homePageStore;
+  const {
+    editAmenities,
+    submitting, 
+    loading,
+  } = rootStore.amenitiesStore;
+  
+  
   const handleFinalFormSubmit = (values: any) => {
-    const { ...homepage } = values;
-    let newhomepage = {
+    const { ...amenities } = values;
+    let newamenities = {
       id: name.id,
-      ...homepage,
-      isMain: 'Header'
+      ...amenities,
     }
-    EditLandingPage(newhomepage);
+    editAmenities(newamenities);
   };
+
   return (
     <Grid>
-      <Grid>
-        <Header>EDIT OF SLIDER IMSAGE</Header>
+      <Grid.Column>
+        <Header>EDIT AMENITIES</Header>
         <Segment clearing>
             <FinalForm 
-              validate={validate}
               onSubmit={handleFinalFormSubmit}
               render={({handleSubmit, invalid, pristine})=>(
-                <Form onSubmit={handleSubmit} loading={loading}>
+                <Form onSubmit={handleSubmit}>
                 <Field
                     name="name"
-                    label="Body Name or title of Images  "
+                    label="Amenities  "
                     placeholder={name.name}
-                    value={homepage?.name}
+                    // value={amenities?.name}
                     component={TextInput}
-                    
                 />
                 <Field
                     name="description"
-                    label="Body Description of Images "
+                    label="Description"
                     placeholder={name.description}
-                    value={homepage?.name}
+                    // value={amenities?.name}
                     component={TextInput}
-                   
                 />
-                <Segment>
-                    <h3>Photo</h3>
-                    <PhotoUpload/>
-                </Segment>
+
+
                 <Button
                     loading={submitting}
                     disabled={loading || invalid || pristine}
@@ -72,19 +70,13 @@ const ModaView:  React.FC<IfirstChildProps> = ({name}) => {
                     type="submit"
                     content="Submit"
                     />
-                    <Button
-                    disabled={loading}
-                    floated="right"
-                    type="button"
-                    content="Cancel"
-                    />
             </Form>   
               )}
             />
         </Segment>
-      </Grid>
+      </Grid.Column>
     </Grid>
   )
 }
 
-export default ModaView
+export default observer(ModalView);

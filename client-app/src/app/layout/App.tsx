@@ -32,6 +32,7 @@ import HomePageSample from '../../features/home/HomePageSample'
 import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
 import EditClientForm from '../../features/clients/forms/EditClientForm';
 import ReservationDetails from '../../features/reservations/details/ReservationDetails';
+import Viewpropertyform from '../../features/property/Viewpropertyform';
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
@@ -53,8 +54,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <Fragment>
       <ModalContainer />
-      <Route exact path="/" component={HomePage} />
-      {/* <Route exact path="/" component={HomePageSample} /> */}
+      {/* <Route exact path="/" component={HomePage} /> */}
+      <Route exact path="/" component={HomePageSample} />
       
       <ToastContainer position="bottom-right" />
       <Route
@@ -134,6 +135,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 />
 
                 <Route exact path="/landingPage" component={LandingPage} />
+
+                <Route exact path="/propertyType/:id" component={Viewpropertyform} />
                 
                 <Route 
                 key={location.key} 

@@ -19,6 +19,8 @@ namespace Domain
         // Navigation Properties
         public virtual ICollection<Property> Properties { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
+        // public object Amenities { get; set; }
+        public virtual ICollection<Amenity> Amenities { get; set; }
         // public virtual ICollection<Transaction> Transactions { get; set; } // Old
 
     }

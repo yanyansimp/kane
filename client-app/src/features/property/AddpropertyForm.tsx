@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Dropdown,Segment } from 'semantic-ui-react'
+import { Dropdown,Segment,Dimmer,Loader, Grid, Icon, Button } from 'semantic-ui-react'
 import {makeStyles} from '@material-ui/core/styles'
-import ImageUploading, { ImageListType } from "react-images-uploading"
 import AddpropertyTypeForm from './AddpropertyTypeForm'
 import { RootStoreContext } from '../../app/stores/rootStore'
+
 
 import { v4 as uuid } from 'uuid';
 import{
     Typography,
-    Button,
     TextField,
 } from '@material-ui/core'
 import PhotoUploadProp from './photoUpload/PhotoUploadProp';
@@ -79,63 +78,58 @@ const useStyles = makeStyles({
 
 })
 
+
 const optionsArray = [
     { key: 1, text: 'Available', value: 'Available' },
     { key: 2, text: 'Reserved', value: 'Reserved' },
     { key: 3, text: 'Occupied', value: 'Occupied' },
   ]
 
- 
-
-
-// ADD PROPERTY
 
 const AddPropertyForm = () => { 
     const rootStore = useContext(RootStoreContext);
     const { loadPropertyTypes, propertyTypeRegistry, } = rootStore.propertyTypeStore;
-    const {property, createProperty} = rootStore.propertyStore;
+    const {property, createProperty, submitting, loading} = rootStore.propertyStore;
     let [val0] = useState('');
     let [val1] = useState('');
     let [val2] = useState('');
     let [val3] = useState('');
     let [val4] = useState('');
-    
+    const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         loadPropertyTypes()
     }, [loadPropertyTypes]);
 
     const classes = useStyles()
-    const [images, setImages] = React.useState([]);
-    const maxNumber = 69;
-
-    const onChange = (
-      imageList: ImageListType,
-      addUpdateIndex: number[] | undefined
-    ) => {
-      console.log(imageList, addUpdateIndex);
-      setImages(imageList as never[]);
-    };
-
    const handleDropDownSelectStatus = (event:any, data:any) => {
     val4 = data.value;
    };
-
    const handleDropDownSelectPropertyType = (event:any, data:any) => {
      val0 = data.value;
    };
-   
-   
-    
+
+  
     return (
-        <div className={classes.mainContainer}>
+
+        <Grid>
+             <Grid.Column width={16} >
+
+                        <Button primary href={'/property'}>
+                         <Icon name='arrow left' />
+                            Back
+                    </Button> 
+            </Grid.Column>
+            <div className={classes.mainContainer}>
            <Typography 
-           variant='h5' 
-           style={{ color: '#999', textAlign: 'center' }}
+                variant='h5' 
+                style={{ color: '#999', textAlign: 'center' }}
            >
            Sign Up for Adding Properties
            </Typography>
            <div>
+           <Segment clearing>
 
+          
                 <form>
                 <div className={classes.drpdwnField}>
                     
@@ -146,7 +140,6 @@ const AddPropertyForm = () => {
                         selection
                         onChange={handleDropDownSelectPropertyType}
                         options={propertyTypeRegistry}
-                                              
                     />
                    
                 </div>
@@ -182,7 +175,6 @@ const AddPropertyForm = () => {
 {/* UPLOAD IMAGE */}
                 <div>
                 <div className={classes.drpdwnField}>
-                    
                      <Dropdown 
                         placeholder='Status'
                         variant='outlined'
@@ -200,10 +192,11 @@ const AddPropertyForm = () => {
                 </div>       
                     <>
                             <Button 
-                            className={classes.btn}
+                                className={classes.btnUplaodRemove}
                                 variant='contained'
                                 type='button'
                                 onClick={() => {
+                                    setLoading(true);
                                     let newVal = {
                                         id: uuid(),
                                         name: val1,
@@ -215,12 +208,18 @@ const AddPropertyForm = () => {
                                     createProperty(newVal!);
                                 }}
                             >
+                                 <Dimmer active = {isLoading} inline='centered' inverted>
+                                        <Loader />
+                                    </Dimmer>
                                 SUBMIT
                             </Button>
                     </>
                 </form>
+                </Segment>
             </div>
         </div>
+        </Grid>
+        
     )
 }
 export default observer(AddPropertyForm);
