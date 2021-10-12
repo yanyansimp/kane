@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
 import orange from '@material-ui/core/colors/orange'
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Segment, Header, Image, Icon, Modal, Dropdown, Table, Label, Grid, Input } from 'semantic-ui-react'
+import { Button, Segment, Header, Image, Icon, Modal, Dropdown, Table, Label, Grid, Input, Divider } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 import ModalEdit from '../condition/ModalEditForm'
 import ModalDelete from '../condition/ModalDeleteForm'
@@ -23,9 +23,13 @@ interface IfirstChildProps {
     const rootStore = useContext(RootStoreContext);
     const {returnStatus} = rootStore.propertyStore
     const [proper, setProperties] = useState([])
+    const [visible, setVisible] = useState(5);
     const propFunc = (prop: any) => {
       setProperties(prop)
     }
+    const showMoreItems = () => {
+      setVisible((prevValue) => prevValue + 5);
+    };
     useEffect(() => {
         setChildProperty(name)
         returnStatus(propFunc)
@@ -83,7 +87,9 @@ interface IfirstChildProps {
                       l[i][index] = property.location;
                       s[i][index] = property.status;
                     }})}})}
-              {propertyTypeId.properties?.map((property:any, index:any) => {
+              {propertyTypeId.properties
+              ?.slice(0,visible)
+              .map((property:any, index:any) => {
                  if(property.status === "Occupied"){
                   return(
                     <Table.Row key={index}>
@@ -98,6 +104,11 @@ interface IfirstChildProps {
                 }
                 
                 })}
+                 <Divider hidden/>
+                    <Segment basic textAlign={"center"}>
+                        <Button  primary onClick={showMoreItems}  style={{textAlign: "center"}}>Load More...</Button>
+                    </Segment>
+                  <Divider hidden/>
               </Table.Body>
             </Table>
               </Modal.Description>

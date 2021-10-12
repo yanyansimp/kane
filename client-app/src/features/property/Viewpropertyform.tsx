@@ -63,15 +63,15 @@ const Viewpropertyform:React.FC = () => {
       <Grid>
         <Grid.Column width={6}>
           <Input
-          style={searchBar}
-          type="text"
-          value={searchTerm}
-          onChange={(e) =>{
-              setSearchTerm(e.target.value);
-          }}
-          placeholder="search"
-          icon='search'
-        />
+              style={searchBar}
+              type="text"
+              value={searchTerm}
+              onChange={(e) =>{
+                  setSearchTerm(e.target.value);
+              }}
+              placeholder="search"
+              icon='search'
+            />
 
                     <Button  floated="right"   onClick= {() => setShowDriveAction(true)}>
                       <Icon name='plus' />
@@ -102,8 +102,8 @@ const Viewpropertyform:React.FC = () => {
                  if(properties.id === id){
                     return(
                         <>
-                            {properties.properties?.slice(0,visible)
-                            .filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
+                            {properties.properties?.filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
+                            .slice(0,visible)
                             .map((property:any, index:any) => {
                                     return(
                                       <Table.Row key={property.id} height={2}>
@@ -125,7 +125,7 @@ const Viewpropertyform:React.FC = () => {
             <Segment basic textAlign={"center"}>
                 <Button  primary onClick={showMoreItems}  style={{textAlign: "center"}}>Load More...</Button>
             </Segment>
-            <Divider hidden/>
+          <Divider hidden/>
         </Table.Body>
       </Table>
         </Grid.Column>

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Segment, Header, Image, Icon, Modal, Dropdown, Table, Label, Input, Grid } from 'semantic-ui-react'
+import { Button, Segment, Header, Image, Icon, Modal, Dropdown, Table, Label, Input, Grid, Divider } from 'semantic-ui-react'
 import { RootStoreContext } from '../../../app/stores/rootStore'
 import ModalEdit from '../condition/ModalEditForm'
 import ModalDelete from '../condition/ModalDeleteForm'
 import ModalView from '../condition/ModalViewForm'
 
 const searchBar = {
-  top : '20px',
+  top : '1px',
   left: '550px',
   width: '30%',
 };
@@ -15,6 +15,7 @@ const searchBar = {
     name: any,
   }
   const ModalAvailableModal: React.FC<IfirstChildProps> = ({name}) =>  {
+    const [visible, setVisible] = useState(5);
     const [searchTerm, setSearchTerm] = useState("");
     const [open, setOpen] = React.useState(false)
     const [ChildProperty, setChildProperty] =  useState([name])
@@ -24,6 +25,9 @@ const searchBar = {
     const propFunc = (prop: any) => {
       setProperties(prop)
     }
+    const showMoreItems = () => {
+      setVisible((prevValue) => prevValue + 5);
+    };
     useEffect(() => {
         setChildProperty(name)
         returnStatus(propFunc)
@@ -58,6 +62,16 @@ const searchBar = {
             <Modal.Content image>
               <Modal.Description>
                 <Header>{name[1].substring(0,10)+'...'}</Header>
+                {/* <Input
+                    style={searchBar}
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) =>{
+                        setSearchTerm(e.target.value);
+                    }}
+                    placeholder="search"
+                    icon='search'
+                  /> */}
                 <Table celled >
               <Table.Header>
                 <Table.Row>
@@ -83,7 +97,9 @@ const searchBar = {
                       s[i][index] = property.status;
                     }
                     })}})}
-              {propertyTypeId.properties?.map((property:any, index:any) => {
+              {propertyTypeId.properties
+              ?.slice(0,visible)
+              .map((property:any, index:any) => {
                 if(property.status === "Available"){
                   return(
                     <Table.Row key={index}>
@@ -97,6 +113,11 @@ const searchBar = {
                   )
                 }
               })}
+              <Divider hidden/>
+                <Segment basic textAlign={"center"}>
+                    <Button  primary onClick={showMoreItems}  style={{textAlign: "center"}}>Load More...</Button>
+                </Segment>
+              <Divider hidden/>
               </Table.Body>
             </Table>
               </Modal.Description>
