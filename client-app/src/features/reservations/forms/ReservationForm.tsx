@@ -12,6 +12,7 @@ import WorkForm from './WorkFormPersonal';
 import WorkFormPersonal from './WorkFormPersonal';
 import { RouteComponentProps } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import DocumentForm from './DocumentForm';
 
 interface DetailParams {
   id: string;
@@ -75,6 +76,7 @@ const ReservationForm: React.FC<RouteComponentProps<DetailParams>> = ({
               <PersonalInfoForm />
               <CoBorrowerAtty />
               <WorkFormPersonal />
+              <DocumentForm />
               
               {/* {renderForm()}
 

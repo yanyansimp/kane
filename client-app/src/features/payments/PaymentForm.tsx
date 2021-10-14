@@ -62,25 +62,6 @@ const PaymentForm = () => {
           render={({ handleSubmit, invalid, pristine }) => (
             <Form onSubmit={handleSubmit} loading={loading}>
               <Segment>
-                <Form.Group>
-                  <Field
-                    fluid
-                    width={8}
-                    name="transactionSequenceNo"
-                    label="Transaction No."
-                    placeholder="Transaction Number"
-                    component={TextInput}
-                  />
-                  <Field
-                    width={8}
-                    date={true}
-                    name="dateOfPayment"
-                    label="Date of Payment"
-                    placeholder={today.toLocaleDateString()}
-                    value={payment.dateOfPayment}
-                    component={DateInput}
-                  />
-                </Form.Group>
                 <Form.Group fluid>
                   <Field
                     basic
@@ -100,6 +81,25 @@ const PaymentForm = () => {
                     component={TextInput}
                   />
                 </Form.Group>
+                <Form.Group>
+                  <Field
+                    fluid
+                    width={8}
+                    name="transactionSequenceNo"
+                    label="Transaction No."
+                    placeholder="Transaction Number"
+                    component={TextInput}
+                  />
+                  <Field
+                    width={8}
+                    date={true}
+                    name="dateOfPayment"
+                    label="Date of Payment"
+                    placeholder={today.toLocaleDateString()}
+                    value={payment.dateOfPayment}
+                    component={DateInput}
+                  />
+                </Form.Group>
               </Segment>
 
               <Segment>
@@ -107,8 +107,8 @@ const PaymentForm = () => {
                   <Field
                     width={8}
                     name="orNumber"
-                    label="OR Number"
-                    placeholder="OR Number"
+                    label="ER Number"
+                    placeholder="ER Number"
                     value={payment.oRNumber}
                     component={TextInput}
                   />

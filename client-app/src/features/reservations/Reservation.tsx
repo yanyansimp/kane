@@ -27,7 +27,7 @@ export const Reservation: React.FC = () => {
               <Header as="h2" floated="left">
                 Reservation
               </Header>
-              {/* <Button icon="arrow up" content="Import Excel" floated="right" /> Ibalik ra ni */}
+              <Button icon="arrow up" content="Import Excel" floated="right" />
               <Button
                 icon="plus"
                 content="New Reservation"

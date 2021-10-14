@@ -93,6 +93,7 @@ namespace Application.Clients
 
             public string HomeNumber { get; set; }
             public string OfficeNumber { get; set; }
+            public List<string> Documents { get; set; }
             public List<Business> Businesses { get; set; }
         }
 
@@ -173,7 +174,8 @@ namespace Application.Clients
                     Position = request.Position,
 
                     Businesses = request.Businesses,
-                    Transactions = new List<Transaction>()
+                    Transactions = new List<Transaction>(),
+                    Documents = new List<Document>()
                 };
 
                 var property =
@@ -206,6 +208,20 @@ namespace Application.Clients
                     };
 
                     property.Status = "Reserved";
+
+                    // Add Documents if available
+                    if (request.Documents != null)
+                    {
+                        foreach (var document in request.Documents)
+                        {
+                            client.Documents.Add(new Document 
+                            {
+                                Id = Guid.NewGuid(),
+                                Type = document,
+                                CreatedAt = DateTime.Now
+                            });
+                        }
+                    }
 
                     var user = await _context.Users.SingleOrDefaultAsync(x => 
                         x.UserName == _userAccessor.GetCurrentUsername());

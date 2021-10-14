@@ -6,7 +6,7 @@ import agent from '../api/agent';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { addZeroDate, setClientProps, setTansactionProps } from '../common/util/util';
-import { ITransaction } from '../models/transaction';
+import { IDocument, ITransaction } from '../models/transaction';
 
 export default class ReservationStore {
   rootStore: RootStore;
@@ -52,6 +52,22 @@ export default class ReservationStore {
     return toJS(this.paymentDues);
   };
 
+  @computed get getIsDocsComplete() {
+    return this.client?.documents?.length === 10 ? 'Complete' : 'Lacking';
+  };
+
+  @action IsDocsComplete = (doc: IDocument[] | null) => {
+    if (doc) {
+      return doc.length === 10 ? 'Complete' : 'Lacking';
+    } else {
+      return 'Lacking';
+    }
+  };
+
+  @action isDocExists = (doc: string) => {
+    return this.client?.documents?.find(d => d.type === doc) ? true : false;
+  };
+
   getClient = (id: string) => {
     return this.reservationRegistry?.find(c => c.id === id);
   };
@@ -91,7 +107,7 @@ export default class ReservationStore {
       const client = await agent.Clients.details(id);
       runInAction('Getting client', () => {
         this.client = setClientProps(client!);
-        console.log(this.client);
+        // console.log(this.client);
         this.loadingInitial = false;
       });
       return client;
@@ -107,6 +123,7 @@ export default class ReservationStore {
   @action editClient = async (client: IClient) => {
     this.submitting = true;
     try {
+      console.log(client);
       await agent.Clients.update(client);
       runInAction('editing client', () => {
         if (!this.reservationRegistry) {
@@ -190,7 +207,7 @@ export default class ReservationStore {
         this.transaction = setTansactionProps(transaction!);
         this.loadingInitial = false;
       });
-      console.log(transaction);
+      // console.log(transaction);
       return transaction;
     } catch (error) {
       runInAction(() => {
@@ -215,7 +232,7 @@ export default class ReservationStore {
             transaction.balance = transaction.contractPrice - totalPayment;
           })
            this.reservationRegistry?.push(client);
-           console.log(client);
+          //  console.log(client);
         });
         this.loadingInitial = false;
         // console.log(this.reservationRegistry?.length);
@@ -253,8 +270,8 @@ export default class ReservationStore {
         this.loadReservations();
         this.submitting = false;
       });
-      history.push('/reservation');
-      toast.success('Successfully saved');
+      history.push('/reservation'); // Ibalik ra ni
+      toast.success('Successfully saved'); // Ibalik ra ni
     } catch (error) {
       runInAction(() => {
         this.submitting = false;

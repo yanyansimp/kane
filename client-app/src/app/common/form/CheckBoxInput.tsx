@@ -10,6 +10,7 @@ const CheckBoxInput: React.FC<IProps> = ({
   input,
   label,
   type,
+  checked = false,
   meta: { touched, error },
 }) => {
   return (
@@ -22,7 +23,7 @@ const CheckBoxInput: React.FC<IProps> = ({
         as={input.type}
       /> */}
       <div className="ui checkbox">
-        <input {...input} />
+        <input {...input} onChange={input.onChange}/>
         <label>{label}</label>
       </div>
     </Form.Field>

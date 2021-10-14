@@ -1,3 +1,4 @@
+import { setDocsProps } from "../common/util/util";
 import { ITransaction } from "./transaction";
 
 export interface IClient {
@@ -62,8 +63,16 @@ export interface IClient {
   monthlyIncome: string;
   monthlyHouseholdIncome: string;
   createdAt: string;
+  documents: IDocument[] | any[];
   businesses: IBusiness[] | null;
   transactions: ITransaction[];
+}
+
+export interface IDocument {
+  id: string;
+  url: string;
+  type: string;
+  createdAt: Date;
 }
 
 export interface IBusiness {
@@ -77,7 +86,7 @@ export interface IBusiness {
 }
 
 export interface IClientFormValues extends Partial<IClient> {
-
+  documents?: IDocument[] | any[];
 }
 
 export class ClientFormValues implements IClientFormValues {
@@ -141,10 +150,18 @@ export class ClientFormValues implements IClientFormValues {
   monthlyIncome: string = '';
   monthlyHouseholdIncome: string = '';
   createdAt: string = '';
+  documents?: any[] = undefined;
   businesses?: IBusiness[] = undefined;
   transactions?: ITransaction[] = undefined;
 
   constructor(init?: IClientFormValues) {
+    
+    if (init && init.documents) {
+      init.documents = setDocsProps(init.documents);
+    }
+
     Object.assign(this, init);
   }
+
+
 }

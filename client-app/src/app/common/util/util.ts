@@ -21,6 +21,14 @@ export const setStatusColor = (status: string) => {
   }
 };
 
+export const setIcon = (status: boolean) => {
+  return status ? 'check circle' : 'times circle';
+};
+
+export const setIconColor = (status: boolean) => {
+  return status ? 'green' : 'red';
+};
+
 export const combineDateAndTime = (date: Date, time: Date) => {
     // const timeString = time.getHours() + ':' + time.getMinutes() + ':00';
 
@@ -36,6 +44,10 @@ export const combineDateAndTime = (date: Date, time: Date) => {
 
     return new Date(dateString + 'T' + timeString);
 }
+
+export const setDocsProps = (docs: any[]) => {
+  return docs.map(d => d.type);
+};
 
 export const setClientProps = (client: IClient) => {
   client.birthDate = new Date(client.birthDate);

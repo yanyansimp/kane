@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { render } from 'react-dom';
-import { Button, Card, Grid,Icon, Input} from 'semantic-ui-react'
+import { Button, Card, Grid,Header,Icon, Input, Segment} from 'semantic-ui-react'
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddPropertyForm from './AddpropertyForm'
 import PropertyTable from './PropertyTable';
@@ -28,19 +28,36 @@ const PropertyForm = () => {
   }, [getpPropertyTypes]);
  
   return (
+    // <Grid>
+    //     <h2>PROPERTY INFO</h2>
+    //     <Grid.Column width={16}>
+    //     <Button  floated="right" onClick={() => setStep(1)}>
+    //       <Icon name='plus' />
+    //       Add Property
+    //     </Button>
+    //     </Grid.Column>
+    //     {step == 0 &&  <PropertyTable/>}
+    //     {step == 1 && <AddPropertyForm/>}
+    // </Grid>
+
     <Grid>
-        <h2>PROPERTY INFO</h2>
-        <Grid.Column width={16}>
-        <Button  floated="right" onClick={() => setStep(1)}>
-          <Icon name='plus' />
-          Add Property
-        </Button> 
-        </Grid.Column>
-        {step == 0 &&  <PropertyTable/>}
-        {step == 1 && <AddPropertyForm/>}
-      </Grid>
-      
-  )
+      <Grid.Column>
+        <Segment clearing basic>
+          <Header as="h2" floated="left">
+            Property
+          </Header>
+          <Button floated="right" onClick={() => setStep(1)}>
+            <Icon name="plus" />
+            Add Property
+          </Button>
+        </Segment>
+        <Fragment>
+          {step == 0 && <PropertyTable />}
+          {step == 1 && <AddPropertyForm />}
+        </Fragment>
+      </Grid.Column>
+    </Grid>
+  );
 }
 
 export default PropertyForm

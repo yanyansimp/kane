@@ -41,6 +41,7 @@ namespace Application.User
                 // RuleFor(x => x.Username).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
+                // RuleFor(x => x.Password).NotEmpty();
             }
         }
 
@@ -66,6 +67,8 @@ namespace Application.User
                 if (await _context.Users.Where(x => x.UserName == request.UserName).AnyAsync())
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = "Username already exists" });
 
+                var username = string.Concat($"{request.FirstName}.{request.LastName}".Where(c => !Char.IsWhiteSpace(c))).ToLower();
+
                 var user = new AppUser
                 {
                     LastName = request.LastName,
@@ -77,7 +80,7 @@ namespace Application.User
                     DisplayName = string.Format("{0} {1}", request.LastName, request.FirstName),
                     Email = request.Email,
                     PhoneNumber = request.PhoneNumber,
-                    UserName = $"{request.FirstName.Substring(0,1)}.{request.LastName}",
+                    UserName = username
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);

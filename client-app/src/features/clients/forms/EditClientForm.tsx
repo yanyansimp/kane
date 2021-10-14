@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router';
-import { Button, Checkbox, Form, Grid, Segment } from 'semantic-ui-react';
+import { Button, Checkbox, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
@@ -10,6 +10,7 @@ import { gender } from '../../../app/common/options/genderOptions';
 import { ClientFormValues } from '../../../app/models/client';
 import RadioInput from '../../../app/common/form/RadioInput';
 import { observer } from 'mobx-react-lite';
+import CheckBoxInput from '../../../app/common/form/CheckBoxInput';
 
 
 interface DetailParams {
@@ -21,7 +22,7 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadClient, editClient, submitting } = rootStore.reservationStore;
+  const { loadClient, editClient, submitting, isDocExists } = rootStore.reservationStore;
 
   const [client, setClient] = useState(new ClientFormValues());
   const [loading, setLoading] = useState(false);
@@ -30,10 +31,13 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (match.params.id) {
       setLoading(true);
       loadClient(match.params.id)
+        // .then((client) => client.documents.map((d:any) => d.type))
         .then((client) => setClient(new ClientFormValues(client)))
         .finally(() => setLoading(false));
     }
   }, [loadClient, match.params.id]);
+
+  
 
   const handleFinalFormSubmit = (values: any) => {
     // console.log(values)
@@ -527,7 +531,7 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
                           width={8}
                           label="Business Location"
                           name="businessLocation"
-                          placeholder="businessLocation"
+                          placeholder="Business Location"
                           component={TextInput}
                         />
                       </Form.Group>
@@ -579,6 +583,97 @@ const EditClientForm: React.FC<RouteComponentProps<DetailParams>> = ({
               </Segment>
 
               {/* End Work Personal */}
+
+              {/* Start Documents */}
+              <Segment>
+                <h2>Documents</h2>
+                <Divider clearing />
+                <Form.Group>
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="post dated cheque"
+                    label="Post Dated Cheque"
+                    checked={isDocExists('post dated cheque')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="marriage cert - birth cert"
+                    label="Photocopy of Marriage Certificate/Birth Certificate"
+                    checked={isDocExists('marriage cert - birth cert')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="2pcs 2x2 picture"
+                    label="2 pcs 2x2 picture"
+                    checked={isDocExists('2pcs 2x2 picture')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="community tax certificate"
+                    label="Community Tax Certificate"
+                    checked={isDocExists('community tax certificate')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="proof of billing"
+                    label="Proof of Billing"
+                    checked={isDocExists('proof of billing')}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="2 valid id"
+                    label="2 Valid ID's (Company and Government)"
+                    checked={isDocExists('2 valid id')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="tin"
+                    label="Tax Identification Number"
+                    checked={isDocExists('tin')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="house sketch"
+                    label="House Sketch"
+                    checked={isDocExists('house sketch')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="3 pcs 1x1 picture"
+                    label="3 pcs 1x1 picture"
+                    checked={isDocExists('3 pcs 1x1 picture')}
+                  />
+                  <Field
+                    name="documents"
+                    component={CheckBoxInput}
+                    type="checkbox"
+                    value="spa"
+                    label="SPA (with Consular Seal if notarized abroad)"
+                    checked={isDocExists('spa')}
+                  />
+                </Form.Group>
+              </Segment>
+              {/* End Documents */}
 
               {/*  */}
 

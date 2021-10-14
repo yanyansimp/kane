@@ -15,7 +15,7 @@ import {
   List,
   Segment,
 } from 'semantic-ui-react';
-import { toMoney } from '../../app/common/util/util';
+import { setIcon, setIconColor, setStatusColor, toMoney } from '../../app/common/util/util';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
 interface DetailParams {
@@ -27,7 +27,8 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadClient, client } = rootStore.reservationStore;
+  const { loadClient, client, getIsDocsComplete, isDocExists } =
+    rootStore.reservationStore;
 
   useEffect(() => {
     loadClient(match.params.id);
@@ -57,7 +58,11 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
                         text="Edit"
                         icon="edit outline"
                       />
-                      <Dropdown.Item text="Delete" icon="user delete" disabled/>
+                      <Dropdown.Item
+                        text="Delete"
+                        icon="user delete"
+                        disabled
+                      />
                     </Dropdown.Menu>
                   </Dropdown>
                 </Button.Group>
@@ -92,65 +97,111 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
       <Grid.Column width="6">
         <Segment clearing basic>
           <Button floated="right" size="small" icon="print" content="Print" />
-          {/* <Button
+          <Button
             floated="right"
             size="small"
             icon="home"
             content="Add Property"
-          /> */}
+          />
         </Segment>
-        {/* <Segment basic>
+        <Segment basic>
           <Header as="h5">
             Documents:
-            <Label color="yellow" size="medium" circular>
-              Complete
+            <Label
+              color={setStatusColor(getIsDocsComplete)}
+              size="medium"
+              circular
+            >
+              {getIsDocsComplete}
             </Label>
           </Header>
           <List horizontal>
             <List.Item>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('post dated cheque'))}
+                  size="small"
+                  color={setIconColor(isDocExists('post dated cheque'))}
+                />
                 Post Dated Cheque
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('marriage cert - birth cert'))}
+                  size="small"
+                  color={setIconColor(
+                    isDocExists('marriage cert - birth cert')
+                  )}
+                />
                 Photocopy of Marriage Certificate/Birth Certificate
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />2 pcs 2x2
-                picture
+                <Icon
+                  name={setIcon(isDocExists('2pcs 2x2 picture'))}
+                  size="small"
+                  color={setIconColor(isDocExists('2pcs 2x2 picture'))}
+                />
+                2 pcs 2x2 picture
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('community tax certificate'))}
+                  size="small"
+                  color={setIconColor(isDocExists('community tax certificate'))}
+                />
                 Community Tax Certificate
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('proof of billing'))}
+                  size="small"
+                  color={setIconColor(isDocExists('proof of billing'))}
+                />
                 Proof of Billing
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />2 Valid
-                ID's (Company and Government)
+                <Icon
+                  name={setIcon(isDocExists('2 valid id'))}
+                  size="small"
+                  color={setIconColor(isDocExists('2 valid id'))}
+                />
+                2 Valid ID's (Company and Government)
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('tin'))}
+                  size="small"
+                  color={setIconColor(isDocExists('tin'))}
+                />
                 Tax Identification Number
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('house sketch'))}
+                  size="small"
+                  color={setIconColor(isDocExists('house sketch'))}
+                />
                 House Sketch
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />3 pcs 1x1
-                picture
+                <Icon
+                  name={setIcon(isDocExists('3 pcs 1x1 picture'))}
+                  size="small"
+                  color={setIconColor(isDocExists('3 pcs 1x1 picture'))}
+                />
+                3 pcs 1x1 picture
               </List.Content>
               <List.Content>
-                <Icon name="check circle" size="small" color="green" />
+                <Icon
+                  name={setIcon(isDocExists('spa'))}
+                  size="small"
+                  color={setIconColor(isDocExists('spa'))}
+                />
                 SPA (with Consular Seal if notarized abroad)
               </List.Content>
             </List.Item>
           </List>
-        </Segment> */}
+        </Segment>
       </Grid.Column>
 
       <Grid.Column width="10">
@@ -176,10 +227,10 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
                   </Header>
                 </Grid.Column>
                 <Grid.Column width="4">
-                  <Button 
-                    floated="right" 
-                    size="tiny" 
-                    as={Link} 
+                  <Button
+                    floated="right"
+                    size="tiny"
+                    as={Link}
                     to={`/client/${client.id}/transaction/${transaction.id}`}
                   >
                     View

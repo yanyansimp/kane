@@ -1,16 +1,14 @@
 import React from 'react';
 import { Field } from 'react-final-form';
-import { Checkbox, Form, Grid, Radio, Segment } from 'semantic-ui-react';
-import CheckBoxInput from '../../../app/common/form/CheckBoxInput';
+import { Checkbox, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 import RadioInput from '../../../app/common/form/RadioInput';
 import TextInput from '../../../app/common/form/TextInput';
 
 const WorkFormPersonal = () => {
   return (
     <Segment>
-      <Segment clearing>
-        <h2>Employment Status</h2>
-      </Segment>
+      <h2>Employment Status</h2>
+      <Divider clearing />
       <h3>Personal Information</h3>
       <Grid>
         <Grid.Row columns={3}>

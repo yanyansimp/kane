@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from 'react-final-form';
-import { Form, Segment } from 'semantic-ui-react';
+import { Divider, Form, Segment } from 'semantic-ui-react';
 import DateInput from '../../../app/common/form/DateInput';
 import SelectInput from '../../../app/common/form/SelectInput';
 import TextInput from '../../../app/common/form/TextInput';
@@ -10,6 +10,7 @@ const CoBorrowerAtty = () => {
     return (
       <Segment>
         <h2>Co-Borrower's Information</h2>
+        <Divider clearing />
         <Form.Group>
           <Field
             width={8}
@@ -66,6 +67,7 @@ const CoBorrowerAtty = () => {
           />
         </Form.Group>
         <h2>Attorney In-Fact's Information</h2>
+        <Divider clearing />
         <Form.Group>
           <Field
             width={8}

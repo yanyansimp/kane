@@ -6,7 +6,7 @@ import ReservationListItem from './ReservationListItem';
 
 const ReservationList = () => {
    const rootStore = useContext(RootStoreContext);
-   const { loadReservations, reservationRegistry, loadingInitial } =
+   const { loadReservations, reservationRegistry, loadingInitial, IsDocsComplete } =
      rootStore.reservationStore;
 
    useEffect(() => {
@@ -27,7 +27,7 @@ const ReservationList = () => {
             <Table.HeaderCell>Terms</Table.HeaderCell>
             <Table.HeaderCell>Contact Price</Table.HeaderCell>
             <Table.HeaderCell>Balance</Table.HeaderCell>
-            {/* <Table.HeaderCell>Documents</Table.HeaderCell> */}
+            <Table.HeaderCell>Documents</Table.HeaderCell>
             <Table.HeaderCell>Tran. Status</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
             <Loader active={loadingInitial} inline size="tiny" />
@@ -35,11 +35,16 @@ const ReservationList = () => {
         </Table.Header>
 
         <Table.Body>
-          <Transition.Group duration={200}>
-            {reservationRegistry?.map((client) => (
-              <ReservationListItem key={client.id} client={client} />
-            ))}
-          </Transition.Group>
+          {reservationRegistry?.map((client) =>
+            client.transactions?.map((transaction) => (
+              <ReservationListItem
+                key={client.id}
+                client={client}
+                transaction={transaction}
+                docs={IsDocsComplete(client.documents!)}
+              />
+            ))
+          )}
         </Table.Body>
       </Table>
     </Segment>

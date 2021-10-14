@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
 import { Field } from 'react-final-form';
-import { Segment, Form } from 'semantic-ui-react';
+import { Segment, Form, Divider } from 'semantic-ui-react';
 import SelectInput from '../../../app/common/form/SelectInput';
 import TextInput from '../../../app/common/form/TextInput';
 import { RootStoreContext } from '../../../app/stores/rootStore';
@@ -39,6 +39,7 @@ const SelectPropertyForm = () => {
   return (
     <Segment>
       <h2>Choose Property</h2>
+      <Divider clearing />
       <Form.Group>
         <Field
           width={8}

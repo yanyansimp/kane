@@ -1,12 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Label, Button, Transition } from 'semantic-ui-react';
 import { setStatusColor, toMoney } from '../../app/common/util/util';
 import { IClient } from '../../app/models/client';
+import { ITransaction } from '../../app/models/transaction';
 
-const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
-  const transaction = client.transactions[0];
-  // const transactions = client.transactions;
+const ReservationListItem: React.FC<{ client: IClient, transaction: ITransaction, docs: string }> = 
+({ 
+  client,
+  transaction,
+  docs 
+}) => {
+  // const transaction = client.transactions[0];
 
   return (
     <Table.Row>
@@ -40,11 +45,11 @@ const ReservationListItem: React.FC<{ client: IClient }> = ({ client }) => {
       <Table.Cell>{transaction.terms}</Table.Cell>
       <Table.Cell>{toMoney(transaction.contractPrice)}</Table.Cell>
       <Table.Cell>{toMoney(transaction.balance)}</Table.Cell>
-      {/* <Table.Cell> */}
-        {/* <Label color={setStatusColor('Lacking')} circular>
-          {'Lacking'}
-        </Label> */}
-      {/* </Table.Cell> */}
+      <Table.Cell>
+        <Label color={setStatusColor(docs)} circular>
+          {docs}
+        </Label>
+      </Table.Cell>
       <Table.Cell>
         <Label
           color={setStatusColor(transaction.status)}

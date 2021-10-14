@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,6 +91,7 @@ namespace Application.Clients
 
             public string HomeNumber { get; set; }
             public string OfficeNumber { get; set; }
+            public List<string> Documents { get; set; }    
             public List<Business> Businesses { get; set; }
         }
 
@@ -179,7 +181,32 @@ namespace Application.Clients
                 client.OfficeNumber = request.OfficeNumber ?? client.OfficeNumber;
 
                 // Businesses
-                client.Businesses = request.Businesses ?? client.Businesses;
+                // client.Businesses = request.Businesses ?? client.Businesses;
+
+                // Documents 
+                if (request.Documents != null) 
+                {
+                    var clientDocs = client.Documents;
+
+                    // foreach (var item in clientDocs)
+                    // {
+                    //     client.Documents.Remove(item);
+                    // }
+
+                    var docs = new List<Document>();
+
+                    foreach (var document in request.Documents)
+                    {
+                        docs.Add(new Document
+                        {
+                            Id = Guid.NewGuid(),
+                            Type = document,
+                            CreatedAt = DateTime.Now
+                        });
+                    }
+
+                    // client.Documents = docs;
+                }
 
                 client.UpdatedAt = DateTime.Now;
                 

@@ -102,8 +102,9 @@ const Viewpropertyform:React.FC = () => {
                  if(properties.id === id){
                     return(
                         <>
-                            {properties.properties?.slice(0,visible)
-                            .filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
+                            {properties.properties
+                            ?.filter((property : any) => property.name.toLowerCase().includes(searchTerm.toLowerCase()) || property.description.toLowerCase().includes(searchTerm.toLowerCase()) || property.location.toLowerCase().includes(searchTerm.toLowerCase()) || property.status.toLowerCase().includes(searchTerm.toLowerCase()) )
+                            .slice(0,visible)
                             .map((property:any, index:any) => {
                                     return(
                                       <Table.Row key={property.id} height={2}>

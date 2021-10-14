@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'react-final-form';
-import { Checkbox, Form, Segment } from 'semantic-ui-react';
+import { Checkbox, Divider, Form, Segment } from 'semantic-ui-react';
 import DateInput from '../../../app/common/form/DateInput';
 import SelectInput from '../../../app/common/form/SelectInput';
 import TextInput from '../../../app/common/form/TextInput';
@@ -10,6 +10,7 @@ const PersonalInfoForm = () => {
   return (
     <Segment>
       <h2>Personal Information</h2>
+      <Divider clearing />
       <Form.Group>
         <Field
           width={8}
@@ -105,6 +106,7 @@ const PersonalInfoForm = () => {
         />
       </Form.Group>
       <h2>Spouse' Information</h2>
+      <Divider clearing />
       <Form.Group>
         <Checkbox label="Spouse Information (Please check if applicable)" />
       </Form.Group>

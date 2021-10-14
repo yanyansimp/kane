@@ -107,17 +107,21 @@ export default class UserStore {
   @action register = async (values: IUserFormValues) => {
     this.submitting = true;
     try {
+      console.log(values);
       await agent.User.register(values);
+
       //this.rootStore.commonStore.setToken(user.token);
       //this.rootStore.modalStore.closeModal();
       // history.push('/dashboard');
-      history.push('/user');
       toast.success('User Successfully Added');
+      history.push('/user');
+      this.submitting = false;
     } catch (error) {
       runInAction(() => {
         this.submitting = false;
       });
-      toast.error(error);
+      // toast.error("Error Saving User");
+      console.log(error);
     }
   };
 
@@ -144,6 +148,7 @@ export default class UserStore {
             this.userRegistry?.push(user);
           }
         });
+        // this.userRegistry.sort((a, b) => (a.lastName < b.lastName ? 1 : -1));
         this.loadingInitial = false;
         // console.log(toJS(this.userRegistry));
       });
@@ -163,11 +168,12 @@ export default class UserStore {
           if ((user.role?.toLowerCase() === 'sales manager' || user.role?.toLowerCase() === 'salesmanager')) {
             this.salesManagerRegistry?.push({
               key: user.id,
-              text: `${user.lastName}, ${user.firstName} ${user.middleName?.charAt(0,1)}`,
+              text: `${user.lastName}, ${user.firstName}`,
               value: user.id,
             });
           }
         });
+        // this.salesManagerRegistry.sort((a, b) => (a.text > b.text ? 1 : -1));
         // console.log(users);
         // console.log(toJS(this.salesManagerRegistry));
       })
@@ -184,7 +190,7 @@ export default class UserStore {
           if ((user.role?.toLowerCase() === 'sales manager' || user.role?.toLowerCase() === 'salesmanager' || user.role?.toLowerCase() === 'sales agent' || user.role?.toLowerCase() === 'salesagent')) {
             this.salesAgentRegistry?.push({
               key: user.id,
-              text: `${user.lastName}, ${user.firstName} ${user.middleName?.charAt(0,1)}`,
+              text: `${user.lastName}, ${user.firstName}`,
               value: user.id
             });
           }
