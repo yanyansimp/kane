@@ -10,6 +10,7 @@ namespace Domain
         public string ORNumber { get; set; }
         public float Amount { get; set; }
         public string ModeOfPayment { get; set; }
+        public string TypeOfPayment { get; set; }
         public DateTime DateOfPayment { get; set; }
         public string CheckNo { get; set; }
         public string BankName { get; set; }

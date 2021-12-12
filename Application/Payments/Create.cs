@@ -23,6 +23,7 @@ namespace Application.Payments
             public Guid Id { get; set; }
             public string ORNumber { get; set; }
             public float Amount { get; set; }
+            public string TypeOfPayment { get; set; }
             public string ModeOfPayment { get; set; }
             public DateTime DateOfPayment { get; set; }
             public string CheckNo { get; set; }
@@ -89,12 +90,12 @@ namespace Application.Payments
                     Id = request.Id,
                     SequenceNo = sequenceNo,
                     ORNumber = request.ORNumber,
+                    TypeOfPayment = request.TypeOfPayment,
                     ModeOfPayment = request.ModeOfPayment,
-                    DateOfPayment = request.DateOfPayment,
+                    DateOfPayment = request.DateOfPayment.AddDays(1),
                     CheckNo = request.ModeOfPayment == "Cheque" ? request.CheckNo : "",
                     BankName = request.ModeOfPayment == "Cheque" ? request.BankName : "",
                     Branch = request.ModeOfPayment == "Cheque" ? request.Branch : "",
-                    InPaymentOf = request.InPaymentOf,
                     Amount = request.Amount,
                     CreatedAt = DateTime.Now
                 };

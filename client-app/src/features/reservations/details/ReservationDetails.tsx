@@ -27,7 +27,7 @@ interface DetailParams {
 export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
   ({ match, history }) => {
     const rootStore = useContext(RootStoreContext);
-    const { loadReservation, transaction } = rootStore.reservationStore;
+    const { loadReservation, deleteReservation, transaction, submitting } = rootStore.reservationStore;
 
     useEffect(() => {
       loadReservation(match.params.clientId, match.params.transactionId);
@@ -56,13 +56,24 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
                     >
                       <Dropdown.Menu>
                         <Dropdown.Item
-                          //   as={Link}
-                          //   to={`/editClient/${client?.id}`}
-                          text="Edit"
+                          as={Link}
+                          to={`/editReservation/${match.params.clientId}/transaction/${match.params.transactionId}`}
+                          text="Edit Reservation"
                           icon="edit outline"
-                          disabled
                         />
-                        <Dropdown.Item text="Delete" icon="times" disabled/>
+                        <Dropdown.Item
+                          text="Delete Reservation"
+                          icon="times"
+                          onClick={() =>
+                            deleteReservation(
+                              transaction?.id,
+                              match.params.clientId
+                            )
+                          }
+                          submitting={submitting}
+                          // loading={true}
+                          // disabled
+                        />
                       </Dropdown.Menu>
                     </Dropdown>
                   </Button.Group>
@@ -129,18 +140,28 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
             </Header>
             <List>
               <List.Item>
-                <Image avatar src={transaction?.salesManager?.image || "/assets/user.png"} />
+                <Image
+                  avatar
+                  src={transaction?.salesManager?.image || '/assets/user.png'}
+                />
                 <List.Content>
-                  <List.Header>{transaction?.salesManager?.name || "None"}</List.Header>
+                  <List.Header>
+                    {transaction?.salesManager?.name || 'None'}
+                  </List.Header>
                   Sales Manager
                 </List.Content>
               </List.Item>
             </List>
             <List horizontal>
               <List.Item>
-                <Image avatar src={transaction?.salesAgent?.image || "/assets/user.png"} />
+                <Image
+                  avatar
+                  src={transaction?.salesAgent?.image || '/assets/user.png'}
+                />
                 <List.Content>
-                  <List.Header>{transaction?.salesAgent?.name || "None"}</List.Header>
+                  <List.Header>
+                    {transaction?.salesAgent?.name || 'None'}
+                  </List.Header>
                   Sales Agent
                 </List.Content>
               </List.Item>
@@ -158,7 +179,8 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
                 <Table.Row>
                   <Table.HeaderCell>Seq. No.</Table.HeaderCell>
                   <Table.HeaderCell>Amount</Table.HeaderCell>
-                  <Table.HeaderCell>Mode of Payment</Table.HeaderCell>
+                  <Table.HeaderCell>Type</Table.HeaderCell>
+                  <Table.HeaderCell>Mode</Table.HeaderCell>
                   <Table.HeaderCell>Date</Table.HeaderCell>
                   <Table.HeaderCell>Action</Table.HeaderCell>
                 </Table.Row>
@@ -169,6 +191,7 @@ export const ReservationDetails: React.FC<RouteComponentProps<DetailParams>> =
                   <Table.Row key={payment.id}>
                     <Table.Cell>#{payment.sequenceNo}</Table.Cell>
                     <Table.Cell>{toMoney(payment.amount)}</Table.Cell>
+                    <Table.Cell>{payment.typeOfPayment}</Table.Cell>
                     <Table.Cell>{payment.modeOfPayment}</Table.Cell>
                     <Table.Cell>
                       {format(new Date(payment.dateOfPayment!), 'MMM dd, yyyy')}

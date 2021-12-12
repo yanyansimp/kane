@@ -40,12 +40,32 @@ export interface IDocument {
 }
 
 // Value to send to api
-export interface ITransactionValues {
-  id: string;
-  salesManagerId: string;
-  salesAgentId: string;
-  propertyId: string;
-  propertyTypeId: string;
-  clientId: string;
-  transaction: ITransaction;
+export interface ITransactionValues extends Partial<ITransaction>{
+  // id: string;
+  // salesManagerId: string;
+  // salesAgentId: string;
+  // propertyId: string;
+  // propertyTypeId: string;
+  // clientId: string;
+  // transaction: ITransaction;
+  clientName: string;
+  sequenceNo: string;
+  property?: IProperty | null;
+}
+
+export class TransactionFormValues implements ITransactionValues {
+  id?: string = undefined;
+  sequenceNo: string = '';
+  clientName: string = '';
+  property?: IProperty = undefined;
+  contractPrice: number = 0;
+  monthlyAmortization: number = 0;
+  terms: number = 0;
+  createdAt?: Date = undefined;
+  // propertyTypeId: string = '28202be7-a6a4-4da8-89b5-051257b3af41';
+  // propertyId: string = '';
+
+  constructor(init?: ITransactionValues) {
+    Object.assign(this, init);
+  }
 }

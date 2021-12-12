@@ -1,15 +1,13 @@
 using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
-using Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Properties
+
+namespace Application.Transactions
 {
     public class Delete
     {
@@ -17,13 +15,12 @@ namespace Application.Properties
         {
             public Guid Id { get; set; }
         }
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            public Handler(DataContext context)
             {
-                _photoAccessor = photoAccessor;
                 _context = context;
             }
 
@@ -31,21 +28,19 @@ namespace Application.Properties
                 CancellationToken cancellationToken)
             {
                 // handler logic
-                var property = await _context.Properties.FindAsync(request.Id);
+                var transaction = await _context.Transactions.FindAsync(request.Id);
+
+                if(transaction == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {transaction = "Not Found"});
+
+                var property = await _context.Properties.FindAsync(transaction.Property.Id);
 
                 if(property == null)
                     throw new RestException(HttpStatusCode.NotFound, new {property = "Not Found"});
                 
-                if (property.Image != null) 
-                {
-                    var image = await _context.Photos.FindAsync(property.Image.Id);
-
-                    var result = _photoAccessor.DeletePhoto(property.Image.Id);
-
-                    _context.Remove(image);
-                }
-
-                _context.Remove(property);
+                property.Status = "Available";
+                
+                _context.Remove(transaction);
                 
                 var success = await _context.SaveChangesAsync() > 0;
 

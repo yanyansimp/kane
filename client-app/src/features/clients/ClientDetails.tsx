@@ -27,7 +27,7 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadClient, client, getIsDocsComplete, isDocExists } =
+  const { loadClient, deleteClient, client, getIsDocsComplete, isDocExists } =
     rootStore.reservationStore;
 
   useEffect(() => {
@@ -55,13 +55,15 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
                       <Dropdown.Item
                         as={Link}
                         to={`/editClient/${client?.id}`}
-                        text="Edit"
+                        text="Edit Client Information"
                         icon="edit outline"
                       />
                       <Dropdown.Item
-                        text="Delete"
+                        text="Delete Client"
                         icon="user delete"
-                        disabled
+                        onClick={() => 
+                          deleteClient(match.params.id)
+                        }
                       />
                     </Dropdown.Menu>
                   </Dropdown>
@@ -102,6 +104,8 @@ export const ClientDetails: React.FC<RouteComponentProps<DetailParams>> = ({
             size="small"
             icon="home"
             content="Add Property"
+            as={Link}
+            to={`/addReservation/${client?.id}`}
           />
         </Segment>
         <Segment basic>

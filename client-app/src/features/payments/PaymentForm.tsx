@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Form, Grid, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Search, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators } from 'revalidate';
 import DateInput from '../../app/common/form/DateInput';
@@ -9,6 +9,13 @@ import { PaymentFormValues } from '../../app/models/payment';
 import { v4 as uuid } from 'uuid';
 import RadioInput from '../../app/common/form/RadioInput';
 import { observer } from 'mobx-react-lite';
+import SearchInput from '../../app/common/form/SearchInput';
+import SelectInput from '../../app/common/form/SelectInput';
+import { RouteComponentProps } from 'react-router-dom';
+
+interface DetailParams {
+  id: string;
+}
 
 const validate = combineValidators({
   // TransactionType: isRequired('Transaction'),
@@ -24,91 +31,195 @@ const validate = combineValidators({
   // Amount:isRequired('Amount'),
 });
 
+const intitialState = {
+  isLoading: false,
+  results: [],
+  value: ""
+};
 
-const PaymentForm = () => {
+const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
+  match,
+  history
+}) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadTransactionTypes,  transactionTypeRegistry} = rootStore.transactionTypeStore;
-  const { roleRegistry, user } = rootStore.userStore
-  const { createPayment, submitting, loading } = rootStore.paymentStore;
-  const [payment, settransactionType] = useState(new PaymentFormValues());
-  // const [loading, setLoading] = useState(false);
-  const [disable, setDisable] = React.useState(true);
+
+  const { loadTransactionTypes, transactionTypeRegistry } = rootStore.transactionTypeStore;
+  const { roleRegistry, user } = rootStore.userStore;
+
+  const { createPayment, editPayment, loadPayment, submitting } = rootStore.paymentStore;
+  const {
+    searchClient,
+    loadClientProperties,
+    searchResults,
+    loadingSearch,
+    clientProperties,
+  } = rootStore.reservationStore;
+  
+  const [payment, setPayment] = useState(new PaymentFormValues());
+  const [loading, setLoading] = useState(false);
+  const [disable, setDisable] = useState(true);
 
   const handleFinalFormSubmit = (values: any) => {
     const { ...payment } = values;
-    let newPayment = {
-      id: uuid(), 
-      ...payment,
-    };
-    // console.log(newPayment);
-    createPayment(newPayment);
+
+    if (!payment.id) {
+       let newPayment = {
+         ...payment,
+         id: uuid()
+       };
+       //console.log(newPayment);
+       createPayment(newPayment);
+    } else {
+      console.log(values);
+      editPayment(values);
+    }
+   
   };
 
-  const timeElapsed = Date.now();
-  const today = new Date(timeElapsed);
+  const handleSearchChange = (keyword: any) => {
+    if (keyword !== '') {
+      searchClient(keyword);
+    }
+    // console.log(keyword);
+  };
+
+  const handleResultSelect = (clientid: any) => {
+    loadClientProperties(clientid);
+    // console.log(clientid);
+  };
+
+  // const timeElapsed = Date.now();
+  // const today = new Date(timeElapsed);
 
   useEffect(() => {
-    loadTransactionTypes()
-  }, [loadTransactionTypes]);
+    if (match.params.id) {
+      setLoading(true);
+      loadPayment(match.params.id)
+        .then(payment => setPayment(new PaymentFormValues(payment)))
+        .finally(() => setLoading(false));
+      }
+
+    loadTransactionTypes();
+  }, [loadTransactionTypes, match.params.id]);
 
   return (
     <Grid>
       <Grid.Column width={12}>
-        <h2>New Payment</h2>
+        {match.params.id ? (
+          <h2>Edit Payment - {`#${payment.sequenceNo}`}</h2>
+        ) : (
+          <h2>New Payment</h2>
+        )}
 
         <FinalForm
           validate={validate}
+          initialValues={payment}
           onSubmit={handleFinalFormSubmit}
           render={({ handleSubmit, invalid, pristine }) => (
             <Form onSubmit={handleSubmit} loading={loading}>
+              {!match.params.id && (
+                <Segment>
+                  <Search
+                    onResultSelect={(e, { result }) =>
+                      handleResultSelect(result.id)
+                    }
+                    onSearchChange={(e, data) => handleSearchChange(data.value)}
+                    results={searchResults}
+                    loading={loadingSearch}
+                    placeholder="Search..."
+                    size="large"
+                  />
+                  <Form.Group>
+                    {/* <Field
+                      basic
+                      width={8}
+                      name="clientName"
+                      label="Client Name"
+                      placeholder="Client Name"
+                      value={payment.oRNumber}
+                      component={TextInput}
+                    /> */}
+                    {/* <Field
+                      basic
+                      width={8}
+                      name="clientName"
+                      placeholder="Search..."
+                      label="Client Name"
+                      results={roleRegistry}
+                      component={SearchInput}
+                      onSearchChange={(e: any, { result }: any) => a(result.id)}
+                    /> */}
+
+                    {/* <Field
+                      width={8}
+                      name="property"
+                      label="Property"
+                      placeholder="Property"
+                      // value={payment.ORNumber}
+                      component={TextInput}
+                    /> */}
+
+                    {/* <Field
+                      width={8}
+                      name="property"
+                      label="Property"
+                      placeholder="Property"
+                      options={clientProperties}
+                      // value={payment.ORNumber}
+                      component={SelectInput}
+                    /> */}
+                  </Form.Group>
+                  <Form.Group>
+                    {/* <Field
+                      fluid
+                      width={8}
+                      name="transactionSequenceNo"
+                      label="Transaction No."
+                      placeholder="Transaction Number"
+                      component={TextInput}
+                    /> */}
+                    <Field
+                      width={8}
+                      date={true}
+                      name="dateOfPayment"
+                      label="Date of Payment"
+                      // placeholder={today.toLocaleDateString()}
+                      placeholder="MM/DD/YYYY"
+                      // value={payment.dateOfPayment}
+                      component={DateInput}
+                    />
+                    <Field
+                      width={8}
+                      name="transactionSequenceNo"
+                      label="Property"
+                      placeholder="Property"
+                      options={clientProperties}
+                      //value={payment.oRNumber}
+                      component={SelectInput}
+                    />
+                  </Form.Group>
+                </Segment>
+              )}
+
               <Segment>
-                <Form.Group fluid>
-                  <Field
-                    basic
-                    width={8}
-                    name="clientName"
-                    label="Client Name"
-                    placeholder="Client Name"
-                    // value={payment.oRNumber}
-                    component={TextInput}
-                  />
-                  <Field
-                    width={8}
-                    name="property"
-                    label="Property"
-                    placeholder="Property"
-                    // value={payment.ORNumber}
-                    component={TextInput}
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Field
-                    fluid
-                    width={8}
-                    name="transactionSequenceNo"
-                    label="Transaction No."
-                    placeholder="Transaction Number"
-                    component={TextInput}
-                  />
+                {match.params.id && (
                   <Field
                     width={8}
                     date={true}
                     name="dateOfPayment"
                     label="Date of Payment"
-                    placeholder={today.toLocaleDateString()}
-                    value={payment.dateOfPayment}
+                    // placeholder={today.toLocaleDateString()}
+                    placeholder="MM/DD/YYYY"
+                    // value={payment.dateOfPayment}
                     component={DateInput}
                   />
-                </Form.Group>
-              </Segment>
-
-              <Segment>
+                )}
                 <Form.Group>
                   <Field
                     width={8}
                     name="orNumber"
-                    label="ER Number"
-                    placeholder="ER Number"
+                    label="AR Number"
+                    placeholder="AR Number"
                     value={payment.oRNumber}
                     component={TextInput}
                   />
@@ -121,7 +232,30 @@ const PaymentForm = () => {
                     component={TextInput}
                   />
                 </Form.Group>
-                <h4>Mode of Payment:</h4>
+
+                <Header as="h4">Type of Payment:</Header>
+                <Form.Group>
+                  <Field
+                    name="typeOfPayment"
+                    label="Reservation"
+                    type="radio"
+                    value="Reservation"
+                    id="Reservation"
+                    onClick={() => setDisable(true)}
+                    component={RadioInput}
+                  />
+                  <Field
+                    name="typeOfPayment"
+                    label="Amortization"
+                    type="radio"
+                    value="Amortization"
+                    id="Amortization"
+                    onClick={() => setDisable(false)}
+                    component={RadioInput}
+                  />
+                </Form.Group>
+
+                <Header as="h4">Mode of Payment:</Header>
                 <Form.Group>
                   <Field
                     name="modeOfPayment"
@@ -142,6 +276,49 @@ const PaymentForm = () => {
                     component={RadioInput}
                   />
                 </Form.Group>
+
+                {/* <h4>Mode of Payment:</h4>
+                <Field
+                  name="typeOfPayment"
+                  label="Reservation"
+                  type="radio"
+                  value="Reservation"
+                  id="Reservation"
+                  onClick={() => setDisable(true)}
+                  component={RadioInput}
+                />
+                <Field
+                  name="typeOfPayment"
+                  label="Amortization"
+                  type="radio"
+                  value="Amortization"
+                  id="Amortization"
+                  onClick={() => setDisable(false)}
+                  component={RadioInput}
+                /> */}
+
+                {/* <Form.Group>
+                  <h4>Mode of Payment:</h4>
+                  <Field
+                    name="modeOfPayment"
+                    label="Cash"
+                    type="radio"
+                    value="Cash"
+                    id="Cash"
+                    onClick={() => setDisable(true)}
+                    component={RadioInput}
+                  />
+                  <Field
+                    name="modeOfPayment"
+                    label="Cheque"
+                    type="radio"
+                    value="Cheque"
+                    id="Cheque"
+                    onClick={() => setDisable(false)}
+                    component={RadioInput}
+                  />
+                </Form.Group> */}
+
                 <Form.Group>
                   <Field
                     disabled={disable}
@@ -197,6 +374,6 @@ const PaymentForm = () => {
       </Grid.Column>
     </Grid>
   );
-}
+};
 
 export default observer(PaymentForm);

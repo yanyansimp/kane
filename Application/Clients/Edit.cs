@@ -188,10 +188,11 @@ namespace Application.Clients
                 {
                     var clientDocs = client.Documents;
 
-                    // foreach (var item in clientDocs)
-                    // {
-                    //     client.Documents.Remove(item);
-                    // }
+                    foreach (var item in clientDocs)
+                    {
+
+                        _context.Remove(item);
+                    }
 
                     var docs = new List<Document>();
 
@@ -205,7 +206,7 @@ namespace Application.Clients
                         });
                     }
 
-                    // client.Documents = docs;
+                    client.Documents = docs;
                 }
 
                 client.UpdatedAt = DateTime.Now;

@@ -4,6 +4,7 @@ export interface IPayment {
   orNumber: string;
   amount: number | any;
   modeOfPayment: string;
+  typeOfPayment: string;
   dateOfPayment?: Date;
   checkNo: string;
   bankName: string;
@@ -15,11 +16,12 @@ export interface IPaymentFormValues extends Partial<IPayment> {}
 
 export class PaymentFormValues implements IPaymentFormValues {
   id?: string = '';
-  transactionSequenceNo: string = '';
+  sequenceNo: string = '';
   dateOfPayment?: Date = undefined;
   oRNumber: string = '';
   amount: string = '';
   modeOfPayment: string = '';
+  typeOfPayment: string = '';
   checkNo: string = '';
   bankName: string = '';
   branch: string = '';
@@ -41,6 +43,7 @@ export interface IPaymentFormValues {
   dateOfPayment?: Date;
   oRNumber: string;
   amount: string;
+  typeOfPayment: string;
   modeOfPayment: string;
   checkNo: string;
   bankName: string;

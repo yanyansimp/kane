@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
-import { Table, Segment, Loader, Transition, Input } from 'semantic-ui-react';
+import { Table, Segment, Loader, Transition, Input, Header } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ReservationListItem from './ReservationListItem';
 
@@ -15,6 +15,7 @@ const ReservationList = () => {
 
   return (
     <Segment>
+      <Loader active={loadingInitial} inline size="tiny" floated="right" />
       <Table selectable basic="very">
         <Table.Header>
           <Table.Row>
@@ -23,6 +24,7 @@ const ReservationList = () => {
             <Table.HeaderCell>Contact Number</Table.HeaderCell>
             <Table.HeaderCell>Civil Status</Table.HeaderCell>
             <Table.HeaderCell>Employment</Table.HeaderCell>
+            <Table.HeaderCell>Property Type</Table.HeaderCell>
             <Table.HeaderCell>Property</Table.HeaderCell>
             <Table.HeaderCell>Terms</Table.HeaderCell>
             <Table.HeaderCell>Contact Price</Table.HeaderCell>
@@ -30,7 +32,7 @@ const ReservationList = () => {
             <Table.HeaderCell>Documents</Table.HeaderCell>
             <Table.HeaderCell>Tran. Status</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
-            <Loader active={loadingInitial} inline size="tiny" />
+            {/* <Loader active={loadingInitial} inline size="tiny" /> */}
           </Table.Row>
         </Table.Header>
 
@@ -38,7 +40,7 @@ const ReservationList = () => {
           {reservationRegistry?.map((client) =>
             client.transactions?.map((transaction) => (
               <ReservationListItem
-                key={client.id}
+                key={transaction.id}
                 client={client}
                 transaction={transaction}
                 docs={IsDocsComplete(client.documents!)}
@@ -47,6 +49,12 @@ const ReservationList = () => {
           )}
         </Table.Body>
       </Table>
+
+      {reservationRegistry?.length === 0 && !loadingInitial ? (
+        <Header as="h3" textAlign="center">
+          No Results Found
+        </Header>
+      ) : null}
     </Segment>
   );
 };

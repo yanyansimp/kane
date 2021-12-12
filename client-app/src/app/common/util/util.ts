@@ -7,6 +7,10 @@ export const toMoney = (m: any) => {
     return m?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
+export const toName = (lastname: string, firstname: string, middlename: string, suffix: string) => {
+  return `${lastname}, ${firstname} ${middlename ? middlename.charAt(0) + '.' : ''} ${suffix ? suffix : ''}`;
+}
+
 export const addZeroDate = (d: any) => {
   return d <= 9 ? '0'+d : d;
 };

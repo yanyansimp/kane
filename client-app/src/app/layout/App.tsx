@@ -28,11 +28,13 @@ import Payment from '../../features/payments/Payment';
 import ClientDetails from '../../features/clients/ClientDetails';
 import PrivateRoute from './PrivateRoute';
 import LandingPage from '../../features/home/LandingPage';
-import HomePageSample from '../../features/home/HomePageSample'
+import HomePageSample from '../../features/home/HomePageSample';
+// import Home from '../../features/homepage/Home'
 import LandingPageOfPropertyType from '../../features/home/LandingPageOfPropertyType';
 import EditClientForm from '../../features/clients/forms/EditClientForm';
 import ReservationDetails from '../../features/reservations/details/ReservationDetails';
 import Viewpropertyform from '../../features/property/Viewpropertyform';
+import AddPropertyForm from '../../features/reservations/forms/AddPropertyForm';
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
@@ -56,6 +58,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <ModalContainer />
       {/* <Route exact path="/" component={HomePage} /> */}
       <Route exact path="/" component={HomePageSample} />
+      {/* <Route exact path="/" component={Home} /> */}
+
       
       <ToastContainer position="bottom-right" />
       <Route
@@ -94,8 +98,14 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
                 <PrivateRoute
                   key={location.key}
-                  path={['/newReservation', '/editReservation/:id']}
+                  path={['/newReservation']}
                   component={ReservationForm}
+                />
+
+                <PrivateRoute
+                  key={location.key}
+                  path={['/addReservation/:clientId', '/editReservation/:clientId/transaction/:transactionId']}
+                  component={AddPropertyForm}
                 />
 
                 <PrivateRoute 
@@ -104,11 +114,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   component={EditClientForm}
                 />
 
-                <PrivateRoute
+                {/* <PrivateRoute
                   key={location.key}
                   path={['/newReservation', '/editReservation/:id']}
                   component={ReservationForm}
-                />
+                /> */}
 
                 <PrivateRoute
                   key={location.key}

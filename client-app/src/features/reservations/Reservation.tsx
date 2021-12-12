@@ -1,7 +1,8 @@
+import { AnyARecord } from 'dns';
 import { observer } from 'mobx-react-lite';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Grid, Header, Icon, Input, Segment } from 'semantic-ui-react';
 import { IClient } from '../../app/models/client';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ReservationForm from './forms/ReservationForm';
@@ -12,11 +13,28 @@ export const Reservation: React.FC = () => {
   const {
     newReservationView,
     setNewReservationView,
+    searchReservations
   } = rootStore.reservationStore;
 
   useEffect(() => {
     setNewReservationView(false);
   }, [setNewReservationView]);
+
+  const [keyWord, setKeyWord] = useState("");
+
+  const handleSearch = (word: string) => {
+    if (word !== "") {
+      setKeyWord(word);
+    } else {
+      searchReservations(word);
+    }
+  }
+
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.keyCode === 13) {
+      searchReservations(keyWord);
+    }
+  };
 
   return (
     <Grid>
@@ -37,6 +55,17 @@ export const Reservation: React.FC = () => {
                 // onClick={() => setNewReservationView(true)}
               />
             </Segment>
+
+            <Input
+              basic
+              action={{
+                icon: 'search',
+                onClick: () => searchReservations(keyWord),
+              }}
+              placeholder="Search..."
+              onChange={(e, data) => handleSearch(data.value)}
+              onKeyDown={keyDownHandler}
+            />
 
             <ReservationList />
           </Fragment>

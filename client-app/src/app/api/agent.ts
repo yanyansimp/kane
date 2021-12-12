@@ -49,10 +49,18 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
     new Promise<AxiosResponse>(resolve => setTimeout(() => resolve(response), ms));
 
 const requests = {
-  get: (url: string) => axios.get(url).then(sleep(1000)).then(responseBody),
-  post: (url: string, body: {}) => axios.post(url, body).then(sleep(1000)).then(responseBody),
-  put: (url: string, body: {}) => axios.put(url, body).then(sleep(1000)).then(responseBody),
-  del: (url: string) => axios.delete(url).then(sleep(1000)).then(responseBody),
+  get: (url: string) => axios.get(url)
+    // .then(sleep(1000))
+    .then(responseBody),
+  post: (url: string, body: {}) => axios.post(url, body)
+    // .then(sleep(1000))
+    .then(responseBody),
+  put: (url: string, body: {}) => axios.put(url, body)
+    // .then(sleep(1000))
+    .then(responseBody),
+  del: (url: string) => axios.delete(url)
+    // .then(sleep(1000))
+    .then(responseBody),
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
     formData.append('File', file);
@@ -68,7 +76,10 @@ const TransactionTypes ={
 };
 
 const Payments = {
+  details: (id: string) => requests.get(`/payments/${id}`),
   create: (payment: IPaymentFormValues) => requests.post('/payments', payment),
+  update: (payment: IPaymentFormValues) =>
+    requests.put(`/payments/${payment.id}`, payment),
 };
 
 const PropertyTypes = {
@@ -126,13 +137,20 @@ const Clients = {
   create: (client: IClient) => requests.post('/clients', client),
   update: (client: IClient) => 
     requests.put(`/clients/${client.id}`, client),
+  search: (keyWord: string): Promise<IClient[]> => requests.get(`/clients?keyWord=${keyWord}`),
+  delete: (id: string) => 
+    requests.del(`/clients/${id}`)
 };
 
 const Transactions = {
   create: (transaction: ITransactionValues) =>
     requests.post('/transactions', transaction),
+  update: (transaction: ITransactionValues | any) => 
+    requests.put(`/transactions/${transaction.clientId}`, transaction),
   details: (clientId: string, transactionId: string) =>
     requests.get(`/transactions/${clientId}/${transactionId}`),
+  delete: (transactionId: string) =>
+    requests.del(`/transactions/${transactionId}`)
 };
 
 

@@ -38,6 +38,10 @@ namespace Application.Clients
             public async Task<List<Client>> Handle(Query request,
                 CancellationToken cancellationToken)
             {
+
+                // var q = await ( from client in _context.Clients
+                //     join )
+
                 var queryable = _context.Clients
                     // .OrderByDescending(x => x.Transactions.FirstOrDefault().SequenceNo)
                     .OrderByDescending(x => x.Transactions.Select(t => t.SequenceNo).FirstOrDefault())
@@ -46,9 +50,17 @@ namespace Application.Clients
                     .AsQueryable();
                     // .Reverse();
 
+                if (request.KeyWord != null)
+                {
+                    queryable = queryable.Where(x =>
+                        x.LastName.Contains(request.KeyWord) ||
+                        x.FirstName.Contains(request.KeyWord) ||
+                        x.MiddleName.Contains(request.KeyWord));
+                }
+
                 var clients = await queryable
                     // .Skip(Math.Max(0, queryable.Count() - 5)).Take(5)
-                    // .Take(10)
+                    // .Take(50)
                     .ToListAsync();
 
                 if (clients == null)

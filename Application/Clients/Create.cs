@@ -126,7 +126,7 @@ namespace Application.Clients
                     FirstName = request.FirstName,
                     MiddleName = request.MiddleName,
                     Suffix = request.Suffix,
-                    BirthDate = request.BirthDate,
+                    BirthDate = request.BirthDate.AddDays(1),
                     Gender = request.Gender,
                     CivilStatus = request.CivilStatus,
                     Religion = request.Religion,
@@ -204,7 +204,7 @@ namespace Application.Clients
                         Property = property,
                         SalesAgentId = request.SalesAgentId,
                         SalesManagerId = request.SalesManagerId,
-                        CreatedAt = request.CreatedAt // Temporary
+                        CreatedAt = request.CreatedAt.AddDays(1) // Temporary
                     };
 
                     property.Status = "Reserved";
