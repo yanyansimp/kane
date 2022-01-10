@@ -55,6 +55,7 @@ export interface ITransactionValues extends Partial<ITransaction>{
 
 export class TransactionFormValues implements ITransactionValues {
   id?: string = undefined;
+  propertyTypeName: string = '';
   sequenceNo: string = '';
   clientName: string = '';
   property?: IProperty = undefined;

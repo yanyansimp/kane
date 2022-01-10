@@ -24,7 +24,7 @@ const ReservationList = () => {
             <Table.HeaderCell>Contact Number</Table.HeaderCell>
             <Table.HeaderCell>Civil Status</Table.HeaderCell>
             <Table.HeaderCell>Employment</Table.HeaderCell>
-            <Table.HeaderCell>Property Type</Table.HeaderCell>
+            {/* <Table.HeaderCell>Property Type</Table.HeaderCell> */}
             <Table.HeaderCell>Property</Table.HeaderCell>
             <Table.HeaderCell>Terms</Table.HeaderCell>
             <Table.HeaderCell>Contact Price</Table.HeaderCell>

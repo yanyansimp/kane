@@ -80,6 +80,7 @@ const Payments = {
   create: (payment: IPaymentFormValues) => requests.post('/payments', payment),
   update: (payment: IPaymentFormValues) =>
     requests.put(`/payments/${payment.id}`, payment),
+  delete: (id: string) => requests.del(`/payments/${id}`)
 };
 
 const PropertyTypes = {

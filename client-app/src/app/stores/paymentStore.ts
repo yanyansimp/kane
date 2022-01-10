@@ -23,6 +23,10 @@ export default class PaymentStore {
     return this.paymentRegistry;
   }
 
+  //
+  
+  //
+
   @action searchPayments = async (keyword: string) => {
     this.loadingInitial = true;
     this.loadingSearch = true;
@@ -91,14 +95,13 @@ export default class PaymentStore {
       });
       console.log(payment);
       return payment;
-    } 
-    catch (error) {
+    } catch (error) {
       runInAction(() => {
         this.loadingInitial = false;
       });
       console.log(error);
     }
-  }
+  };
 
   @action createPayment = async (payment: IPaymentFormValues) => {
     this.submitting = true;
@@ -122,7 +125,6 @@ export default class PaymentStore {
   @action editPayment = async (payment: IPaymentFormValues) => {
     this.submitting = true;
     try {
-      console.log(payment);
       await agent.Payments.update(payment);
       runInAction('Updating payment', () => {
         this.submitting = false;
@@ -135,6 +137,25 @@ export default class PaymentStore {
       });
       toast.error('Error updating payment');
       console.log(error);
+    }
+  };
+
+  @action deletePayment = async (id: string) => {
+    this.submitting = true;
+    try {
+      await agent.Payments.delete(id);
+      runInAction('Deleting payment', () => {
+        this.submitting = false;
+        document.location.reload();
+        // history.push('/payment');
+      });
+      toast.success('Payment successfully deleted');
+    } catch (error) {
+      runInAction('Error updating payment', () => {
+        this.submitting = false;
+      });
+      toast.error('Error deleting payment');
+      //console.log(error);
     }
   };
 }

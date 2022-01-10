@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { render } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Table, Label, Button, Popup } from 'semantic-ui-react';
@@ -7,6 +7,8 @@ import { setStatusColor, toMoney } from '../../app/common/util/util';
 import { IClient } from '../../app/models/client';
 import { IPayment } from '../../app/models/payment';
 import { ITransaction } from '../../app/models/transaction';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import PaymentDeleteConfirm from './modal/PaymentDeleteConfirm';
 
 const PaymentListItem: React.FC<{ 
   client: IClient,
@@ -18,6 +20,8 @@ const PaymentListItem: React.FC<{
   transaction
 }) => {
   // const transaction = client.transactions[0];
+  const rootStore = useContext(RootStoreContext);
+  const { openModal } = rootStore.modalStore;
 
   return (
     // <Fragment>
@@ -109,6 +113,18 @@ const PaymentListItem: React.FC<{
             />
           }
           content="Edit"
+          on={['hover']}
+        />
+        <Popup
+          trigger={
+            <Button
+              circular
+              icon="remove"
+              size="tiny"
+              onClick={() => openModal(<PaymentDeleteConfirm id={payment.id} />)}
+            />
+          }
+          content="Delete"
           on={['hover']}
         />
       </Table.Cell>

@@ -63,7 +63,7 @@ namespace Application.Payments
                     request.DateOfPayment : payment.DateOfPayment;
                 payment.CheckNo = request.CheckNo ?? payment.CheckNo;
                 payment.BankName = request.BankName ?? payment.BankName;
-                payment.Branch = request.Branch ?? payment.Branch;
+                payment.Branch = request.Branch;
                 payment.Amount = request.Amount > -1 ? request.Amount : payment.Amount;
                 payment.UpdatedAt = DateTime.Now;
 

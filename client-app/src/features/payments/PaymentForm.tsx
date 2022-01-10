@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Grid, Header, Search, Segment } from 'semantic-ui-react'
 import { Form as FinalForm, Field } from 'react-final-form';
-import { combineValidators } from 'revalidate';
+import { combineValidators, isRequired } from 'revalidate';
 import DateInput from '../../app/common/form/DateInput';
 import TextInput from '../../app/common/form/TextInput'
 import { RootStoreContext } from '../../app/stores/rootStore';
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 import SearchInput from '../../app/common/form/SearchInput';
 import SelectInput from '../../app/common/form/SelectInput';
 import { RouteComponentProps } from 'react-router-dom';
+import { OnChange } from 'react-final-form-listeners';
 
 interface DetailParams {
   id: string;
@@ -20,12 +21,11 @@ interface DetailParams {
 const validate = combineValidators({
   // TransactionType: isRequired('Transaction'),
   // ReceivedFrom:isRequired('Receiver'),
-  // DateOfPayment:isRequired('Date Of Payment'),
-  // AccountNo:isRequired('Account No'),
-  // Address:isRequired('Address'),
-  // MobileNo:isRequired('Mobile No'),
-  // CheckNo:isRequired('CheckNo No'),
-  // BankName:isRequired('Bank'),
+  // dateOfPayment: isRequired('Date of Payment'),
+  // transactionSequenceNo: isRequired('Transaction'),
+  // orNumber: isRequired('A.R Number'),
+  // amount: isRequired('Amount'),
+  // bankName:isRequired('Bank/Type/Mode of Payment'),
   // Branch:isRequired('Branch'),
   // InPaymentOf:isRequired('Payment'),
   // Amount:isRequired('Amount'),
@@ -56,6 +56,7 @@ const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
   } = rootStore.reservationStore;
   
   const [payment, setPayment] = useState(new PaymentFormValues());
+  const [paymentMode, setPaymentMode] = useState("");
   const [loading, setLoading] = useState(false);
   const [disable, setDisable] = useState(true);
 
@@ -67,10 +68,8 @@ const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
          ...payment,
          id: uuid()
        };
-       //console.log(newPayment);
        createPayment(newPayment);
     } else {
-      console.log(values);
       editPayment(values);
     }
    
@@ -80,12 +79,10 @@ const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
     if (keyword !== '') {
       searchClient(keyword);
     }
-    // console.log(keyword);
   };
 
   const handleResultSelect = (clientid: any) => {
     loadClientProperties(clientid);
-    // console.log(clientid);
   };
 
   // const timeElapsed = Date.now();
@@ -272,9 +269,23 @@ const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     type="radio"
                     value="Cheque"
                     id="Cheque"
+                    onClick={() => setPaymentMode('Cheque')}
+                    component={RadioInput}
+                  />
+                  <Field
+                    name="modeOfPayment"
+                    label="Online Transfer(Gcash, Paymaya, Paypal, Online Banking)"
+                    type="radio"
+                    value="Online Transfer"
+                    id="Online Transfer"
                     onClick={() => setDisable(false)}
                     component={RadioInput}
                   />
+                  <OnChange name="modeOfPayment">
+                    {(value: any, previous: any) => {
+                      setPaymentMode(value);
+                    }}
+                  </OnChange>
                 </Form.Group>
 
                 {/* <h4>Mode of Payment:</h4>
@@ -319,26 +330,42 @@ const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   />
                 </Form.Group> */}
 
-                <Form.Group>
-                  <Field
-                    disabled={disable}
-                    width={8}
-                    name="bankName"
-                    label="Bank Name"
-                    placeholder="Bank Name"
-                    value={payment.bankName}
-                    component={TextInput}
-                  />
-                  <Field
-                    disabled={disable}
-                    width={8}
-                    name="branch"
-                    label="Branch"
-                    placeholder="Branch"
-                    value={payment.branch}
-                    component={TextInput}
-                  />
-                </Form.Group>
+                {paymentMode === 'Cheque' && (
+                  <Form.Group>
+                    <Field
+                      disabled={disable}
+                      width={8}
+                      name="bankName"
+                      label="Bank Name"
+                      placeholder="Bank Name"
+                      value={payment.bankName}
+                      component={TextInput}
+                    />
+                    <Field
+                      disabled={disable}
+                      width={8}
+                      name="branch"
+                      label="Branch"
+                      placeholder="Branch"
+                      value={payment.branch}
+                      component={TextInput}
+                    />
+                  </Form.Group>
+                )}
+
+                {paymentMode === 'Online Transfer' && (
+                  <Form.Group>
+                    <Field
+                      disabled={disable}
+                      width={8}
+                      name="bankName"
+                      label="Payment Mode"
+                      placeholder="Payment Mode"
+                      value={payment.bankName}
+                      component={TextInput}
+                    />
+                  </Form.Group>
+                )}
               </Segment>
 
               {/* <Form.Group>

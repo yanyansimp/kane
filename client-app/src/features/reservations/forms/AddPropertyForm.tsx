@@ -122,6 +122,7 @@ const AddPropertyForm: React.FC<RouteComponentProps<DetailParams>> = ({
       {match.params.transactionId && match.params.clientId ? (
         <h2>
           {transaction?.clientName}(#{transaction?.sequenceNo}-
+          {transaction?.propertyTypeName}{' '}
           {transaction?.property?.name})
         </h2>
       ) : (

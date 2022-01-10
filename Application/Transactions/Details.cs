@@ -35,10 +35,13 @@ namespace Application.Transactions
 
                 var salesAgent = await _context.Users.FirstOrDefaultAsync(sa => sa.Id == transaction.SalesAgentId.ToString("D"));
 
+                var propertytype = await _context.PropertyTypes.FirstOrDefaultAsync(
+                        x => x.Properties.Any(p => p.Id == transaction.Property.Id)
+                    );
+
                 var transactionDto = new TransactionDto
                 {
                     Id = transaction.Id,
-                    PropertyTypeName = "", // To be Added
                     ClientName = $"{client.FirstName} {client.LastName} {client.Suffix}",
                     SequenceNo = transaction.SequenceNo,
                     ContractPrice = transaction.ContractPrice,
@@ -49,6 +52,7 @@ namespace Application.Transactions
                     CreatedAt = transaction.CreatedAt,
 
                     Property = transaction.Property,
+                    PropertyTypeName = propertytype.Name,
                     Payments = transaction.Payments,
 
                     SalesManager = salesManager != null ? new SalesManagerDto {

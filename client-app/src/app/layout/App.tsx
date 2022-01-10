@@ -35,6 +35,7 @@ import EditClientForm from '../../features/clients/forms/EditClientForm';
 import ReservationDetails from '../../features/reservations/details/ReservationDetails';
 import Viewpropertyform from '../../features/property/Viewpropertyform';
 import AddPropertyForm from '../../features/reservations/forms/AddPropertyForm';
+import Landing from '../../features/landing/Landing';
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
@@ -57,7 +58,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     <Fragment>
       <ModalContainer />
       {/* <Route exact path="/" component={HomePage} /> */}
-      <Route exact path="/" component={HomePageSample} />
+      {/* <Route exact path="/" component={HomePageSample} /> */}
+      <Route exact path="/" component={Landing} />
       {/* <Route exact path="/" component={Home} /> */}
 
       

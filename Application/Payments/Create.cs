@@ -92,9 +92,9 @@ namespace Application.Payments
                     ORNumber = request.ORNumber,
                     TypeOfPayment = request.TypeOfPayment,
                     ModeOfPayment = request.ModeOfPayment,
-                    DateOfPayment = request.DateOfPayment.AddDays(1),
+                    DateOfPayment = request.DateOfPayment,
                     CheckNo = request.ModeOfPayment == "Cheque" ? request.CheckNo : "",
-                    BankName = request.ModeOfPayment == "Cheque" ? request.BankName : "",
+                    BankName = request.ModeOfPayment == "Cheque" || request.ModeOfPayment == "Online Transfer" ? request.BankName : "",
                     Branch = request.ModeOfPayment == "Cheque" ? request.Branch : "",
                     Amount = request.Amount,
                     CreatedAt = DateTime.Now

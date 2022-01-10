@@ -39,9 +39,9 @@ const ReservationListItem: React.FC<{ client: IClient, transaction: ITransaction
       <Table.Cell>
         <h4>{client.employment}</h4>
       </Table.Cell>
-      <Table.Cell>
-        <h4> </h4>
-      </Table.Cell>
+      {/* <Table.Cell>
+        <h4>{""}</h4>
+      </Table.Cell> */}
       <Table.Cell>
         <h4>{transaction.property?.name}</h4>
       </Table.Cell>
