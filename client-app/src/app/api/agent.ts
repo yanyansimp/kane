@@ -8,7 +8,7 @@ import { IPropertyType } from '../models/propertyType';
 import { IProperty } from '../models/Property';
 import { IRole } from '../models/role';
 import { ITransactionType, ITransactionTypeFormValues } from '../models/transactionType';
-import { IPayment, IPaymentFormValues } from '../models/payment';
+import { IPayment, IPaymentDto, IPaymentFormValues } from '../models/payment';
 import { IClient } from '../models/client';
 import { ITransaction, ITransactionValues } from '../models/transaction';
 import { ILandingPhoto } from '../models/landingPhoto'
@@ -29,6 +29,7 @@ axios.interceptors.response.use(undefined, (error) => {
   if (error.message === 'Network Error' && !error.response) {
     toast.error('Network error - make sure API is running!');
   }
+  // Add checking for internet connection
   const {status, data, config} = error.response;
   if (status === 404) {
     history.push('/notfound');
@@ -76,11 +77,14 @@ const TransactionTypes ={
 };
 
 const Payments = {
+  search: (keyWord: string): Promise<IPaymentDto[]> =>
+    requests.get(`/payments?keyWord=${keyWord}`),
+  list: (): Promise<IPaymentDto[]> => requests.get('/payments'),
   details: (id: string) => requests.get(`/payments/${id}`),
   create: (payment: IPaymentFormValues) => requests.post('/payments', payment),
   update: (payment: IPaymentFormValues) =>
     requests.put(`/payments/${payment.id}`, payment),
-  delete: (id: string) => requests.del(`/payments/${id}`)
+  delete: (id: string) => requests.del(`/payments/${id}`),
 };
 
 const PropertyTypes = {

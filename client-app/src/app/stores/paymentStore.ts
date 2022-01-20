@@ -1,6 +1,6 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IPayment, IPaymentFormValues } from '../models/payment';
+import { IPayment, IPaymentDto, IPaymentFormValues } from '../models/payment';
 import { RootStore } from './rootStore';
 import { history } from '../..';
 import { toast } from 'react-toastify';
@@ -18,37 +18,54 @@ export default class PaymentStore {
   @observable loadingInitial = false;
   @observable loadingSearch = false;
   @observable paymentRegistry: IClient[] | null = [];
+  @observable paymentRegistryNew: IPaymentDto[] | null = [];
 
   @computed get paymentByName() {
     return this.paymentRegistry;
   }
 
   //
-  
+
   //
+
+  // @action searchPayments = async (keyword: string) => {
+  //   this.loadingInitial = true;
+  //   this.loadingSearch = true;
+  //   try {
+  //     const reservations = await agent.Clients.search(keyword);
+
+  //     runInAction('loading client reservations', () => {
+  //       this.paymentRegistry = [];
+  //       reservations.forEach((client) => {
+  //         client.transactions.forEach((transaction) => {
+  //           let totalPayment = 0;
+  //           transaction.payments?.forEach((payment) => {
+  //             totalPayment += payment.amount;
+  //           });
+  //           transaction.balance = transaction.contractPrice - totalPayment;
+  //         });
+  //         this.paymentRegistry?.push(client);
+  //       });
+  //       this.loadingSearch = false;
+  //       this.loadingInitial = false;
+  //       // console.log(toJS(this.reservationRegistry));
+  //       // console.log(this.reservationRegistry?.length);
+  //     });
+  //   } catch (error) {
+  //     this.loadingSearch = false;
+  //     this.loadingInitial = false;
+  //   }
+  // };
 
   @action searchPayments = async (keyword: string) => {
     this.loadingInitial = true;
     this.loadingSearch = true;
     try {
-      const reservations = await agent.Clients.search(keyword);
-
-      runInAction('loading client reservations', () => {
-        this.paymentRegistry = [];
-        reservations.forEach((client) => {
-          client.transactions.forEach((transaction) => {
-            let totalPayment = 0;
-            transaction.payments?.forEach((payment) => {
-              totalPayment += payment.amount;
-            });
-            transaction.balance = transaction.contractPrice - totalPayment;
-          });
-          this.paymentRegistry?.push(client);
-        });
+      const payments = await agent.Payments.search(keyword);
+      runInAction('loading payment searches', () => {
+        this.paymentRegistryNew = payments;
         this.loadingSearch = false;
         this.loadingInitial = false;
-        // console.log(toJS(this.reservationRegistry));
-        // console.log(this.reservationRegistry?.length);
       });
     } catch (error) {
       this.loadingSearch = false;
@@ -78,6 +95,22 @@ export default class PaymentStore {
       });
     } catch (error) {
       runInAction('load client reservations error', () => {
+        this.loadingInitial = false;
+      });
+      console.log(error);
+    }
+  };
+
+  @action loadPaymentsNew = async () => {
+    this.loadingInitial = true;
+    try {
+      const payments = await agent.Payments.list();
+      runInAction('loading payments', () => {
+        this.paymentRegistryNew = payments;
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction('loading payments error', () => {
         this.loadingInitial = false;
       });
       console.log(error);

@@ -14,8 +14,8 @@ const ReservationList = () => {
    }, [loadReservations]);
 
   return (
-    <Segment>
-      <Loader active={loadingInitial} inline size="tiny" floated="right" />
+    <Segment loading={loadingInitial}>
+      {/* <Loader active={loadingInitial} inline size="tiny" floated="right" /> */}
       <Table selectable basic="very">
         <Table.Header>
           <Table.Row>
@@ -27,7 +27,7 @@ const ReservationList = () => {
             {/* <Table.HeaderCell>Property Type</Table.HeaderCell> */}
             <Table.HeaderCell>Property</Table.HeaderCell>
             <Table.HeaderCell>Terms</Table.HeaderCell>
-            <Table.HeaderCell>Contact Price</Table.HeaderCell>
+            <Table.HeaderCell>Contract Price</Table.HeaderCell>
             <Table.HeaderCell>Balance</Table.HeaderCell>
             <Table.HeaderCell>Documents</Table.HeaderCell>
             <Table.HeaderCell>Tran. Status</Table.HeaderCell>

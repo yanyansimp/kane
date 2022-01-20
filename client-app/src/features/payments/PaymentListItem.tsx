@@ -5,19 +5,15 @@ import { Link } from 'react-router-dom';
 import { Table, Label, Button, Popup } from 'semantic-ui-react';
 import { setStatusColor, toMoney } from '../../app/common/util/util';
 import { IClient } from '../../app/models/client';
-import { IPayment } from '../../app/models/payment';
+import { IPayment, IPaymentDto } from '../../app/models/payment';
 import { ITransaction } from '../../app/models/transaction';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import PaymentDeleteConfirm from './modal/PaymentDeleteConfirm';
 
 const PaymentListItem: React.FC<{ 
-  client: IClient,
-  payment: IPayment,
-  transaction: ITransaction 
+  payment: IPaymentDto,
 }> = ({ 
-  client,
-  payment,
-  transaction
+  payment
 }) => {
   // const transaction = client.transactions[0];
   const rootStore = useContext(RootStoreContext);
@@ -77,29 +73,23 @@ const PaymentListItem: React.FC<{
         </h4>
       </Table.Cell>
       <Table.Cell>
-        <h4>{payment.orNumber}</h4>
+        <h4>{payment.arNumber}</h4>
       </Table.Cell>
       <Table.Cell>
-        <h4>
-          {client.lastName}
-          {', '}
-          {client.firstName}{' '}
-          {client.middleName && client.middleName?.charAt(0) + '. '}
-          {client.suffix}
-        </h4>
+        <h4>{payment.name}</h4>
       </Table.Cell>
       <Table.Cell>
-        <h4>{transaction.property?.name}</h4>
+        <h4>{payment.propertyName}</h4>
       </Table.Cell>
       <Table.Cell textAlign="center">
-        {toMoney(transaction.contractPrice)}
+        {toMoney(payment.contractPrice)}
       </Table.Cell>
-      <Table.Cell textAlign="center">{toMoney(transaction.balance)}</Table.Cell>
-      <Table.Cell textAlign="center">{toMoney(payment.amount)}</Table.Cell>
-      <Table.Cell textAlign="center">{payment.typeOfPayment}</Table.Cell>
-      <Table.Cell textAlign="center">{payment.modeOfPayment}</Table.Cell>
+      <Table.Cell textAlign="center">{toMoney(payment.balance)}</Table.Cell>
+      <Table.Cell textAlign="center">{toMoney(payment.amountPaid)}</Table.Cell>
+      <Table.Cell textAlign="center">{payment.type}</Table.Cell>
+      <Table.Cell textAlign="center">{payment.mode}</Table.Cell>
       <Table.Cell textAlign="center">
-        {format(new Date(payment.dateOfPayment!), 'MMM dd, yyyy')}
+        {format(new Date(payment.date!), 'MMM dd, yyyy')}
       </Table.Cell>
       <Table.Cell>
         <Popup

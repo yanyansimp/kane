@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Clients;
+using Application.Clients.Dtos;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

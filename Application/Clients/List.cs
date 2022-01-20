@@ -60,7 +60,7 @@ namespace Application.Clients
 
                 var clients = await queryable
                     // .Skip(Math.Max(0, queryable.Count() - 5)).Take(5)
-                    // .Take(200)
+                    .Take(15)
                     .ToListAsync();
 
                 if (clients == null)

@@ -13,6 +13,7 @@ namespace Application.Clients.Dtos
         public string ContactNumber { get; set; }
         public string CivilStatus { get; set; }
         public string Employment { get; set; }
+        public string Document { get; set; }
 
         // public ICollection<Document> Documents { get; set; }
     }

@@ -12,6 +12,20 @@ export interface IPayment {
   createdAt: Date;
 }
 
+export interface IPaymentDto {
+  id: string;
+  sequenceNo?: string;
+  arNumber: string;
+  name: string;
+  propertyName: string;
+  contractPrice: number | any;
+  balance: number | any;
+  amountPaid: number | any;
+  type: string;
+  mode: string;
+  date?: Date;
+}
+
 export interface IPaymentFormValues extends Partial<IPayment> {}
 
 export class PaymentFormValues implements IPaymentFormValues {

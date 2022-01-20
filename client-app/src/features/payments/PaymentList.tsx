@@ -7,14 +7,18 @@ import PaymentListItem from './PaymentListItem';
 const PaymentList = () => {
 
     const rootStore = useContext(RootStoreContext);
-    const { loadPayments, paymentRegistry, loadingInitial } = rootStore.paymentStore;
+    const {
+      loadPaymentsNew,
+      paymentRegistryNew,
+      loadingInitial,
+    } = rootStore.paymentStore;
 
     useEffect(() => {
-      loadPayments();
-    }, [loadPayments]);
+      loadPaymentsNew();
+    }, [loadPaymentsNew]);
 
   return (
-    <Segment>
+    <Segment loading={loadingInitial}>
       <Table selectable basic="very">
         <Table.Header>
           <Table.Row>
@@ -22,7 +26,7 @@ const PaymentList = () => {
             <Table.HeaderCell>AR No.</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Property</Table.HeaderCell>
-            <Table.HeaderCell>Contact Price</Table.HeaderCell>
+            <Table.HeaderCell>Contract Price</Table.HeaderCell>
             <Table.HeaderCell>Balance</Table.HeaderCell>
             <Table.HeaderCell>Amount Paid</Table.HeaderCell>
             <Table.HeaderCell>Type</Table.HeaderCell>
@@ -33,22 +37,16 @@ const PaymentList = () => {
         </Table.Header>
 
         <Table.Body>
-          {paymentRegistry?.map((client) =>
-            client.transactions?.map((transaction) =>
-              transaction.payments?.map((payment) => (
-                <PaymentListItem
-                  key={payment.id}
-                  client={client}
-                  payment={payment}
-                  transaction={transaction}
-                />
-              ))
-            )
+          {paymentRegistryNew?.map((payment) =>
+            <PaymentListItem 
+              key={payment.id}
+              payment={payment}
+            />
           )}
         </Table.Body>
       </Table>
 
-      {paymentRegistry?.length === 0 && !loadingInitial ? (
+      {paymentRegistryNew?.length === 0 && !loadingInitial ? (
         <Header as="h3" textAlign="center">
           No Results Found
         </Header>

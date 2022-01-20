@@ -8,9 +8,7 @@ import PaymentList from './PaymentList';
 const Payment = () => {
 
   const rootStore = useContext(RootStoreContext);
-  const {
-    searchPayments
-  } = rootStore.paymentStore;
+  const {searchPayments} = rootStore.paymentStore;
 
   const [keyWord, setKeyWord] = useState("");
 

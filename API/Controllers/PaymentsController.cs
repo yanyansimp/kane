@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Payments;
+using Application.Payments.Dtos;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,12 @@ namespace API.Controllers
 {
     public class PaymentsController : BaseController
     {
+        [HttpGet]
+        public async Task<ActionResult<List<PaymentDto>>> List(string keyWord)
+        {
+            return await Mediator.Send(new List.Query(keyWord));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Payment>> Details(Guid id)
         {

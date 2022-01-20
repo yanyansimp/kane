@@ -17,7 +17,7 @@ const Calendar = () => {
     return (
       <Grid>
         <Grid.Column width={16}>
-          <Segment>
+          <Segment loading={loadingInitial}>
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
