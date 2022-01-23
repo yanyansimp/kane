@@ -23,7 +23,7 @@ export default class UserStore {
   @observable salesAgentRegistry: any[] = [];
 
   @observable role: IRole | null = null;
-  @observable roleRegistry: any = [];
+  @observable roleRegistry: IRole[] | any = [];
   @observable roleClaims: string[] | any = [];
 
   @computed get getRoles() {
@@ -55,6 +55,7 @@ export default class UserStore {
             key: role.id,
             text: role.name,
             value: role.name,
+            claims: role.roleClaims
           });
         });
       });

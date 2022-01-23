@@ -38,38 +38,20 @@ namespace Application.Payments
                 CancellationToken cancellationToken)
             {
 
-                // var payments = await _context.Payments
-                //     .AsNoTracking()
-                //     .ToListAsync();
-
+                
                 var clients = request.KeyWord != null ?
                     await _context.Clients
                         .Where(x => 
                             x.LastName.Contains(request.KeyWord) ||
                             x.FirstName.Contains(request.KeyWord) ||
-                            x.MiddleName.Contains(request.KeyWord)).ToListAsync() 
+                            x.MiddleName.Contains(request.KeyWord))
+                        .ToListAsync() 
                         :
                     await _context.Clients
+                        .OrderByDescending(x => x.CreatedAt)
+                        //.Take(15)
                         .ToListAsync();
 
-                // var payments = await (from payment in _context.Payments
-                //     join client in _context.Clients on payment.ClientId equals client.Id
-                //     select new PaymentDto 
-                //         {
-                //             Id = payment.Id
-                //         }
-                //     )
-                //     .AsNoTracking()
-                //     .ToListAsync();
-
-                // var payments = await clients.Transactions
-                //     .Select(p => p.Payments
-                    
-                //     ).ToListAsync();
-
-                // var payments = await clients
-                //     .Select(t => t.Transactions)
-                //     .ToListAsync();
 
                 List<PaymentDto> payments = new List<PaymentDto>();
 
@@ -109,10 +91,15 @@ namespace Application.Payments
                     }
                 }
                 
-                var p = payments
-                    .OrderByDescending(x => x.Date)
-                    .Take(15)
-                    .ToList();
+                var p = request.KeyWord != null ?
+                        payments
+                            .OrderByDescending(x => x.Date)
+                            .ToList()
+                            :
+                        payments
+                            .OrderByDescending(x => x.Date)
+                            .Take(15)
+                            .ToList();
 
                 return p;
             }

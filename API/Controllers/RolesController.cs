@@ -10,7 +10,7 @@ namespace API.Controllers
     public class RolesController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<IdentityRole>>> List()
+        public async Task<ActionResult<List<RoleDto>>> List()
         {
             return await Mediator.Send(new List.Query());
         }

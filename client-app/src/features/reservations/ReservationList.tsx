@@ -22,10 +22,10 @@ const ReservationList = () => {
             <Table.HeaderCell>Tran. No.</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Contact Number</Table.HeaderCell>
-            <Table.HeaderCell>Civil Status</Table.HeaderCell>
+            {/* <Table.HeaderCell>Civil Status</Table.HeaderCell> */}
             <Table.HeaderCell>Employment</Table.HeaderCell>
-            {/* <Table.HeaderCell>Property Type</Table.HeaderCell> */}
             <Table.HeaderCell>Property</Table.HeaderCell>
+            <Table.HeaderCell>Date of Transaction</Table.HeaderCell>
             <Table.HeaderCell>Terms</Table.HeaderCell>
             <Table.HeaderCell>Contract Price</Table.HeaderCell>
             <Table.HeaderCell>Balance</Table.HeaderCell>

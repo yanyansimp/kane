@@ -44,7 +44,8 @@ namespace Application.Clients
 
                 var queryable = _context.Clients
                     // .OrderByDescending(x => x.Transactions.FirstOrDefault().SequenceNo)
-                    .OrderByDescending(x => x.Transactions.Select(t => t.SequenceNo).FirstOrDefault())
+                    //.OrderByDescending(x => x.Transactions.Select(t => t.SequenceNo).FirstOrDefault())
+                    .OrderByDescending(x => x.Transactions.Select(t => t.CreatedAt).FirstOrDefault())
                     // .Take(10)
                     // .AsNoTracking()
                     .AsQueryable();
@@ -60,8 +61,25 @@ namespace Application.Clients
 
                 var clients = await queryable
                     // .Skip(Math.Max(0, queryable.Count() - 5)).Take(5)
-                    .Take(15)
+                    .Take(20)
                     .ToListAsync();
+
+                foreach (var client in clients)
+                {
+                    if (client.Transactions != null)
+                    {
+                        foreach (var transaction in client.Transactions)
+                        {
+                            var propertytype = await _context.PropertyTypes
+                                .FirstOrDefaultAsync(
+                                    x => x.Properties
+                                        .Any(pp => pp.Id == transaction.Property.Id)
+                                );
+
+                            transaction.Property.Name = $"{propertytype.Name} - { transaction.Property.Name}";
+                        }
+                    }
+                }
 
                 if (clients == null)
                     throw new RestException(HttpStatusCode.NotFound, new { person = "Not Found" });

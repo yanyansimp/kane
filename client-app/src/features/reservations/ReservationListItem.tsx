@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Label, Button, Transition, Popup } from 'semantic-ui-react';
@@ -33,17 +34,17 @@ const ReservationListItem: React.FC<{ client: IClient, transaction: ITransaction
       <Table.Cell>
         <h4>{client.contactNumber}</h4>
       </Table.Cell>
-      <Table.Cell>
+      {/* <Table.Cell>
         <h4>{client.civilStatus}</h4>
-      </Table.Cell>
+      </Table.Cell> */}
       <Table.Cell>
         <h4>{client.employment}</h4>
       </Table.Cell>
-      {/* <Table.Cell>
-        <h4>{""}</h4>
-      </Table.Cell> */}
       <Table.Cell>
         <h4>{transaction.property?.name}</h4>
+      </Table.Cell>
+      <Table.Cell>
+        {format(new Date(transaction.createdAt!), 'MMM dd, yyyy')}
       </Table.Cell>
       <Table.Cell>{transaction.terms}</Table.Cell>
       <Table.Cell>{toMoney(transaction.contractPrice)}</Table.Cell>

@@ -127,7 +127,7 @@ export default class ReservationStore {
         client.transactions.forEach((transaction: any) => {
           this.clientProperties.push({
             key: transaction.property.id,
-            text: `#${transaction.sequenceNo} - ${transaction.property.name}`,
+            text: `#${transaction.sequenceNo}  ${transaction.property.name}`,
             value: transaction.sequenceNo,
           });
         });

@@ -11,6 +11,10 @@ import {
   Button,
   Image,
   Checkbox,
+  Table,
+  Header,
+  Icon,
+  Label,
 } from 'semantic-ui-react';
 import DateInput from '../../app/common/form/DateInput';
 import TextInput from '../../app/common/form/TextInput';
@@ -31,7 +35,7 @@ const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loading, submitting, loadRoles, addRole, role, roleClaims, addClaim } =
+  const { loading, submitting, loadRoles, addRole, role, roleClaims, addClaim, roleRegistry } =
     rootStore.userStore;
 
   useEffect(() => {
@@ -52,9 +56,9 @@ const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
   };
 
   return (
-    <Grid>
+    <Grid stackable>
       <Grid.Column width={5}>
-        <h2>Add new role</h2>
+        <h2>Add Role</h2>
         <Segment clearing>
           <FinalForm
             validate={validate}
@@ -139,6 +143,52 @@ const AddRoleForm: React.FC<RouteComponentProps<DetailParams>> = ({
           {/* <pre>
             <h5>{JSON.stringify(role?.roleClaims, null, 2)}</h5>
           </pre> */}
+        </Segment>
+      </Grid.Column>
+
+      <Grid.Column width={10}>
+        <h2>List of Roles</h2>
+        <Segment>
+          <Table basic="very" celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Role Claims</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {/* <Table.Row>
+                <Table.Cell>
+                  <Header as="h4" image>
+                    <Header.Content>Administrator</Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>
+                  <Label color="green" horizontal>
+                    Dashboard
+                  </Label>
+                </Table.Cell>
+              </Table.Row> */}
+
+              {roleRegistry.map((role: any) => (
+                <Table.Row key={role.key}>
+                  <Table.Cell>
+                    <Header as="h4" image>
+                      <Header.Content>{role.text}</Header.Content>
+                    </Header>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {role.claims.map((claim: any) => (
+                      <Label color="green" horizontal>
+                        {claim}
+                      </Label>
+                    ))}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
         </Segment>
       </Grid.Column>
     </Grid>

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,20 @@ namespace Application.Clients
             public async Task<Client> Handle(Query request, CancellationToken cancellationToken)
             {
                 var client = await _context.Clients.FindAsync(request.Id);
+
+                if (client.Transactions != null)
+                {
+                    foreach (var transaction in client.Transactions)
+                    {
+                        var propertytype = _context.PropertyTypes
+                            .FirstOrDefault(
+                                x => x.Properties
+                                    .Any(pp => pp.Id == transaction.Property.Id)
+                            );
+
+                        transaction.Property.Name = $"{propertytype.Name} - { transaction.Property.Name}";
+                    }
+                }
 
                 if (client == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Client = "Not Found" });
