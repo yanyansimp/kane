@@ -70,14 +70,14 @@ export default class UserStore {
       await agent.Role.create(role);
       console.log(role);
       runInAction('creating role', () => {
-        this.roleRegistry.push({
-          key: role.id,
-          text: role.name,
-          value: role.name,
-        });
+        // this.roleRegistry.push({
+        //   key: role.id,
+        //   text: role.name,
+        //   value: role.name,
+        // });
         this.submitting = false;
       });
-      history.push('/user');
+      history.push('/role');
     } catch (error) {
       runInAction('creating role error', () => {
         this.submitting = false;

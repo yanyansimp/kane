@@ -53,7 +53,7 @@ namespace Application.Transactions
 
                     Property = transaction.Property,
                     PropertyTypeName = propertytype.Name,
-                    Payments = transaction.Payments,
+                    Payments = transaction.Payments.OrderByDescending(x => x.DateOfPayment).ToList(),
 
                     SalesManager = salesManager != null ? new SalesManagerDto {
                         Id = salesManager.Id,

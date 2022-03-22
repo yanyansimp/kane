@@ -35,6 +35,11 @@ namespace Application.Properties
 
                 if(property == null)
                     throw new RestException(HttpStatusCode.NotFound, new {property = "Not Found"});
+
+                if (property.Status.ToLower() == "reserved")
+                {
+                    
+                }
                 
                 if (property.Image != null) 
                 {

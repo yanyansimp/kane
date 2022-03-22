@@ -36,6 +36,7 @@ import ReservationDetails from '../../features/reservations/details/ReservationD
 import Viewpropertyform from '../../features/property/Viewpropertyform';
 import AddPropertyForm from '../../features/reservations/forms/AddPropertyForm';
 import Landing from '../../features/landing/Landing';
+import RoleDashboard from '../../features/role/dashboard/RoleDashboard';
 
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
@@ -82,6 +83,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute exact path="/user" component={UserDashboard} />
                 <PrivateRoute exact path="/payment" component={Payment} />
                 <PrivateRoute exact path="/activities" component={ActivityDashboard} />
+                <PrivateRoute exact path="/role" component={RoleDashboard} />
 
                 <PrivateRoute path="/activities/:id" component={ActivityDetails} />
                 <PrivateRoute path="/clients/:id" component={ClientDetails} />

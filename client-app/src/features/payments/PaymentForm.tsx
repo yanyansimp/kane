@@ -250,6 +250,14 @@ const PaymentForm: React.FC<RouteComponentProps<DetailParams>> = ({
                     onClick={() => setDisable(false)}
                     component={RadioInput}
                   />
+                  <Field
+                    width={8}
+                    name="amount"
+                    label="Amortization"
+                    placeholder="Amortization"
+                    value={payment.amount}
+                    component={TextInput}
+                  />
                 </Form.Group>
 
                 <Header as="h4">Mode of Payment:</Header>

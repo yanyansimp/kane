@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu, Icon, Divider } from 'semantic-ui-react';
 
 export const SideBar = () => {
   return (
@@ -23,7 +23,7 @@ export const SideBar = () => {
           Reservation
         </span>
       </Menu.Item>
-      <Menu.Item  as={NavLink} to="/payment">
+      <Menu.Item as={NavLink} to="/payment">
         <span>
           <Icon name="credit card outline" size="large" />
           Payment
@@ -39,6 +39,12 @@ export const SideBar = () => {
         <span>
           <Icon name="user outline" size="large" />
           User
+        </span>
+      </Menu.Item>
+      <Menu.Item as={NavLink} to="/role">
+        <span>
+          <Icon name="id badge outline" size="large" />
+          Role
         </span>
       </Menu.Item>
       {/* <Menu.Item>

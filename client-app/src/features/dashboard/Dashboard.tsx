@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Card, Header, Icon, Table, Image} from 'semantic-ui-react';
+import { Grid, Card, Header, Icon, Table, Image, Segment} from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 
 const cardStyle = {
@@ -198,6 +198,12 @@ export const Dashboard: React.FC = () => {
           </Card> */}
           {/* End Recent Payments */}
         </Card.Group>
+      </Grid.Column>
+
+      <Grid.Column width={16}>
+          <Grid.Row>
+            
+          </Grid.Row>
       </Grid.Column>
     </Grid>
   );
